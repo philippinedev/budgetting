@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
   def trans_params
     params
       .require(:transaction)
-      .permit(:name, :description, :budget, :cut_off, :due_date, :payment)
+      .permit(:name, :description, :budget, :cut_off, :due_date, :payment, :cash_type)
   end
 
   def set_trans
