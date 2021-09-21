@@ -10,6 +10,7 @@
       <th>Due date</th>
       <th>Payment</th>
       <th>Cash type</th>
+      <th>Days remaining</th>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +22,7 @@
       <td><%= @transaction.due_date %></td>
       <td><%= @transaction.payment %></td>
       <td><%= @transaction.cash_type %></td>
+      <td><%= (@transaction.due_date - Date.today).round %></td>
     </tr>
   </tbody>
 </table>
