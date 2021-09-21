@@ -30,6 +30,11 @@
     <%= f.text_field :payment, required: true, placeholder: "20,000", class: "form-control" %>
   </div><br>
 
+  <div class="field">
+    Cash type
+    <%= f.select :payment, ['Cash', 'Bank'] %>
+  </div><br>
+
   <div class="actions">
     <%= f.submit %>
   </div>
