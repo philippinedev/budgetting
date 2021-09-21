@@ -13,8 +13,8 @@
     <% @transactions.each do |transaction| %>
       <tr>
         <td><%= link_to transaction.name, transaction_path(transaction) %></td>
-        <td>₱ <%= transaction.budget %></td>
-        <td><%= transaction.due_date %></td>
+        <td>₱ <%= transaction.budget.round.to_s(:delimited) %></td>
+        <td><%= transaction.due_date.strftime("%a %b %y") %></td>
         <td><%= transaction.payment %></td>
       </tr>
     <% end %>
