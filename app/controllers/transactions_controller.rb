@@ -1,4 +1,5 @@
 class TransactionsController < ApplicationController
+  before_action :set_trans, only: [:show]
 
   def index
     @transactions = Transaction.all
@@ -7,6 +8,8 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
   end
+
+  def show; end
 
   def create
     @transaction = Transaction.new(trans_params)
@@ -23,6 +26,10 @@ class TransactionsController < ApplicationController
     params
       .require(:transaction)
       .permit(:name, :description, :budget, :cut_off, :due_date, :payment)
+  end
+
+  def set_trans
+    @transaction = Transaction.find(params[:id])
   end
 
 end

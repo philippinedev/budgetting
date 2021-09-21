@@ -1,0 +1,26 @@
+<h2>More info</h2>
+
+<table class="table table-hover table-bordered">
+  <thead class="table table-secondary">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Budget</th>
+      <th>Cut off</th>
+      <th>Due date</th>
+      <th>Payment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @transaction.name %></td>
+      <td><%= @transaction.description %></td>
+      <td>₱ <%= @transaction.budget %></td>
+      <td><%= @transaction.cut_off %></td>
+      <td><%= @transaction.due_date %></td>
+      <td><%= @transaction.payment %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to "Back", transactions_path %>
