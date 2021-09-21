@@ -19,7 +19,7 @@
       <td><%= @transaction.description %></td>
       <td>₱ <%= @transaction.budget.round.to_s(:delimited) %></td>
       <td><%= @transaction.cut_off %></td>
-      <td><%= @transaction.due_date.strftime("%a %b %y") %></td>
+      <td><%= @transaction.due_date.strftime("%a, %b %y") %></td>
       <td><%= @transaction.payment %></td>
       <td><%= @transaction.cash_type %></td>
       <td><%= (@transaction.due_date - Date.today).round %> days left</td>
