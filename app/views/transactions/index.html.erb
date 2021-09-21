@@ -1,12 +1,10 @@
 <h1>Transactions</h1>
 
-<table class="table table-bordered">
-  <thead>
+<table class="table table-hover table-bordered">
+  <thead class="table table-secondary">
     <tr>
       <th>Name</th>
-      <th>Description</th>
       <th>Budget</th>
-      <th>Cut off</th>
       <th>Due date</th>
       <th>Payment</th>
     </tr>
@@ -14,10 +12,8 @@
   <tbody>
     <% @transactions.each do |transaction| %>
       <tr>
-        <td><%= transaction.name %></td>
-        <td><%= transaction.description %></td>
-        <td><%= transaction.budget %></td>
-        <td><%= transaction.cut_off %></td>
+        <td><%= link_to transaction.name, transaction_path(transaction) %></td>
+        <td>₱ <%= transaction.budget %></td>
         <td><%= transaction.due_date %></td>
         <td><%= transaction.payment %></td>
       </tr>
