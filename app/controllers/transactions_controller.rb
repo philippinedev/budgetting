@@ -4,4 +4,8 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.all
   end
 
+  def new
+    @transaction = Transaction.new
+  end
+
 end

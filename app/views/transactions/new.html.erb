@@ -1,0 +1,39 @@
+<h2>Add</h2>
+
+<%= form_for @transaction do |f| %>
+  <div class="field">
+    Name<br>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div class="field">
+    Description<br>
+    <%= f.text_field :description, required: true %>
+  </div>
+
+  <div class="field">
+    Budget<br>
+    <%= f.text_field :budget, required: true %>
+  </div>
+
+  <div class="field">
+    Cut off<br>
+    <%= f.text_field :cut_off, required: true %>
+  </div>
+
+  <div class="field">
+    Due date<br>
+    <%= f.text_field :due_date, required: true %>
+  </div>
+
+  <div class="field">
+    Payment<br>
+    <%= f.text_field :payment, required: true %>
+  </div><br>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to "Back", transactions_path %>
