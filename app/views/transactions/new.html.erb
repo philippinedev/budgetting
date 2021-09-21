@@ -3,32 +3,31 @@
 <%= form_for @transaction do |f| %>
   <div class="field">
     Name<br>
-    <%= f.text_field :name, required: true %>
+    <%= f.text_field :name, required: true, placeholder: "Lest Quin", class: "form-control" %>
   </div>
 
   <div class="field">
     Description<br>
-    <%= f.text_field :description, required: true %>
+    <%= f.text_field :description, required: true, placeholder: "Lester's salary", class: "form-control" %>
   </div>
 
   <div class="field">
     Budget<br>
-    <%= f.text_field :budget, required: true %>
+    <%= f.text_field :budget, required: true, placeholder: "120,000", class: "form-control" %>
   </div>
 
   <div class="field">
-    Cut off<br>
-    <%= f.text_field :cut_off, required: true %>
+    <%= f.hidden_field :cut_off, value: "End of the month" %>
   </div>
 
   <div class="field">
     Due date<br>
-    <%= f.text_field :due_date, required: true %>
+    <%= f.text_field :due_date, required: true, placeholder: "11th of the month", class: "form-control" %>
   </div>
 
   <div class="field">
     Payment<br>
-    <%= f.text_field :payment, required: true %>
+    <%= f.text_field :payment, required: true, placeholder: "20,000", class: "form-control" %>
   </div><br>
 
   <div class="actions">
