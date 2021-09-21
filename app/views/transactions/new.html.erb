@@ -1,0 +1,43 @@
+<h2>Add</h2>
+
+<%= form_for @transaction do |f| %>
+  <div class="field">
+    Name<br>
+    <%= f.text_field :name, required: true, placeholder: "Lest Quin", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    Description<br>
+    <%= f.text_field :description, required: true, placeholder: "Lester's salary", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    Budget<br>
+    <%= f.number_field :budget, min: 1000, max: 1000000, required: true, placeholder: "120,000", class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :cut_off, value: "End of the month" %>
+  </div>
+
+  <div class="field">
+    Due date<br>
+    <%= f.date_field :due_date, min: Date.today, max: Date.today + 1095, required: true  %>
+  </div><br>
+
+  <div class="field">
+    Payment
+    <%= f.select :payment, ['Income', 'Expense'] %>
+  </div><br>
+
+  <div class="field">
+    Cash type
+    <%= f.select :cash_type, ['Cash', 'Bank'] %>
+  </div><br>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to "Back", transactions_path %>
