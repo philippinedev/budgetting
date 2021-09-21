@@ -13,7 +13,7 @@
 
   <div class="field">
     Budget<br>
-    <%= f.text_field :budget, required: true, placeholder: "120,000", class: "form-control" %>
+    <%= f.number_field :budget, min: 1000, max: 1000000, required: true, placeholder: "120,000", class: "form-control" %>
   </div>
 
   <div class="field">

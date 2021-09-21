@@ -1,17 +1,17 @@
-ActiveRecord::Schema.define(version: 2021_09_21_075027) do
+ActiveRecord::Schema.define(version: 2021_09_21_081400) do
 
   enable_extension "plpgsql"
 
   create_table "transactions", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.string "budget"
     t.string "cut_off"
     t.string "due_date"
     t.string "payment"
     t.string "cash_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "budget"
   end
 
   create_table "users", force: :cascade do |t|
