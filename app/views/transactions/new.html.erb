@@ -18,10 +18,10 @@
 
   <div class="field">
     <%= f.hidden_field :cut_off, value: "End of the month" %>
-  </div>
+  </div><br>
 
   <div class="field">
-    Due date<br>
+    Due date
     <%= f.date_field :due_date, min: Date.today, max: Date.today + 1095, required: true  %>
   </div><br>
 
