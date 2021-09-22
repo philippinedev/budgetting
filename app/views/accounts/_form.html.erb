@@ -1,10 +1,10 @@
-<%= form_with(model: expense_account) do |form| %>
-  <% if expense_account.errors.any? %>
+<%= form_with(model: account) do |form| %>
+  <% if account.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(expense_account.errors.count, "error") %> prohibited this expense_account from being saved:</h2>
+      <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
 
       <ul>
-        <% expense_account.errors.each do |error| %>
+        <% account.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -21,10 +21,9 @@
     <%= form.text_field :description %>
   </div>
 
-
   <div class="field">
-    <%= form.label :Accounts %>
-    <%= form.select  :category, ['Income', 'Expense']  %>
+    <%= form.label :flow %>
+    <%= form.select :flow, ['', 'Expense', 'Income'] %>
   </div>
 
   <div class="actions">
