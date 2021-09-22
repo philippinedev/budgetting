@@ -3,7 +3,7 @@
 <%= form_for @transaction do |f| %>
   <div class="field">
     Name<br>
-    <%= f.text_field :name, required: true, placeholder: "Lest Quin", class: "form-control" %>
+    <%= f.select :name,  @accounts.all.collect { |acc| [ acc.name ] }  %>
   </div>
 
   <div class="field">
