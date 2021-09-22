@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Expense Accounts</h1>
+<h1>Accounts</h1>
 
 <table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Description</th>
+      <th>Category</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= expense_account.name %></td>
         <td><%= expense_account.description %></td>
+        <td><%= expense_account.category %></td>
         <td><%= link_to 'Show', expense_account %></td>
         <td><%= link_to 'Edit', edit_expense_account_path(expense_account) %></td>
         <td><%= link_to 'Destroy', expense_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -26,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Expense Account', new_expense_account_path %>
+<%= link_to 'New Account', new_expense_account_path %>

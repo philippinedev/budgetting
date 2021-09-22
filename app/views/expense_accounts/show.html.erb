@@ -10,5 +10,10 @@
   <%= @expense_account.description %>
 </p>
 
+<p>
+  <strong>Category:</strong>
+  <%= @expense_account.category %>
+</p>
+
 <%= link_to 'Edit', edit_expense_account_path(@expense_account) %> |
 <%= link_to 'Back', expense_accounts_path %>
