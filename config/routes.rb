@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :dashboards
   resources :transactions
+  resources :incomes
 
   root to: 'dashboards#index'
 end
