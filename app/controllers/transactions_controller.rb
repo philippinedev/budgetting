@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new
   end
 
-  def show; end
+  def show; ends
 
   def create
     @transaction = Transaction.new(trans_params)
