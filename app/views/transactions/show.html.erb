@@ -22,7 +22,15 @@
       <td><%= @transaction.due_date.strftime("%a, %b %y") %></td>
       <td><%= @transaction.payment %></td>
       <td><%= @transaction.cash_type %></td>
-      <td><%= (@transaction.due_date - Date.today).round %> days left</td>
+      <% if (@transaction.due_date - Date.today).round <= 1 %>
+        <td class="table-danger"><%= (@transaction.due_date - Date.today).round %> it's time </td>
+      <% elsif (@transaction.due_date - Date.today).round <= 14 %>
+        <td class="table-warning"><%= (@transaction.due_date - Date.today).round %> days left</td>
+      <% elsif (@transaction.due_date - Date.today).round <= 7 %>
+        <td class="table-danger"><%= (@transaction.due_date - Date.today).round %> days left</td>
+      <% else %>
+        <td class="table-success"><%= (@transaction.due_date - Date.today).round %> days left</td>
+      <% end %>
     </tr>
   </tbody>
 </table>
