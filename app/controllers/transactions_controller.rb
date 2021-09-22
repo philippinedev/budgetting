@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
   before_action :set_trans, only: [:show]
 
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.all.order("created_at DESC")
   end
 
   def new
