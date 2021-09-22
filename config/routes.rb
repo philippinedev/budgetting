@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :expense_accounts
+  resources :accounts
   devise_for :users
 
   resources :dashboards

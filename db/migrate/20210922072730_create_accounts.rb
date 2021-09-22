@@ -1,9 +1,9 @@
-class CreateExpenseAccounts < ActiveRecord::Migration[6.1]
+class CreateAccounts < ActiveRecord::Migration[6.1]
   def change
-    create_table :expense_accounts do |t|
+    create_table :accounts do |t|
       t.string :name, null: false, index: { unique: true }
       t.string :description
-      t.string :category
+      t.string :flow, null: false
 
       t.timestamps
     end

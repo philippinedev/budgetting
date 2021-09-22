@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_044550) do
+ActiveRecord::Schema.define(version: 2021_09_22_072730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "expense_accounts", force: :cascade do |t|
+  create_table "accounts", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
-    t.string "category"
+    t.string "flow", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_expense_accounts_on_name", unique: true
+    t.index ["name"], name: "index_accounts_on_name", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|
