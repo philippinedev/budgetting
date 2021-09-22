@@ -7,6 +7,7 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
+    @accounts = Account.all
   end
 
   def show 
