@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_09_23_093901) do
   create_table "accounts", force: :cascade do |t|
     t.string "code", null: false
     t.string "description", null: false
+    t.date "deactivated_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code"], name: "index_accounts_on_code", unique: true
