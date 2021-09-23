@@ -15,7 +15,8 @@ class TransactionsController < ApplicationController
 
   def create
     @transaction = Transaction.new(trans_params)
-    @transaction.payment = get_flow
+    # @transaction.payment = get_flow
+    @transaction.account_id = get_flow
     if @transaction.save
       redirect_to transactions_path
     else
@@ -36,7 +37,7 @@ class TransactionsController < ApplicationController
   end
 
   def get_flow
-    Account.find_by_name(@transaction.name).flow
+    Account.find_by_name(@transaction.name).id
   end
 
 end
