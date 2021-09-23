@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  resources :transactions
-  resources :accounts
   devise_for :users
 
+  resources :transactions
+  resources :accounts
   resources :dashboards
 
   root to: 'dashboards#index'
