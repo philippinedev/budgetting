@@ -27,7 +27,7 @@
 
   <div class="field">
     Cash type
-    <%= f.select :cash_type, ['Cash', 'Bank'] %>
+    <%= f.select :cash_type, Account::FUNDS_TYPE %>
   </div><br>
 
   <div class="actions">
