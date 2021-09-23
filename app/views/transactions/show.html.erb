@@ -1,38 +1,39 @@
-<h2>More info</h2>
+<p id="notice"><%= notice %></p>
 
-<table class="table table-hover table-bordered">
-  <thead class="table table-secondary">
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Budget</th>
-      <th>Cut off</th>
-      <th>Due date</th>
-      <th>Cash flow</th>
-      <th>Cash type</th>
-      <th>Days remaining</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= @transaction.name %></td>
-      <td><%= @transaction.description %></td>
-      <td>₱ <%= @transaction.budget.round.to_s(:delimited) %></td>
-      <td><%= @transaction.cut_off %></td>
-      <td><%= @transaction.due_date.strftime("%a, %b %d") %></td>
-      <td><%= @transaction.payment %></td>
-      <td><%= @transaction.cash_type %></td>
-      <% if (@transaction.due_date - Date.today).round <= 1 %>
-        <td class="table-danger"><%= (@transaction.due_date - Date.today).round %> it's time </td>
-      <% elsif (@transaction.due_date - Date.today).round <= 7 %>
-        <td class="table-danger"><%= (@transaction.due_date - Date.today).round %> days left</td>
-      <% elsif (@transaction.due_date - Date.today).round <= 14 %>
-        <td class="table-warning"><%= (@transaction.due_date - Date.today).round %> days left</td>
-      <% else %>
-        <td class="table-success"><%= (@transaction.due_date - Date.today).round %> days left</td>
-      <% end %>
-    </tr>
-  </tbody>
-</table>
+<p>
+  <strong>Transaction type:</strong>
+  <%= @transaction.transaction_type_id %>
+</p>
 
-<%= link_to "Back", transactions_path %>
+<p>
+  <strong>Account:</strong>
+  <%= @transaction.account_id %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @transaction.account_id %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @transaction.amount %>
+</p>
+
+<p>
+  <strong>Cut off:</strong>
+  <%= @transaction.cut_off %>
+</p>
+
+<p>
+  <strong>Due date:</strong>
+  <%= @transaction.due_date %>
+</p>
+
+<p>
+  <strong>Actualized on:</strong>
+  <%= @transaction.actualized_on %>
+</p>
+
+<%= link_to 'Edit', edit_transaction_path(@transaction) %> |
+<%= link_to 'Back', transactions_path %>

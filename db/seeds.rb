@@ -1,7 +1,42 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+def seeder
+  Transaction.destroy_all
+  Account.destroy_all
+  TransactionType.destroy_all
+
+  transaction_types = []
+  10.times do
+    transaction_types << FactoryBot.create(:transaction_type)
+  end
+
+  accounts = []
+  10.times do
+    accounts << FactoryBot.create(:account)
+  end
+
+  n = 0
+  while true
+    begin
+      FactoryBot.create(
+        :transaction,
+        transaction_type: transaction_types.sample,
+        source_account: accounts.sample,
+        target_account: accounts.sample
+      )
+      n += 1
+      break if n == 50
+    rescue
+      puts "Same source and target not valid.  Disregarding..."
+    end
+  end
+
+  puts
+  puts "-------------------------------"
+  puts "Seed results:"
+  puts "-------------------------------"
+  puts "Transaction Types: #{TransactionType.count}"
+  puts "Accounts         : #{Account.count}"
+  puts "Transactions     : #{Transaction.count}"
+end
+
+seeder
+
