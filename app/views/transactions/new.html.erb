@@ -3,7 +3,7 @@
 <%= form_for @transaction do |f| %>
   <div class="field">
     Name<br>
-    <%= f.select :name, @accounts.all.collect { |acc| [ acc.name ] } %>
+    <%= f.select :name, @accounts.all.collect { |acc| [ acc.name ] }, { include_blank: true } %>
   </div>
 
   <div class="field">
