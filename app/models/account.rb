@@ -1,8 +1,14 @@
 class Account < ApplicationRecord
-  FUNDS_TYPE = ['Cash', 'Bank']
+  validates :description, presence: true, uniqueness: true
 
-  validates :name, presence: true, uniqueness: true
-  validates :flow, presence: true
+  before_save :set_code
 
-  enum flow: { expense: 'Expense', income: 'Income' }
+  private
+
+  def set_code
+    10.times do |num|
+      self.code = description.split.map(&:first).join.upcase + (num == 0 ? '' : num.to_s)
+      break unless Account.find_by(code: code)
+    end
+  end
 end
