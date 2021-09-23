@@ -1,4 +1,4 @@
-ActiveRecord::Schema.define(version: 2021_09_23_075311) do
+ActiveRecord::Schema.define(version: 2021_09_23_081647) do
 
   enable_extension "plpgsql"
 
@@ -12,14 +12,6 @@ ActiveRecord::Schema.define(version: 2021_09_23_075311) do
     t.index ["name"], name: "index_accounts_on_name", unique: true
   end
 
-  create_table "expense_accounts", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_expense_accounts_on_name", unique: true
-  end
-
   create_table "transactions", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -30,6 +22,8 @@ ActiveRecord::Schema.define(version: 2021_09_23_075311) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "cash_type"
+    t.bigint "account_id", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,4 +38,5 @@ ActiveRecord::Schema.define(version: 2021_09_23_075311) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "transactions", "accounts"
 end
