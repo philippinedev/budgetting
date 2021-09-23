@@ -1,4 +1,4 @@
-ActiveRecord::Schema.define(version: 2021_09_23_081647) do
+ActiveRecord::Schema.define(version: 2021_09_23_084130) do
 
   enable_extension "plpgsql"
 
@@ -10,6 +10,13 @@ ActiveRecord::Schema.define(version: 2021_09_23_081647) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "code"
     t.index ["name"], name: "index_accounts_on_name", unique: true
+  end
+
+  create_table "transaction_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "transactions", force: :cascade do |t|
