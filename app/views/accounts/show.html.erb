@@ -2,17 +2,12 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @account.name %>
+  <%= @account.code %>
 </p>
 
 <p>
   <strong>Description:</strong>
   <%= @account.description %>
-</p>
-
-<p>
-  <strong>Flow:</strong>
-  <%= @account.flow %>
 </p>
 
 <%= link_to 'Edit', edit_account_path(@account) %> |
