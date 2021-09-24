@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.bigint "source_account_id"
     t.bigint "target_account_id", null: false
     t.integer "amount", null: false
-    t.string "cutoff_date"
-    t.string "due_date"
+    t.date "cutoff_date"
+    t.date "due_date"
     t.date "actualized_on"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

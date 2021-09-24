@@ -8,7 +8,11 @@ class Account < ApplicationRecord
 
   def set_code
     10.times do |num|
-      self.code = description.split.map(&:first).join.upcase + (num == 0 ? '' : num.to_s)
+      self.code = description
+        .gsub(/[\(\)]/, "")
+        .split.map(&:first)
+        .join.upcase + (num == 0 ? '' : num.to_s)
+
       break unless Account.find_by(code: code)
     end
   end
