@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions/new
   def new
-    gon.push(params.require(:f).permit!.to_h)
+    gon.push(params.require(:f).permit!.to_h) if params.has_key?(:f)
     @transaction = Transaction.new
   end
 
@@ -72,6 +72,6 @@ class TransactionsController < ApplicationController
         :cutoff_date,
         :due_date,
         :actualized_on
-      ).merge(amount: params[:transaction][:amount_decimal])
+      ).merge(amount: Transaction.to_cent(params[:transaction][:amount_decimal]))
     end
 end
