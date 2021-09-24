@@ -72,6 +72,6 @@ class TransactionsController < ApplicationController
         :cutoff_date,
         :due_date,
         :actualized_on
-      ).merge(amount: Transaction.to_cent(params[:transaction][:amount_decimal]))
+      ).merge(amount: params[:transaction][:amount_decimal])
     end
 end
