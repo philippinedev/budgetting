@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :transaction_type_id %>
-    <%= form.text_field :transaction_type_id %>
+    <%= form.select :transaction_type_id, TransactionType.selectable.map { |t| [t.name, t.id] }, prompt: "Choose type" %>
   </div>
 
   <div class="field">
