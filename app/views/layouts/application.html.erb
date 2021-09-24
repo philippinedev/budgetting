@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Budgetting</title>
+    <%= Gon::Base.render_data %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -12,7 +13,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="<%= controller_name %>-<%= action_name %>">
     <div class="container">
       <%= yield %>
     </div>

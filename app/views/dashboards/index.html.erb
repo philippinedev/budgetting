@@ -11,7 +11,16 @@
 <table>
   <% @summary.each do |code, value| %>
     <tr>
-      <tr><th><%= code_to_name(code) %></th><td><%= value %></td></tr>
+      <th><%= @accounts[code][:description] %></th>
+      <td class="money"><%= value %></td>
+      <td><%= link_to "Source",
+        new_transaction_path(f: { source_account_id: @accounts[code][:id] }),
+        data: { turbo: false }
+      %></td>
+      <td><%= link_to "Target",
+        new_transaction_path(f: { target_account_id: @accounts[code][:id] }),
+        data: { turbo: false }
+      %></td>
     </tr>
   <% end %>
 </table>

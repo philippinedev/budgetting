@@ -11,3 +11,39 @@ import "channels"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+const pageLoad = () => {
+  const moneyFormat = () => {
+    document.querySelectorAll('.money').forEach(item => {
+      item.innerText = parseFloat(item.innerText)
+        .toLocaleString('en-PH', {
+          style: 'currency',
+          currency: 'PHP'
+        })
+    })
+  }
+
+  moneyFormat()
+}
+
+const onLoad = () => {
+  const transactionForm = () => {
+    Object.keys(gon).forEach(key => {
+      document.getElementById(`transaction_${key}`).value = gon[key]
+    })
+  }
+
+  const isTransactionNew  = !!document.querySelector('body.transactions-new')
+  const isTransactionEdit = !!document.querySelector('body.transactions-edit')
+
+  if (isTransactionNew || isTransactionEdit) {
+    setTimeout(transactionForm, 100)
+  }
+}
+
+window.addEventListener('turbolinks:load', () => onLoad())
+window.addEventListener('load', () => {
+  onLoad()
+  pageLoad()
+})
+

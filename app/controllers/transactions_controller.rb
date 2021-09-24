@@ -12,6 +12,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions/new
   def new
+    gon.push(params.require(:f).permit!.to_h)
     @transaction = Transaction.new
   end
 
