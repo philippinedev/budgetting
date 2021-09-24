@@ -68,10 +68,9 @@ class TransactionsController < ApplicationController
         :transaction_type_id,
         :source_account_id,
         :target_account_id,
-        :amount,
         :cutoff_date,
         :due_date,
         :actualized_on
-      )
+      ).merge(amount: params[:transaction][:amount_decimal])
     end
 end

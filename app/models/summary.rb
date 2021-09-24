@@ -13,10 +13,22 @@ class Summary < ApplicationRecord
       )
     end
 
+    def increment_both(tran)
+      hash = last_data
+      hash[tran.source_account.code] += tran.amount_decimal
+      hash[tran.target_account.code] += tran.amount_decimal
+
+      create(transaction_id: tran.id, data: hash.to_json)
+    end
+
+    def last_data
+      JSON.parse(Summary.last&.data || "{}")
+    end
+
     private
 
     def add_key_updated_data(tran)
-      hash = JSON.parse(Summary.last&.data || "{}")
+      hash = last_data
       hash[tran.target_account.code] = 0
       hash.to_json
     end
