@@ -1,42 +1,88 @@
-def seeder
-  Transaction.destroy_all
-  Account.destroy_all
-  TransactionType.destroy_all
-
-  transaction_types = []
-  10.times do
-    transaction_types << FactoryBot.create(:transaction_type)
-  end
-
-  accounts = []
-  10.times do
-    accounts << FactoryBot.create(:account)
-  end
-
-  n = 0
-  while true
-    begin
-      FactoryBot.create(
-        :transaction,
-        transaction_type: transaction_types.sample,
-        source_account: accounts.sample,
-        target_account: accounts.sample
-      )
-      n += 1
-      break if n == 50
-    rescue
-      puts "Same source and target not valid.  Disregarding..."
+class Seeder
+  class << self
+    def call
+      new.call
     end
   end
 
-  puts
-  puts "-------------------------------"
-  puts "Seed results:"
-  puts "-------------------------------"
-  puts "Transaction Types: #{TransactionType.count}"
-  puts "Accounts         : #{Account.count}"
-  puts "Transactions     : #{Transaction.count}"
+  def initialize
+    @transaction_types = []
+    @accounts          = []
+    @transactions      = []
+  end
+
+  def call
+    clear!
+    create_transaction_types(10)
+    create_accounts(10)
+    # create_transactions(50)
+    display_results
+  end
+
+  private
+
+  def clear!
+    Transaction.destroy_all
+    Account.destroy_all
+    TransactionType.destroy_all
+    Summary.destroy_all
+  end
+
+  def create_transaction_types(limit)
+    create(limit) do
+      @transaction_types << FactoryBot.create(:transaction_type)
+    end
+
+    set_initialize_type
+  end
+
+  def set_initialize_type
+    tran_type = TransactionType.find(1)
+    tran_type.name = TransactionType::INITIALIZE
+    tran_type.flow = "IN"
+    tran_type.save!
+  end
+
+  def create_accounts(limit)
+    limit.times do
+      @accounts << FactoryBot.create(:account)
+    end
+  end
+
+  def create_transactions(limit)
+    create(limit) do
+      @transactions << FactoryBot.create(
+        :transaction,
+        transaction_type: @transaction_types.sample,
+        source_account: @accounts.sample,
+        target_account: @accounts.sample
+      )
+    end
+  end
+
+  def display_results
+    puts
+    puts "-------------------------------"
+    puts "Seed results:"
+    puts "-------------------------------"
+    puts "Transaction Types: #{TransactionType.count}"
+    puts "Accounts         : #{Account.count}"
+    puts "Transactions     : #{Transaction.count}"
+    puts "Summary          : #{Summary.count}"
+  end
+
+  def create(limit, &block)
+    n = 0
+    while n < limit
+      begin
+        block.call
+        n += 1
+      rescue ActiveRecord::RecordInvalid => error
+        # puts error.to_s
+      end
+    end
+  end
 end
 
-seeder
+Seeder.call
 
