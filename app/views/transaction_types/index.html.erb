@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Flow</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -14,11 +15,15 @@
         <td><%= type.name %></td>
         <td><%= type.description %></td>
         <td><%= type.flow %></td>
+        <td><%= link_to "Delete",
+          transaction_type_path(type),
+          method: :delete,
+          data: { confirm: "Are you sure?" }
+        %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <%= link_to "Add new", new_transaction_type_path %>
-<span class="sep">|</span>
-<%= link_to 'Dashboard', root_path  %>
+<%= link_to "Back", root_path %>
