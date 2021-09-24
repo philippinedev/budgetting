@@ -7,10 +7,10 @@ class Summary < ApplicationRecord
 
   class << self
     def add_key(tran)
-      create(
-        transaction_id: tran.id,
-        data: add_key_updated_data(tran)
-      )
+      hash = last_data
+      hash[tran.target_account.code] = 0
+
+      create(transaction_id: tran.id, data: hash.to_json)
     end
 
     def increment_both(tran)
@@ -31,14 +31,6 @@ class Summary < ApplicationRecord
 
     def last_data
       JSON.parse(Summary.last&.data || "{}")
-    end
-
-    private
-
-    def add_key_updated_data(tran)
-      hash = last_data
-      hash[tran.target_account.code] = 0
-      hash.to_json
     end
   end
 
