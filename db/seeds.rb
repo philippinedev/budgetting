@@ -49,6 +49,34 @@ class Seeder
     end
   end
 
+  def call
+    clear!
+    create_transaction_types(10)
+    create_accounts(10)
+    create_transactions(50)
+    display_results
+  end
+
+  private
+
+  def clear!
+    Transaction.destroy_all
+    Account.destroy_all
+    TransactionType.destroy_all
+  end
+
+  def create_transaction_types(limit)
+    create(limit) do
+      @transaction_types << FactoryBot.create(:transaction_type)
+    end
+  end
+
+  def create_accounts(limit)
+    limit.times do
+      @accounts << FactoryBot.create(:account)
+    end
+  end
+
   def create_transactions(limit)
     create(limit) do
       @transactions << FactoryBot.create(
