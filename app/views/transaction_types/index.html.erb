@@ -1,1 +1,22 @@
 <h1>Transaction types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Flow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @types.each do |type| %>
+      <tr>
+        <td><%= type.name %></td>
+        <td><%= type.description %></td>
+        <td><%= type.flow %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Add new", new_transaction_type_path %>

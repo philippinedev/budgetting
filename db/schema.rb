@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2021_09_23_093901) do
     t.string "flow"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_transaction_types_on_name", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|

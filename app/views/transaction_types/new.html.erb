@@ -1,0 +1,26 @@
+<h1>New Type</h1>
+
+<%= form_for @type do |f| %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :flow %>
+    <%= f.select :flow, { In: "IN", Out: "OUT"}, prompt: 'Choose flow type' %>
+  </div>
+
+  <div class="field">
+  <%= f.submit %>
+  </div>
+
+<% end %>
+
+<%= link_to "Cancel", transaction_types_path %>
