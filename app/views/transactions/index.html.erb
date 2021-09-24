@@ -19,9 +19,9 @@
   <tbody>
     <% @transactions.each do |transaction| %>
       <tr>
-        <td><%= transaction.transaction_type_id %></td>
-        <td><%= transaction.source_account_id %></td>
-        <td><%= transaction.target_account_id %></td>
+        <td><%= transaction.transaction_type.name %></td>
+        <td><%= transaction.source_account&.description %></td>
+        <td><%= transaction.target_account.description %></td>
         <td><%= transaction.amount %></td>
         <td><%= transaction.cutoff_date %></td>
         <td><%= transaction.due_date %></td>
