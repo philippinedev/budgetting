@@ -6,7 +6,8 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true
   validate :invalid_when_same_account
 
-  after_save :update_summary
+  before_save :amount_to_cent
+  after_save :update_summary, if: :actualized_on?
 
   default_scope { where.not(transaction_type_id: 1) }
 
@@ -25,7 +26,15 @@ class Transaction < ApplicationRecord
     actualized_on.present?
   end
 
+  def amount_decimal
+    Transaction.to_decimal(amount)
+  end
+
   private
+
+  def amount_to_cent
+    self.amount = Transaction.to_cent(self.amount)
+  end
 
   def invalid_when_same_account
     return if self.source_account_id.nil?
@@ -40,8 +49,8 @@ class Transaction < ApplicationRecord
     if transaction_type.name == TransactionType::INITIALIZE
       Summary.add_key(self)
 
-    # elsif transaction_type.name == TransactionType::PAY_SALARY
-      # Summary.pay_salary(self)
+    elsif transaction_type.name == TransactionType::INCOME_PROGRAMMING
+      Summary.increment_both(self)
 
     else
       raise "Unhandled transaction type: #{transaction_type.name}"

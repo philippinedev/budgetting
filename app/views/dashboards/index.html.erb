@@ -5,3 +5,14 @@
 <%= link_to "Transaction Types", transaction_types_path %>
 <span class="sep">|</span>
 <%= link_to "Accounts", accounts_path %>
+
+<hr />
+
+<table>
+  <% @summary.each do |code, value| %>
+    <tr>
+      <tr><th><%= code_to_name(code) %></th><td><%= value %></td></tr>
+    </tr>
+  <% end %>
+</table>
+

@@ -30,21 +30,22 @@ class Seeder
 
   def create_transaction_types
     TransactionType.create(name: TransactionType::INITIALIZE, flow: "IN")
-    TransactionType.create(name: 'Income (Programming)', flow: "IN")
 
-    TransactionType.create(name: 'ATM withdrawal')
-    TransactionType.create(name: 'Unaccounted income',  flow: "IN")
-    TransactionType.create(name: 'Unaccounted expense', flow: "OUT")
+    TransactionType.create(name: TransactionType::INCOME_PROGRAMMING, flow: "IN")
 
-    TransactionType.create(name: 'Salary expense',         flow: "OUT")
-    TransactionType.create(name: 'Food expense',           flow: "OUT")
-    TransactionType.create(name: 'Electricity expense',    flow: "OUT")
-    TransactionType.create(name: 'Water expense',          flow: "OUT")
-    TransactionType.create(name: 'Internet expense',       flow: "OUT")
-    TransactionType.create(name: 'Rent expense',           flow: "OUT")
-    TransactionType.create(name: 'Transportation expense', flow: "OUT")
-    TransactionType.create(name: 'Entertainment expense',  flow: "OUT")
-    TransactionType.create(name: 'Miscelaneous expense',   flow: "OUT")
+    TransactionType.create(name: TransactionType::ATM_WITHDRAWAL)
+    TransactionType.create(name: TransactionType::UNACCOUNTED_INCOME,  flow: "IN")
+    TransactionType.create(name: TransactionType::UNACCOUNTED_EXPENSE, flow: "OUT")
+
+    TransactionType.create(name: TransactionType::SALARY_EXPENSE,         flow: "OUT")
+    TransactionType.create(name: TransactionType::FOOD_EXPENSE,           flow: "OUT")
+    TransactionType.create(name: TransactionType::ELECTRICITY_EXPENSE,    flow: "OUT")
+    TransactionType.create(name: TransactionType::WATER_EXPENSE,          flow: "OUT")
+    TransactionType.create(name: TransactionType::INTERNET_EXPENSE,       flow: "OUT")
+    TransactionType.create(name: TransactionType::RENT_EXPENSE,           flow: "OUT")
+    TransactionType.create(name: TransactionType::TRANSPORTATION_EXPENSE, flow: "OUT")
+    TransactionType.create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
+    TransactionType.create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
   end
 
   def create_accounts
