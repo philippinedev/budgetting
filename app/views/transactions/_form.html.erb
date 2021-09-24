@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :target_account_id %>
-    <%= form.text_field :target_account_id %>
+    <%= form.select :target_account_id, Account.all.map { |t| [ t.description, t.id ] }, prompt: "Choose Target Account" %>
   </div>
 
   <div class="field">
