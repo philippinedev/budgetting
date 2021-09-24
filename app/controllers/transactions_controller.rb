@@ -69,7 +69,7 @@ class TransactionsController < ApplicationController
         :source_account_id,
         :target_account_id,
         :amount,
-        :cut_off,
+        :cutoff_date,
         :due_date,
         :actualized_on
       )

@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :transaction do
     amount { rand(10..1000) * 100 }
-    cut_off { "#{rand(1..31).ordinalize} of the month" }
-    due_date { "#{rand(1..31).ordinalize} of the month" }
+    cutoff_date { nil }
+    due_date { nil }
     actualized_on { [nil, nil, Date.current, Date.yesterday ].sample }
 
     transaction_type
