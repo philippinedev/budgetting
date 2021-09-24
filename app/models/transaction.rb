@@ -8,6 +8,8 @@ class Transaction < ApplicationRecord
 
   after_save :update_summary
 
+  default_scope { where.not(transaction_type_id: 1) }
+
   class << self
     def initialize_account!(account)
       tran = new

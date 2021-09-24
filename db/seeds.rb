@@ -13,8 +13,8 @@ class Seeder
 
   def call
     clear!
-    create_transaction_types(10)
-    create_accounts(10)
+    create_transaction_types
+    create_accounts
     # create_transactions(50)
     display_results
   end
@@ -28,25 +28,49 @@ class Seeder
     Summary.destroy_all
   end
 
-  def create_transaction_types(limit)
-    create(limit) do
-      @transaction_types << FactoryBot.create(:transaction_type)
-    end
+  def create_transaction_types
+    TransactionType.create(name: TransactionType::INITIALIZE, flow: "IN")
+    TransactionType.create(name: 'Income (Programming)', flow: "IN")
 
-    set_initialize_type
+    TransactionType.create(name: 'ATM withdrawal')
+    TransactionType.create(name: 'Unaccounted income',  flow: "IN")
+    TransactionType.create(name: 'Unaccounted expense', flow: "OUT")
+
+    TransactionType.create(name: 'Salary expense',         flow: "OUT")
+    TransactionType.create(name: 'Food expense',           flow: "OUT")
+    TransactionType.create(name: 'Electricity expense',    flow: "OUT")
+    TransactionType.create(name: 'Water expense',          flow: "OUT")
+    TransactionType.create(name: 'Internet expense',       flow: "OUT")
+    TransactionType.create(name: 'Rent expense',           flow: "OUT")
+    TransactionType.create(name: 'Transportation expense', flow: "OUT")
+    TransactionType.create(name: 'Entertainment expense',  flow: "OUT")
+    TransactionType.create(name: 'Miscelaneous expense',   flow: "OUT")
   end
 
-  def set_initialize_type
-    tran_type = TransactionType.find(1)
-    tran_type.name = TransactionType::INITIALIZE
-    tran_type.flow = "IN"
-    tran_type.save!
-  end
+  def create_accounts
+    # Cash
+    Account.create(description: 'Cash on bank (BDO)')
+    Account.create(description: 'Cash on hand')
 
-  def create_accounts(limit)
-    limit.times do
-      @accounts << FactoryBot.create(:account)
-    end
+    # Credit Cards
+    Account.create(description: 'CC BDO PRI')
+    Account.create(description: 'CC BDO LOAN')
+    Account.create(description: 'CC RCBC PRI')
+    Account.create(description: 'CC RCBC JCB')
+    Account.create(description: 'CC RCBC LOAN')
+    Account.create(description: 'CC METROBANK')
+
+    # Employees
+    Account.create(description: 'Ever Jedi Usbal')
+    Account.create(description: 'Don Forrest Usbal')
+    Account.create(description: 'Abe Cambarihan')
+    Account.create(description: 'Lester Quiñones')
+    Account.create(description: 'Paulo Benemerito')
+    Account.create(description: 'Abbie Mercado')
+
+    # Clients
+    Account.create(description: 'Erich (Germany)')
+    Account.create(description: 'Morphosis (Thailand)')
   end
 
   def create_transactions(limit)
