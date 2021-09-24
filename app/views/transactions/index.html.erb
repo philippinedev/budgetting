@@ -27,8 +27,8 @@
         <td><%= transaction.due_date %></td>
         <td><%= transaction.actualized_on %></td>
         <td><%= link_to 'Show', transaction %></td>
-        <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
-        <td><%= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_transaction_path(transaction) unless transaction.actualized? %></td>
+        <td><%= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } unless transaction.actualized? %></td>
       </tr>
     <% end %>
   </tbody>

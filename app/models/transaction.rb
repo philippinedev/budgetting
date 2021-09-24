@@ -19,6 +19,10 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def actualized?
+    actualized_on.present?
+  end
+
   private
 
   def invalid_when_same_account
