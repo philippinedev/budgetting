@@ -9,7 +9,7 @@ class Transaction < ApplicationRecord
   before_save :amount_to_cent
   after_save :update_summary, if: :actualized_on?
 
-  default_scope { where.not(transaction_type_id: 1) }
+  scope :tran, -> { where.not(transaction_type_id: 1) }
 
   class << self
     def initialize_account!(account)
