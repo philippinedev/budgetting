@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_23_093901) do
+ActiveRecord::Schema.define(version: 2021_09_24_023626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 2021_09_23_093901) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code"], name: "index_accounts_on_code", unique: true
     t.index ["description"], name: "index_accounts_on_description", unique: true
+  end
+
+  create_table "summaries", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.string "transaction_name", null: false
+    t.text "data", default: "{}"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["transaction_id"], name: "index_summaries_on_transaction_id"
   end
 
   create_table "transaction_types", force: :cascade do |t|
@@ -61,6 +70,7 @@ ActiveRecord::Schema.define(version: 2021_09_23_093901) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "summaries", "transactions"
   add_foreign_key "transactions", "accounts", column: "source_account_id"
   add_foreign_key "transactions", "accounts", column: "target_account_id"
   add_foreign_key "transactions", "transaction_types"

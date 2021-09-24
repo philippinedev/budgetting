@@ -15,6 +15,44 @@ class Seeder
     clear!
     create_transaction_types(10)
     create_accounts(10)
+    # create_transactions(50)
+    display_results
+  end
+
+  private
+
+  def clear!
+    Transaction.destroy_all
+    Account.destroy_all
+    TransactionType.destroy_all
+    Summary.destroy_all
+  end
+
+  def create_transaction_types(limit)
+    create(limit) do
+      @transaction_types << FactoryBot.create(:transaction_type)
+    end
+
+    set_initialize_type
+  end
+
+  def set_initialize_type
+    tran_type = TransactionType.find(1)
+    tran_type.name = TransactionType::INITIALIZE
+    tran_type.flow = "IN"
+    tran_type.save!
+  end
+
+  def create_accounts(limit)
+    limit.times do
+      @accounts << FactoryBot.create(:account)
+    end
+  end
+
+  def call
+    clear!
+    create_transaction_types(10)
+    create_accounts(10)
     create_transactions(50)
     display_results
   end
@@ -58,6 +96,7 @@ class Seeder
     puts "Transaction Types: #{TransactionType.count}"
     puts "Accounts         : #{Account.count}"
     puts "Transactions     : #{Transaction.count}"
+    puts "Summary          : #{Summary.count}"
   end
 
   def create(limit, &block)
@@ -66,8 +105,8 @@ class Seeder
       begin
         block.call
         n += 1
-      rescue => error
-        puts error.to_s
+      rescue ActiveRecord::RecordInvalid => error
+        # puts error.to_s
       end
     end
   end
