@@ -21,6 +21,14 @@ class Summary < ApplicationRecord
       create(transaction_id: tran.id, data: hash.to_json)
     end
 
+    def transfer(tran)
+      hash = last_data
+      hash[tran.source_account.code] -= tran.amount_decimal
+      hash[tran.target_account.code] += tran.amount_decimal
+
+      create(transaction_id: tran.id, data: hash.to_json)
+    end
+
     def last_data
       JSON.parse(Summary.last&.data || "{}")
     end
