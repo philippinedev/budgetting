@@ -37,7 +37,7 @@ const onLoad = () => {
   const isTransactionEdit = !!document.querySelector('body.transactions-edit')
 
   if (isTransactionNew || isTransactionEdit) {
-    setTimeout(transactionForm, 100)
+    transactionForm()
   }
 }
 
