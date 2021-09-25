@@ -41,9 +41,11 @@ const onLoad = () => {
   }
 }
 
-window.addEventListener('turbolinks:load', () => onLoad())
-window.addEventListener('load', () => {
+window.addEventListener('turbolinks:load', () => {
   onLoad()
   pageLoad()
+})
+window.addEventListener('load', () => {
+  onLoad()
 })
 
