@@ -17,6 +17,7 @@
         <td><%= account.code %></td>
         <td><%= account.description %></td>
         <td><%= link_to 'Show', account %></td>
+        <td><%= link_to 'Deactivate', deactivate_account_path(account), method: :patch, data: { confirm: "Are you sure?" } unless account.deactivated? %></td>
       </tr>
     <% end %>
   </tbody>

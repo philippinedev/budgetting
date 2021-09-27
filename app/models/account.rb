@@ -4,6 +4,14 @@ class Account < ApplicationRecord
   before_save :set_code
   after_save :initialize_account
 
+  def deactivate!
+    touch(:deactivated_at)
+  end
+
+  def deactivated?
+    deactivated_at.present?
+  end
+
   private
 
   def set_code

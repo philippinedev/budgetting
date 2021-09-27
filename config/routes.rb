@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
   resources :dashboards
   resources :transactions
-  resources :accounts
+  resources :accounts do
+    member do
+      patch 'deactivate'
+    end
+  end
   resources :transaction_types
   resources :summaries, only: [:index, :show]
 end
