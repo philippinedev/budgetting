@@ -13,5 +13,6 @@ Rails.application.routes.draw do
     end
   end
   resources :transaction_types
+  resources :account_types
   resources :summaries, only: [:index, :show]
 end
