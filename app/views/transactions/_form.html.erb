@@ -43,7 +43,7 @@
 
   <div class="field">
     <%= form.label :actualized_on %>
-    <%= form.date_field :actualized_on %>
+    <%= form.date_field :actualized_on, min: Date.today - 1000, max: DateTime.now %>
   </div>
 
   <div class="actions">
