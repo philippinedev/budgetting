@@ -8,6 +8,10 @@ class Account < ApplicationRecord
     touch(:deactivated_at)
   end
 
+  def activate!
+    update(deactivated_at: nil)
+  end
+
   def deactivated?
     deactivated_at.present?
   end
