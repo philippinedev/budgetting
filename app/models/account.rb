@@ -16,6 +16,8 @@ class Account < ApplicationRecord
     deactivated_at.present?
   end
 
+  scope :active, -> { Account.where(deactivated_at: nil) }
+
   private
 
   def set_code
