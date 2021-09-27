@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_27_100031) do
+ActiveRecord::Schema.define(version: 2021_09_24_023626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,13 @@ ActiveRecord::Schema.define(version: 2021_09_27_100031) do
   end
 
   create_table "accounts", force: :cascade do |t|
-    t.string "code", null: false
-    t.string "description", null: false
-    t.date "deactivated_at"
+    t.bigint "account_type_id"
+    t.string "code"
+    t.string "description"
+    t.datetime "deactivated_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["code"], name: "index_accounts_on_code", unique: true
-    t.index ["description"], name: "index_accounts_on_description", unique: true
+    t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
   end
 
   create_table "summaries", force: :cascade do |t|
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_100031) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "accounts", "account_types"
   add_foreign_key "summaries", "transactions"
   add_foreign_key "transactions", "accounts", column: "source_account_id"
   add_foreign_key "transactions", "accounts", column: "target_account_id"
