@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  belongs_to :account_type, optional: true
+
   validates :description, presence: true, uniqueness: true
 
   before_save :set_code
@@ -21,6 +23,8 @@ class Account < ApplicationRecord
   private
 
   def set_code
+    return if persisted?
+
     10.times do |num|
       self.code = description
         .gsub(/[\(\)]/, "")

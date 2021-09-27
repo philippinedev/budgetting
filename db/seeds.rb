@@ -13,6 +13,7 @@ class Seeder
 
   def call
     clear!
+    create_account_types
     create_transaction_types
     create_accounts
     # create_transactions(50)
@@ -26,6 +27,12 @@ class Seeder
     Account.destroy_all
     TransactionType.destroy_all
     Summary.destroy_all
+  end
+
+  def create_account_types
+    AccountType.create(name: AccountType::BANK_ACCOUNT)
+    AccountType.create(name: AccountType::EMPLOYEE)
+    AccountType.create(name: AccountType::EMPLOYER)
   end
 
   def create_transaction_types

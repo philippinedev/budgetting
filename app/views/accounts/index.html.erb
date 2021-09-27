@@ -5,8 +5,10 @@
 <table>
   <thead>
     <tr>
+      <th>Account type</th>
       <th>Code</th>
       <th>Description</th>
+      <th>Deactivated at</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,22 +16,29 @@
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
+        <td><%= account.account_type&.name %></td>
         <td><%= account.code %></td>
         <td><%= account.description %></td>
+        <td><%= account.deactivated_at %></td>
         <td><%= link_to 'Show', account %></td>
-      <% if account.deactivated? %>
-        <td><%= link_to 'Activate',
-          activate_account_path(account),
-          method: :patch,
-          data: { confirm: "Are you sure?" } if account.deactivated?
-        %></td>
-      <% else %>
-        <td><%= link_to 'Deactivate',
-          deactivate_account_path(account),
-          method: :patch,
-          data: { confirm: "Are you sure?" } unless account.deactivated?
-        %></td>
-      <% end %>
+
+        <% if account.deactivated? %>
+          <td><%= link_to 'Activate',
+            activate_account_path(account),
+            method: :patch,
+            data: { confirm: "Are you sure?" } if account.deactivated?
+          %></td>
+
+        <% else %>
+          <td><%= link_to 'Deactivate',
+            deactivate_account_path(account),
+            method: :patch,
+            data: { confirm: "Are you sure?" } unless account.deactivated?
+          %></td>
+        <% end %>
+
+        <td><%= link_to 'Edit', edit_account_path(account) %></td>
+        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -37,5 +46,4 @@
 
 <br>
 
-<%= link_to 'Add New', new_account_path %> |
-<%= link_to "Dashboard", root_path %>
+<%= link_to 'New Account', new_account_path %>
