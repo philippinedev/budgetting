@@ -47,6 +47,12 @@ class AccountsController < ApplicationController
     end
   end
 
+  def deactivate
+    @account = Account.find(params[:id])
+    @account.deactivate!
+    redirect_to accounts_path, notice: "Account successfully deactivated"
+  end
+
   # DELETE /accounts/1 or /accounts/1.json
   def destroy
     @account.destroy
