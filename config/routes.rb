@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :accounts do
     member do
       patch 'deactivate'
+      patch 'activate'
     end
   end
   resources :transaction_types
