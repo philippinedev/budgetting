@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
 
   create_table "accounts", force: :cascade do |t|
     t.bigint "account_type_id"
-    t.string "code"
-    t.string "description"
+    t.string "code", null: false
+    t.string "name", null: false
     t.datetime "deactivated_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

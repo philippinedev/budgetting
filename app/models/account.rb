@@ -1,7 +1,11 @@
 class Account < ApplicationRecord
   belongs_to :account_type, optional: true
 
-  validates :description, presence: true, uniqueness: true
+  scope :employees, -> { joins(:account_type).where(account_types: { name: AccountType::EMPLOYEE }) }
+  scope :employers, -> { joins(:account_type).where(account_types: { name: AccountType::EMPLOYER }) }
+  scope :bank_accounts, -> { joins(:account_type).where(account_types: { name: AccountType::BANK_ACCOUNT }) }
+
+  validates :name, presence: true, uniqueness: true
 
   before_save :set_code
   after_save :initialize_account
@@ -26,7 +30,7 @@ class Account < ApplicationRecord
     return if persisted?
 
     10.times do |num|
-      self.code = description
+      self.code = name
         .gsub(/[\(\)]/, "")
         .split.map(&:first)
         .join.upcase + (num == 0 ? '' : num.to_s)

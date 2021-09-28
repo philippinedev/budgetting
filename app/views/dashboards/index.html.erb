@@ -5,7 +5,7 @@
 <table>
   <% @summary.each do |code, value| %>
     <tr>
-      <th><%= @accounts[code][:description] %></th>
+      <th><%= @accounts[code][:name] %></th>
       <td class="money"><%= value %></td>
       <td><%= link_to "Source",
         new_transaction_path(f: { source_account_id: @accounts[code][:id] }),
