@@ -30,6 +30,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
 gem 'data_migrate'
 gem 'gon'
+gem 'money-rails', '~> 1.12'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

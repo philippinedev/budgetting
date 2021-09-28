@@ -26,6 +26,6 @@ class IncomesController < ApplicationController
       :cutoff_date,
       :due_date,
       :actualized_on
-    ).merge(amount: params[:transaction][:amount_decimal])
+    ).merge(amount: params[:transaction][:amount])
   end
 end

@@ -1,12 +1,13 @@
 class Transaction < ApplicationRecord
+  monetize :amount_cents
+
   belongs_to :transaction_type
   belongs_to :source_account, class_name: "Account", optional: true
   belongs_to :target_account, class_name: "Account"
 
-  validates :amount, presence: true
+  validates :amount_cents, presence: true
   validate :invalid_when_same_account
 
-  before_save :amount_to_cent
   after_save :update_summary, if: :actualized_on?
 
   scope :tran, -> { where.not(transaction_type_id: 1) }
@@ -16,7 +17,7 @@ class Transaction < ApplicationRecord
       tran = new
       tran.transaction_type = TransactionType.account_initializer
       tran.target_account = account
-      tran.amount = 0
+      tran.amount_cents = 0
       tran.actualized_on = Date.current
       tran.save!
     end
@@ -26,15 +27,7 @@ class Transaction < ApplicationRecord
     actualized_on.present?
   end
 
-  def amount_decimal
-    Transaction.to_decimal(amount)
-  end
-
   private
-
-  def amount_to_cent
-    self.amount = Transaction.to_cent(self.amount)
-  end
 
   def invalid_when_same_account
     return if self.source_account_id.nil?
