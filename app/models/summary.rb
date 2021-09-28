@@ -32,6 +32,23 @@ class Summary < ApplicationRecord
     def last_data
       JSON.parse(Summary.last&.data || "{}")
     end
+
+    def last_data_with_updated
+      prev    = JSON.parse(Summary.second_to_last&.data)
+      current = JSON.parse(Summary.last&.data)
+      output  = {}
+
+      current.each do |key, value|
+        output[key] = {
+          value: value,
+          previous: prev[key],
+          current: value,
+          updated: prev[key] != value
+        }
+      end
+
+      output
+    end
   end
 
   def data_hash

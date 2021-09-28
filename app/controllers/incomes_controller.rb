@@ -21,11 +21,12 @@ class IncomesController < ApplicationController
 
   def transaction_params
     params.require(:transaction).permit(
+      :amount,
       :source_account_id,
       :target_account_id,
       :cutoff_date,
       :due_date,
       :actualized_on
-    ).merge(amount: params[:transaction][:amount])
+    )
   end
 end

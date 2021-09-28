@@ -11,6 +11,14 @@ class Account < ApplicationRecord
   before_save :set_code
   after_save :initialize_account
 
+  class << self
+    def hash
+      a1 = active.select(:id, :code, :name)
+                 .map { |x| [ x.code, { id: x.id, name: x.name } ] }
+      Hash[*a1.flatten(1)]
+    end
+  end
+
   def deactivate!
     touch(:deactivated_at)
   end
