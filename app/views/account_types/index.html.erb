@@ -17,8 +17,6 @@
         <td><%= account_type.name %></td>
         <td><%= account_type.description %></td>
         <td><%= link_to 'Show', account_type %></td>
-        <td><%= link_to 'Edit', edit_account_type_path(account_type) %></td>
-        <td><%= link_to 'Destroy', account_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +24,5 @@
 
 <br>
 
-<%= link_to 'New Account Type', new_account_type_path %>
+<%= link_to 'Add New', new_account_type_path %> |
+<%= link_to 'Dashboard', root_path  %>
