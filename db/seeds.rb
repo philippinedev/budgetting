@@ -12,13 +12,13 @@ class Seeder
   end
 
   def call
-    ActiveRecord::Base.transaction do
+    # ActiveRecord::Base.transaction do
       clear!
       create_transaction_types
       create_account_types
       create_accounts
       display_results
-    end
+    # end
   end
 
   private

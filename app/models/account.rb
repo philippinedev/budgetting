@@ -12,7 +12,7 @@ class Account < ApplicationRecord
   after_save :initialize_account
 
   class << self
-    def hash
+    def hashed_value
       a1 = active.select(:id, :code, :name)
                  .map { |x| [ x.code, { id: x.id, name: x.name } ] }
       Hash[*a1.flatten(1)]

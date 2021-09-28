@@ -17,8 +17,8 @@
   </thead>
 
   <tbody>
-    <% @transactions.each_with_index do |tran, idx| %>
-      <%= render 'tr', tran: tran, idx: idx %>
+    <% @transactions.each do |tran| %>
+      <%= render 'tr', tran: tran %>
     <% end %>
   </tbody>
 </table>

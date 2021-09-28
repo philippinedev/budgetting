@@ -8,7 +8,7 @@ class Transaction < ApplicationRecord
   validates :amount_cents, presence: true
   validate :invalid_when_same_account
 
-  after_save :update_summary, if: :actualized_on?
+  after_save :update_summary, if: :actualized_at?
 
   scope :tran, -> { where.not(transaction_type_id: 1) }
 
@@ -18,13 +18,13 @@ class Transaction < ApplicationRecord
       tran.transaction_type = TransactionType.account_initializer
       tran.target_account = account
       tran.amount_cents = 0
-      tran.actualized_on = Date.current
+      tran.actualized_at = DateTime.current
       tran.save!
     end
   end
 
   def actualized?
-    actualized_on.present?
+    actualized_at.present?
   end
 
   private

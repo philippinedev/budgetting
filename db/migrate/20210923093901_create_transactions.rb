@@ -7,7 +7,7 @@ class CreateTransactions < ActiveRecord::Migration[6.1]
       t.monetize :amount, null: false
       t.date :cutoff_date
       t.date :due_date
-      t.date :actualized_on
+      t.datetime :actualized_at
 
       t.timestamps
     end
