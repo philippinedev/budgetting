@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= idx == 0 ? 'hilite' : '' %>">
   <td><%= tran.transaction_type.name %></td>
   <td><%= tran.source_account&.name %></td>
   <td><%= tran.target_account.name %></td>

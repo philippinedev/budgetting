@@ -17,13 +17,8 @@
   </thead>
 
   <tbody>
-    <% @transactions.each do |tran| %>
-      <%= render 'tr', tran: tran %>
+    <% @transactions.each_with_index do |tran, idx| %>
+      <%= render 'tr', tran: tran, idx: idx %>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'Add New Income', new_income_path %> |
-<%= link_to 'Dashboard', root_path  %>
