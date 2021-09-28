@@ -10,7 +10,7 @@ class IncomesController < ApplicationController
 
     respond_to do |format|
       if @income.save
-        notice = "#{@income.actualized? ? "Draft " : ""} Income was successfully saved."
+        notice = "#{@income.actualized? ? "" : "Draft "} Income was successfully saved."
         format.html { redirect_to root_path, notice: notice }
       else
         format.html { render :new, status: :unprocessable_entity }
