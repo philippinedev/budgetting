@@ -16,6 +16,11 @@
   <body class="<%= controller_name %>-<%= action_name %>">
     <div class="container">
       <%= render 'layouts/header' %>
+
+      <div class="messages">
+        <p id="notice"><%= notice %></p>
+      </div>
+
       <%= yield %>
       <%= render 'layouts/footer' %>
     </div>
