@@ -4,6 +4,7 @@ class Account < ApplicationRecord
   scope :employees, -> { joins(:account_type).where(account_types: { name: AccountType::EMPLOYEE }) }
   scope :employers, -> { joins(:account_type).where(account_types: { name: AccountType::EMPLOYER }) }
   scope :bank_accounts, -> { joins(:account_type).where(account_types: { name: AccountType::BANK_ACCOUNT }) }
+  scope :active, -> { where(deactivated_at: nil) }
 
   validates :name, presence: true, uniqueness: true
 
@@ -21,8 +22,6 @@ class Account < ApplicationRecord
   def deactivated?
     deactivated_at.present?
   end
-
-  scope :active, -> { Account.where(deactivated_at: nil) }
 
   private
 
