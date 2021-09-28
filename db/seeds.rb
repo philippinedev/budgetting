@@ -12,27 +12,58 @@ class Seeder
   end
 
   def call
-    clear!
-    create_account_types
-    create_transaction_types
-    create_accounts
-    # create_transactions(50)
-    display_results
+    ActiveRecord::Base.transaction do
+      clear!
+      create_transaction_types
+      create_account_types
+      create_accounts
+      display_results
+    end
   end
 
   private
 
   def clear!
+    Summary.destroy_all
     Transaction.destroy_all
     Account.destroy_all
     TransactionType.destroy_all
-    Summary.destroy_all
+    AccountType.destroy_all
   end
 
   def create_account_types
-    AccountType.create(name: AccountType::BANK_ACCOUNT)
-    AccountType.create(name: AccountType::EMPLOYEE)
-    AccountType.create(name: AccountType::EMPLOYER)
+    @bank_type     = AccountType.create(name: AccountType::BANK_ACCOUNT)
+    @cc_type       = AccountType.create(name: AccountType::CREDIT_CARD)
+    @cash_type     = AccountType.create(name: AccountType::CASH)
+    @employee_type = AccountType.create(name: AccountType::EMPLOYEE)
+    @employer_type = AccountType.create(name: AccountType::EMPLOYER)
+  end
+
+  def create_accounts
+    # Cash
+    Account.create(name: 'Cash on bank (BDO)', account_type_id: @bank_type.id)
+    Account.create(name: 'Cash on hand', account_type_id: @cash_type.id)
+
+    # Credit Cards
+    Account.create(name: 'CC BDO PRI', account_type_id: @cc_type.id)
+    Account.create(name: 'CC BDO LOAN', account_type_id: @cc_type.id)
+    Account.create(name: 'CC RCBC PRI', account_type_id: @cc_type.id)
+    Account.create(name: 'CC RCBC FLEX', account_type_id: @cc_type.id)
+    Account.create(name: 'CC RCBC JCB', account_type_id: @cc_type.id)
+    Account.create(name: 'CC RCBC LOAN', account_type_id: @cc_type.id)
+    Account.create(name: 'CC METROBANK', account_type_id: @cc_type.id)
+
+    # Employees
+    Account.create(name: 'Ever Jedi Usbal', account_type_id: @employee_type.id)
+    Account.create(name: 'Don Forrest Usbal', account_type_id: @employee_type.id)
+    Account.create(name: 'Abe Cambarihan', account_type_id: @employee_type.id)
+    Account.create(name: 'Lester Quiñones', account_type_id: @employee_type.id)
+    Account.create(name: 'Paulo Benemerito', account_type_id: @employee_type.id)
+    Account.create(name: 'Abbie Mercado', account_type_id: @employee_type.id)
+
+    # Clients
+    Account.create(name: 'Erich (Germany)', account_type_id: @employer_type.id)
+    Account.create(name: 'Morphosis (Thailand)', account_type_id: @employer_type.id)
   end
 
   def create_transaction_types
@@ -53,43 +84,6 @@ class Seeder
     TransactionType.create(name: TransactionType::TRANSPORTATION_EXPENSE, flow: "OUT")
     TransactionType.create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
     TransactionType.create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
-  end
-
-  def create_accounts
-    # Cash
-    Account.create(description: 'Cash on bank (BDO)')
-    Account.create(description: 'Cash on hand')
-
-    # Credit Cards
-    Account.create(description: 'CC BDO PRI')
-    Account.create(description: 'CC BDO LOAN')
-    Account.create(description: 'CC RCBC PRI')
-    Account.create(description: 'CC RCBC JCB')
-    Account.create(description: 'CC RCBC LOAN')
-    Account.create(description: 'CC METROBANK')
-
-    # Employees
-    Account.create(description: 'Ever Jedi Usbal')
-    Account.create(description: 'Don Forrest Usbal')
-    Account.create(description: 'Abe Cambarihan')
-    Account.create(description: 'Lester Quiñones')
-    Account.create(description: 'Paulo Benemerito')
-    Account.create(description: 'Abbie Mercado')
-
-    # Clients
-    Account.create(description: 'Erich (Germany)')
-    Account.create(description: 'Morphosis (Thailand)')
-  end
-
-  def create_transactions(limit)
-    create(limit) do
-      @transactions << FactoryBot.create(
-        :transaction,
-        transaction_type: @transaction_types.sample,
-        source_account: @accounts.sample,
-        target_account: @accounts.sample
-      )
-    end
   end
 
   def display_results
