@@ -25,5 +25,9 @@ class TransactionType < ApplicationRecord
     def account_initializer
       first
     end
+
+    def income
+      find_by(name: INCOME_PROGRAMMING)
+    end
   end
 end
