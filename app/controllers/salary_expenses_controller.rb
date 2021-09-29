@@ -1,4 +1,6 @@
 class SalaryExpensesController < ApplicationController
+  before_action :set_salary, only: [:edit, :update]
+
   def new
     gon.push(params.require(:f).permit!.to_h) if params.has_key?(:f)
     @salary = Transaction.new
@@ -18,6 +20,20 @@ class SalaryExpensesController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    respond_to do |format|
+      if @salary.update(transaction_params)
+        notice = "#{@salary.actualized? ? "" : "Draft "} Salary expense was successfully updated."
+        format.html { redirect_to root_path, notice: notice }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def transaction_params
@@ -27,7 +43,11 @@ class SalaryExpensesController < ApplicationController
       :amount,
       :cutoff_date,
       :due_date,
-      :actualized_on
+      :actualized_at
     )
+  end
+
+  def set_salary
+    @salary = Transaction.find(params[:id])
   end
 end

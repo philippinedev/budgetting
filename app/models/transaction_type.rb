@@ -21,6 +21,14 @@ class TransactionType < ApplicationRecord
 
   scope :selectable, -> { where("name != ?", INITIALIZE) }
 
+  def income?
+    name == INCOME_PROGRAMMING
+  end
+
+  def salary?
+    name == SALARY_EXPENSE
+  end
+
   class << self
     def account_initializer
       first
@@ -33,5 +41,6 @@ class TransactionType < ApplicationRecord
     def salary
       find_by(name: SALARY_EXPENSE)
     end
+
   end
 end
