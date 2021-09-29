@@ -7,6 +7,8 @@ class Transaction < ApplicationRecord
 
   validates :amount_cents, presence: true
   validate :invalid_when_same_account
+  validate :amount_validation
+  validate :source_account_validation
 
   after_save :update_summary, if: :actualized_at?
 
@@ -28,6 +30,21 @@ class Transaction < ApplicationRecord
   end
 
   private
+
+  def source_account_validation
+    is_income = transaction_type_id == TransactionType.income.id
+    is_salary = transaction_type_id == TransactionType.salary.id
+
+    return unless is_income || is_salary
+
+    errors.add(:source_account_id, "cannot be blank") if source_account_id.blank?
+  end
+
+  def amount_validation
+    return if transaction_type_id == TransactionType.initialize.id
+
+    errors.add(:amount, "cannot be blank") if amount.blank? || amount.to_f.zero?
+  end
 
   def invalid_when_same_account
     return if self.source_account_id.nil?

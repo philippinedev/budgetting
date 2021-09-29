@@ -34,6 +34,10 @@ class TransactionType < ApplicationRecord
       first
     end
 
+    def initialize
+      find_by(name: INITIALIZE)
+    end
+
     def income
       find_by(name: INCOME_PROGRAMMING)
     end
