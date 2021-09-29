@@ -37,18 +37,18 @@ class Account < ApplicationRecord
   def set_code
     return if persisted?
 
-    10.times do |num|
+    (1..100).to_a.each do |num|
       name_parts = name.upcase.gsub(/[\(\)]/, "").split
 
-      self.code = name_parts
-        .map(&:first)
-        .join + (num == 0 ? '' : num.to_s)
+      self.code = name_parts.map(&:first).join
 
       if code.length == 1
         self.code += name_parts.last[1..2]
       elsif code.length == 2
         self.code += name_parts.last[1]
       end
+
+      self.code += (num == 1 ? '' : num.to_s)
 
       break unless Account.find_by(code: code)
     end
