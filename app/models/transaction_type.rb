@@ -31,15 +31,19 @@ class TransactionType < ApplicationRecord
 
   class << self
     def account_initializer
-      first
+      @@account_initializer ||= first
+    end
+
+    def initialize
+      @@initialize ||= find_by(name: INITIALIZE)
     end
 
     def income
-      find_by(name: INCOME_PROGRAMMING)
+      @@income ||= find_by(name: INCOME_PROGRAMMING)
     end
 
     def salary
-      find_by(name: SALARY_EXPENSE)
+      @@salary ||= find_by(name: SALARY_EXPENSE)
     end
 
   end
