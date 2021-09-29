@@ -25,7 +25,7 @@
 
   <div class="field">
     <%= form.label :amount %>
-    <%= form.number_field :amount_decimal, step: 0.01 %>
+    <%= form.number_field :amount, step: 0.01 %>
   </div>
 
   <div class="field">
@@ -39,8 +39,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :actualized_on %>
-    <%= form.date_field :actualized_on, min: Date.today - 1000, max: DateTime.now %>
+    <%= form.label :actualized_at %>
+    <%= form.date_field :actualized_at, min: Date.today - 1000, max: DateTime.now %>
   </div>
 
   <div class="actions">

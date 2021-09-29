@@ -15,22 +15,39 @@ class Summary < ApplicationRecord
 
     def increment_both(tran)
       hash = last_data
-      hash[tran.source_account.code] += tran.amount_decimal
-      hash[tran.target_account.code] += tran.amount_decimal
+      hash[tran.source_account.code] += tran.amount_cents
+      hash[tran.target_account.code] += tran.amount_cents
 
       create(transaction_id: tran.id, data: hash.to_json)
     end
 
     def transfer(tran)
       hash = last_data
-      hash[tran.source_account.code] -= tran.amount_decimal
-      hash[tran.target_account.code] += tran.amount_decimal
+      hash[tran.source_account.code] -= tran.amount_cents
+      hash[tran.target_account.code] += tran.amount_cents
 
       create(transaction_id: tran.id, data: hash.to_json)
     end
 
     def last_data
       JSON.parse(Summary.last&.data || "{}")
+    end
+
+    def last_data_with_updated
+      prev    = JSON.parse(Summary.second_to_last&.data)
+      current = JSON.parse(Summary.last&.data)
+      output  = {}
+
+      current.each do |key, value|
+        output[key] = {
+          value: value,
+          previous: prev[key],
+          current: value,
+          updated: prev[key] != value
+        }
+      end
+
+      output
     end
   end
 

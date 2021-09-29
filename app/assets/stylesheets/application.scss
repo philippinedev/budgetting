@@ -18,3 +18,37 @@
   text-align: right;
 }
 
+.main-menu {
+  margin: 30px 0;
+}
+
+.footer-menu {
+  margin: 30px 0;
+}
+
+nav {
+  margin: 10px 0;
+}
+
+h1 {
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #004d03;
+}
+
+span.sep {
+  margin: 0 10px 0 15px;
+}
+
+.hilite {
+  background-color: lightgreen;
+  border: 1px solid green;
+  border-radius: 10px;
+
+  > td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+}

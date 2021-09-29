@@ -1,20 +1,18 @@
 <h1>Dashboard</h1>
 
-<hr />
-
 <table>
-  <% @summary.each do |code, value| %>
-    <tr>
+  <% @summary.each do |code, vhash| %>
+    <tr class="<%= vhash[:updated] ? 'hilite' : '' %>">
       <th><%= @accounts[code][:name] %></th>
-      <td class="money"><%= value %></td>
-      <td><%= link_to "Source",
-        new_transaction_path(f: { source_account_id: @accounts[code][:id] }),
-        data: { turbo: false }
-      %></td>
-      <td><%= link_to "Target",
-        new_transaction_path(f: { target_account_id: @accounts[code][:id] }),
-        data: { turbo: false }
-      %></td>
+      <td class="money"><%= from_cents(vhash[:current]) %></td>
+      <td>
+        <%= link_to "Source",
+          new_transaction_path(f: { source_account_id: @accounts[code][:id] }),
+          data: { turbo: false } %></td>
+      <td>
+        <%= link_to "Target",
+          new_transaction_path(f: { target_account_id: @accounts[code][:id] }),
+          data: { turbo: false } %></td>
     </tr>
   <% end %>
 </table>

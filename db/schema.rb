@@ -55,10 +55,11 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.bigint "transaction_type_id", null: false
     t.bigint "source_account_id"
     t.bigint "target_account_id", null: false
-    t.integer "amount", null: false
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "PHP", null: false
     t.date "cutoff_date"
     t.date "due_date"
-    t.date "actualized_on"
+    t.datetime "actualized_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["source_account_id"], name: "index_transactions_on_source_account_id"

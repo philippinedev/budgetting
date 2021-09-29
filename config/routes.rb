@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :dashboards
   resources :transactions
   resources :incomes
+  resources :salary_expenses
   resources :accounts do
     member do
       patch 'deactivate'

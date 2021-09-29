@@ -29,5 +29,9 @@ class TransactionType < ApplicationRecord
     def income
       find_by(name: INCOME_PROGRAMMING)
     end
+
+    def salary
+      find_by(name: SALARY_EXPENSE)
+    end
   end
 end

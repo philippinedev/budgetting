@@ -1,0 +1,12 @@
+<tr class="<%= @last_tran == tran ? 'hilite' : '' %>">
+  <td><%= tran.transaction_type.name %></td>
+  <td><%= tran.source_account&.name %></td>
+  <td><%= tran.target_account.name %></td>
+  <td class="money"><%= tran.amount %></td>
+  <td><%= tran.cutoff_date %></td>
+  <td><%= tran.due_date %></td>
+  <td><%= tran.actualized? ? tran.actualized_at : "Draft" %></td>
+  <td><%= link_to 'Show', tran %></td>
+  <td><%= link_to 'Edit', edit_transaction_path(tran) unless tran.actualized? %></td>
+  <td><%= link_to 'Destroy', tran, method: :delete, data: { confirm: 'Are you sure?' } unless tran.actualized? %></td>
+</tr>

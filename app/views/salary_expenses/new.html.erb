@@ -1,10 +1,12 @@
-<%= form_with(model: transaction) do |form| %>
-  <% if transaction.errors.any? %>
+<h1>New Salary Expense</h1>
+
+<%= form_for @salary, url: url_for(controller: 'salary_expenses', action: 'create') do |form| %>
+  <% if @salary.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+      <h2><%= pluralize(@salary.errors.count, "error") %> prohibited this transaction from being saved:</h2>
 
       <ul>
-        <% transaction.errors.each do |error| %>
+        <% @salary.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -12,18 +14,13 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :transaction_type_id %>
-    <%= form.select :transaction_type_id, TransactionType.selectable.map { |t| [t.name, t.id] }, prompt: "Choose type" %>
-  </div>
-
-  <div class="field">
     <%= form.label :source_account_id %>
-    <%= form.select :source_account_id, Account.all.map { |t| [t.name, t.id] }, prompt: "Choose Source Account" %>
+    <%= form.select :source_account_id, Account.active.salary_sources.pluck(:name, :id), prompt: "Choose Source Account" %>
   </div>
 
   <div class="field">
     <%= form.label :target_account_id %>
-    <%= form.select :target_account_id, Account.active.map { |t| [ t.name, t.id ] }, prompt: "Choose Target Account" %>
+    <%= form.select :target_account_id, Account.active.employees.pluck(:name, :id), prompt: "Choose Target Account" %>
   </div>
 
   <div class="field">

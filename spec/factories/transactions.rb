@@ -3,7 +3,7 @@ FactoryBot.define do
     amount { rand(10..1000) * 100 }
     cutoff_date { nil }
     due_date { nil }
-    actualized_on { [nil, nil, Date.current, Date.yesterday ].sample }
+    actualized_at { [nil, nil, Date.current, Date.yesterday ].sample }
 
     transaction_type
 
