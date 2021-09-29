@@ -62,6 +62,9 @@ class Transaction < ApplicationRecord
     elsif transaction_type.name == TransactionType::SALARY_EXPENSE
       Summary.transfer(self)
 
+    elsif transaction_type.name == TransactionType::ATM_WITHDRAWAL
+      Summary.transfer(self)
+
     else
       raise "Unhandled transaction type: #{transaction_type.name}"
     end

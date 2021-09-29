@@ -4,6 +4,7 @@ class Account < ApplicationRecord
   scope :employees, -> { joins(:account_type).where(account_types: { name: AccountType::EMPLOYEE }) }
   scope :employers, -> { joins(:account_type).where(account_types: { name: AccountType::EMPLOYER }) }
   scope :bank_accounts, -> { joins(:account_type).where(account_types: { name: AccountType::BANK_ACCOUNT }) }
+  scope :withdrawal_target, -> { joins(:account_type).where(account_types: { name: AccountType::CASH }) }
   scope :salary_sources, -> { joins(:account_type).where(account_types: { name: [AccountType::BANK_ACCOUNT, AccountType::CASH] }) }
   scope :active, -> { where(deactivated_at: nil) }
 

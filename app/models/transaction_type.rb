@@ -29,6 +29,10 @@ class TransactionType < ApplicationRecord
     name == SALARY_EXPENSE
   end
 
+  def withdrawal?
+    name == ATM_WITHDRAWAL
+  end
+
   class << self
     def account_initializer
       @@account_initializer ||= first
@@ -44,6 +48,10 @@ class TransactionType < ApplicationRecord
 
     def salary
       @@salary ||= find_by(name: SALARY_EXPENSE)
+    end
+
+    def withdrawal
+      @@withdrawal ||= find_by(name: ATM_WITHDRAWAL)
     end
 
   end
