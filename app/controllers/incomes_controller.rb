@@ -2,7 +2,6 @@ class IncomesController < ApplicationController
   before_action :set_income, only: [:edit, :update]
 
   def new
-    gon.push(params.require(:f).permit!.to_h) if params.has_key?(:f)
     @income = Transaction.new
   end
 

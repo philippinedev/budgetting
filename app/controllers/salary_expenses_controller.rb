@@ -2,7 +2,6 @@ class SalaryExpensesController < ApplicationController
   before_action :set_salary, only: [:edit, :update]
 
   def new
-    gon.push(params.require(:f).permit!.to_h) if params.has_key?(:f)
     @salary = Transaction.new
   end
 
