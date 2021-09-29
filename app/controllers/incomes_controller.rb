@@ -1,6 +1,5 @@
 class IncomesController < ApplicationController
   def new
-    gon.push(params.require(:f).permit!.to_h) if params.has_key?(:f)
     @income = Transaction.new
   end
 

@@ -27,18 +27,8 @@ const pageLoad = () => {
 }
 
 const onLoad = () => {
-  const transactionForm = () => {
-    Object.keys(gon).forEach(key => {
-      document.getElementById(`transaction_${key}`).value = gon[key]
-    })
-  }
-
-  const isTransactionNew  = !!document.querySelector('body.transactions-new')
-  const isTransactionEdit = !!document.querySelector('body.transactions-edit')
-
-  if (isTransactionNew || isTransactionEdit) {
-    transactionForm()
-  }
+  // const isTransactionNew  = !!document.querySelector('body.transactions-new')
+  // const isTransactionEdit = !!document.querySelector('body.transactions-edit')
 }
 
 window.addEventListener('turbolinks:load', () => {
