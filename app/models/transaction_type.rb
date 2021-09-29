@@ -16,10 +16,23 @@ class TransactionType < ApplicationRecord
   ENTERTAINMENT_EXPENSE  = 'Entertainment expense'.freeze
   MISCELANEOUS_EXPENSE   = 'Miscelaneous expense'.freeze
 
+  EXPENSE_TYPE = [
+    UNACCOUNTED_EXPENSE,   
+    FOOD_EXPENSE,
+    ELECTRICITY_EXPENSE,
+    WATER_EXPENSE,
+    INTERNET_EXPENSE,
+    RENT_EXPENSE,
+    TRANSPORTATION_EXPENSE,
+    ENTERTAINMENT_EXPENSE, 
+    MISCELANEOUS_EXPENSE
+  ]
+
   validates :name, presence: true, uniqueness: true
   validates :flow, inclusion: { in: [nil, 'IN', 'OUT'] }
 
   scope :selectable, -> { where("name != ?", INITIALIZE) }
+  scope :expense_type, -> { where(name: EXPENSE_TYPE) }
 
   def income?
     name == INCOME_PROGRAMMING
@@ -27,6 +40,12 @@ class TransactionType < ApplicationRecord
 
   def salary?
     name == SALARY_EXPENSE
+  end
+
+  def expense?
+    TransactionType.expense_type
+      .pluck(:name)
+      .map{ |x| x == name }
   end
 
   class << self

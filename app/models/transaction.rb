@@ -62,8 +62,17 @@ class Transaction < ApplicationRecord
     elsif transaction_type.name == TransactionType::SALARY_EXPENSE
       Summary.transfer(self)
 
+    elsif transaction_type.name == get_expense
+      Summary.transfer(self)
+
     else
       raise "Unhandled transaction type: #{transaction_type.name}"
+    end
+  end
+
+  def get_expense
+    if TransactionType.expense_type.pluck(:name).map{ |x| x == transaction_type.name }
+      return transaction_type.name 
     end
   end
 end

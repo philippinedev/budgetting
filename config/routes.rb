@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :transactions
   resources :incomes
   resources :salary_expenses
+  resources :expenses
   resources :accounts do
     member do
       patch 'deactivate'

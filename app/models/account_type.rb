@@ -9,9 +9,11 @@ class AccountType < ApplicationRecord
   BAHAY        = "Bahay".freeze
   ABC          = "Abc".freeze
   ZZZ          = "Zzz".freeze
+  PAMAMALENGKE = "Pamamalengke".freeze
 
   EXPENSES = [
     BAHAY,
+    PAMAMALENGKE,
     ABC,
     ZZZ
   ]
