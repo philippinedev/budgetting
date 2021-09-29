@@ -1,6 +1,4 @@
 class Transaction < ApplicationRecord
-  MIN_DATE = Date.today - 1095
-
   monetize :amount_cents
 
   belongs_to :transaction_type
