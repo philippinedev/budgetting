@@ -7,6 +7,12 @@
   <td><%= tran.due_date %></td>
   <td><%= tran.actualized? ? tran.actualized_at : "Draft" %></td>
   <td><%= link_to 'Show', tran %></td>
-  <td><%= link_to 'Edit', edit_transaction_path(tran) unless tran.actualized? %></td>
+
+  <% if tran.transaction_type.income? %>
+    <td><%= link_to 'Edit', edit_income_path(tran) unless tran.actualized? %></td>
+  <% elsif tran.transaction_type.salary? %>
+    <td><%= link_to 'Edit', edit_salary_expense_path(tran) unless tran.actualized? %></td>
+  <% end %>
+
   <td><%= link_to 'Destroy', tran, method: :delete, data: { confirm: 'Are you sure?' } unless tran.actualized? %></td>
 </tr>
