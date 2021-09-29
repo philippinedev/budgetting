@@ -5,5 +5,16 @@ class AccountType < ApplicationRecord
   EMPLOYER     = "Employer".freeze
   EMPLOYEE     = "Employee".freeze
 
+  # Expenses
+  BAHAY        = "Bahay".freeze
+  ABC          = "Abc".freeze
+  ZZZ          = "Zzz".freeze
+
+  EXPENSES = [
+    BAHAY,
+    ABC,
+    ZZZ
+  ]
+
   has_many :accounts
 end

@@ -7,6 +7,8 @@ class Account < ApplicationRecord
   scope :salary_sources, -> { joins(:account_type).where(account_types: { name: [AccountType::BANK_ACCOUNT, AccountType::CASH] }) }
   scope :active, -> { where(deactivated_at: nil) }
 
+  scope :expenses, -> { joins(:account_type).where(account_types: { name: AccountType::EXPENSES }) }
+
   validates :name, presence: true, uniqueness: true
 
   before_save :set_code
