@@ -38,10 +38,17 @@ class Account < ApplicationRecord
     return if persisted?
 
     10.times do |num|
-      self.code = name
-        .gsub(/[\(\)]/, "")
-        .split.map(&:first)
-        .join.upcase + (num == 0 ? '' : num.to_s)
+      name_parts = name.upcase.gsub(/[\(\)]/, "").split
+
+      self.code = name_parts
+        .map(&:first)
+        .join + (num == 0 ? '' : num.to_s)
+
+      if code.length == 1
+        self.code += name_parts.last[1..2]
+      elsif code.length == 2
+        self.code += name_parts.last[1]
+      end
 
       break unless Account.find_by(code: code)
     end
