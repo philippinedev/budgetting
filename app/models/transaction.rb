@@ -32,10 +32,7 @@ class Transaction < ApplicationRecord
   private
 
   def source_account_validation
-    is_income = transaction_type_id == TransactionType.income.id
-    is_salary = transaction_type_id == TransactionType.salary.id
-
-    return unless is_income || is_salary
+    return if transaction_type_id == TransactionType.initialize.id
 
     errors.add(:source_account_id, "cannot be blank") if source_account_id.blank?
   end
