@@ -15,7 +15,7 @@ class Seeder
     ActiveRecord::Base.transaction do
       clear!
       create_entities
-      # create_transaction_types
+      create_transaction_types
       # create_account_types
       # create_accounts
       display_results
@@ -29,25 +29,35 @@ class Seeder
     # Summary.destroy_all
     # Transaction.destroy_all
     # Account.destroy_all
-    # TransactionType.destroy_all
+    TransactionType.destroy_all
     # AccountType.destroy_all
   end
 
   def create_entities
+    @account_creation  = Entity.create(name: "Account Creation")
+
     expense  = Entity.create(name: "Expense")
 
-    rent_expense      = Entity.create(name: "Rent Expense", parent_id: expense.id)
-    Entity.create(name: "Issa House", parent_id: rent_expense.id)
-    Entity.create(name: "Calderon House", parent_id: rent_expense.id)
+    @salary_expense    = Entity.create(name: "Salary Expense", parent_id: expense.id)
+    Entity.create(name: 'Ever Jedi Usbal', parent_id: @salary_expense.id)
+    Entity.create(name: 'Don Forrest Usbal', parent_id: @salary_expense.id)
+    Entity.create(name: 'Abe Cambarihan', parent_id: @salary_expense.id)
+    Entity.create(name: 'Lester Quiñones', parent_id: @salary_expense.id)
+    Entity.create(name: 'Paulo Benemerito', parent_id: @salary_expense.id)
+    Entity.create(name: 'Abbie Mercado', parent_id: @salary_expense.id)
 
-    internet_expense  = Entity.create(name: "Internet Expense", parent_id: expense.id)
-    Entity.create(name: "PLDT Landline", parent_id: internet_expense.id)
-    Entity.create(name: "Converge Issa", parent_id: internet_expense.id)
-    Entity.create(name: "Converge Calderon", parent_id: internet_expense.id)
+    @rent_expense      = Entity.create(name: "Rent Expense", parent_id: expense.id)
+    Entity.create(name: "Issa House", parent_id: @rent_expense.id)
+    Entity.create(name: "Calderon House", parent_id: @rent_expense.id)
 
-    cashable = Entity.create(name: "Cashable")
-    Entity.create(name: "Bank Account (BDO)", parent_id: cashable.id)
-    Entity.create(name: "Cash on Hand", parent_id: cashable.id)
+    @internet_expense  = Entity.create(name: "Internet Expense", parent_id: expense.id)
+    Entity.create(name: "PLDT Landline", parent_id: @internet_expense.id)
+    Entity.create(name: "Converge Issa", parent_id: @internet_expense.id)
+    Entity.create(name: "Converge Calderon", parent_id: @internet_expense.id)
+
+    @cashable = Entity.create(name: "Cashable")
+    Entity.create(name: "Bank Account (BDO)", parent_id: @cashable.id)
+    Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
   end
 
   # def create_account_types
@@ -85,7 +95,12 @@ class Seeder
   #   Account.create(name: 'Morphosis (Thailand)', account_type_id: @employer_type.id)
   # end
 
-  # def create_transaction_types
+  def create_transaction_types
+    TransactionType.create(name: "Initialize", source_category_id: @cashable.id, target_category_id: @account_creation.id)
+    TransactionType.create(name: "Rent Payment", source_category_id: @cashable.id, target_category_id: @rent_expense.id)
+    TransactionType.create(name: "Internet Payment", source_category_id: @cashable.id, target_category_id: @internet_expense.id)
+    TransactionType.create(name: "Salary Payment", source_category_id: @cashable.id, target_category_id: @salary_expense.id)
+
   #   TransactionType.create(name: TransactionType::INITIALIZE, flow: "IN")
 
   #   TransactionType.create(name: TransactionType::INCOME_PROGRAMMING, flow: "IN")
@@ -103,7 +118,7 @@ class Seeder
   #   TransactionType.create(name: TransactionType::TRANSPORTATION_EXPENSE, flow: "OUT")
   #   TransactionType.create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
   #   TransactionType.create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
-  # end
+  end
 
   def display_results
     puts

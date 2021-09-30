@@ -6,6 +6,21 @@ class TransactionsController < ApplicationController
     @last_tran = Summary.last&.tran
   end
 
+  def new
+    @tran = Transaction.new
+  end
+
+  def create
+    @tran = Transaction.new(transaction_params)
+
+    if @tran.save
+      notice = "#{@tran.actualized? ? "" : "Draft"} Transaction was successfully created."
+      redirect_to root_path, notice: notice
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def show
   end
 
