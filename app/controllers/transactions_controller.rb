@@ -8,6 +8,19 @@ class TransactionsController < ApplicationController
 
   def new
     @tran = Transaction.new
+    
+    tran_types = {}
+
+    TransactionType.all.each do |tt|
+      sources = tt.source_category.entities.map { |x| { id: x.id, name: x.name } }
+      targets = tt.target_category.entities.map { |x| { id: x.id, name: x.name } }
+      tran_types[tt.id] = { sources: sources, targets: targets }
+    end
+
+    gon.tran_types = tran_types
+  end
+
+  def edit
   end
 
   def create
