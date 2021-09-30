@@ -1,0 +1,25 @@
+<h1>Entities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Parent</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @entities.each do |ent| %>
+      <tr>
+        <td><%= ent.code %></td>
+        <td><%= link_to(ent.parent.name, entity_path(ent.parent)) if ent.parent.present? %></td>
+        <td><%= ent.name %></td>
+        <td><%= ent.description %></td>
+        <td><%= link_to "Add Child", new_entity_path(parent_id: ent.id) %></td>
+        <td><%= link_to "Delete", entity_path(ent), data: { confirm: "Are you sure?" }, method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

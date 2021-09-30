@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   resources :transaction_types
   resources :account_types
   resources :summaries, only: [:index, :show]
+  resources :entities
 end
