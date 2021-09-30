@@ -34,8 +34,8 @@ class Summary < ApplicationRecord
     end
 
     def last_data_with_updated
-      prev    = JSON.parse(Summary.second_to_last&.data)
-      current = JSON.parse(Summary.last&.data)
+      prev    = JSON.parse(Summary.second_to_last&.data || "{}")
+      current = JSON.parse(Summary.last&.data || "{}")
       output  = {}
 
       current.each do |key, value|

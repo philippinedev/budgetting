@@ -6,6 +6,26 @@ class Entity < ApplicationRecord
   after_save :set_parent_as_parent
   after_destroy :update_parent_as_parent
 
+  scope :categories, -> { where(is_parent: true) }
+  scope :accounts, -> { where(is_parent: false) }
+  scope :active, -> { where(deactivated_at: nil) }
+
+  def name_more
+    (account? ? "(ACCT) " : "(CAT) ") + name
+  end
+
+  def name_acct
+    (account? ? "(ACCT) " : "") + name
+  end
+
+  def account?
+    is_parent.blank?
+  end
+
+  def deactivated?
+    deactivated_at.present?
+  end
+
   private
 
   def set_code

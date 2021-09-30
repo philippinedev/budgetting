@@ -5,7 +5,8 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Flow</th>
+      <th>Source Category</th>
+      <th>Target Category</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -14,7 +15,8 @@
       <tr>
         <td><%= type.name %></td>
         <td><%= type.description %></td>
-        <td><%= type.flow %></td>
+        <td><%= type.source_category.name %></td>
+        <td><%= type.target_category.name %></td>
         <td><%= link_to "Delete",
           transaction_type_path(type),
           method: :delete,

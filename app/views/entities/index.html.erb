@@ -11,11 +11,11 @@
     </tr>
   </thead>
   <tbody>
-    <% @entities.each do |ent| %>
+    <% @entities.order(parent_id: :asc).each do |ent| %>
       <tr>
         <td><%= ent.code %></td>
         <td><%= link_to(ent.parent.name, entity_path(ent.parent)) if ent.parent.present? %></td>
-        <td><%= ent.name %></td>
+        <td><%= link_to(ent.name_acct, entity_path(ent)) %></td>
         <td><%= ent.description %></td>
         <td><%= link_to "Add Child", new_entity_path(parent_id: ent.id) %></td>
         <td><%= link_to "Delete", entity_path(ent), data: { confirm: "Are you sure?" }, method: :delete %></td>
