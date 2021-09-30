@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_24_023626) do
+ActiveRecord::Schema.define(version: 2021_09_30_010244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,18 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
+  end
+
+  create_table "entities", force: :cascade do |t|
+    t.bigint "parent_id"
+    t.boolean "is_parent", default: false
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "deactivate_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["parent_id"], name: "index_entities_on_parent_id"
   end
 
   create_table "summaries", force: :cascade do |t|
@@ -80,6 +92,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
   end
 
   add_foreign_key "accounts", "account_types"
+  add_foreign_key "entities", "entities", column: "parent_id"
   add_foreign_key "summaries", "transactions"
   add_foreign_key "transactions", "accounts", column: "source_account_id"
   add_foreign_key "transactions", "accounts", column: "target_account_id"
