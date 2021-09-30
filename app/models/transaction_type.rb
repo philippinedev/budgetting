@@ -16,8 +16,10 @@ class TransactionType < ApplicationRecord
   ENTERTAINMENT_EXPENSE  = 'Entertainment expense'.freeze
   MISCELANEOUS_EXPENSE   = 'Miscelaneous expense'.freeze
 
+  belongs_to :source_category, class_name: "Entity", foreign_key: :source_category_id
+  belongs_to :target_category, class_name: "Entity", foreign_key: :target_category_id
+
   validates :name, presence: true, uniqueness: true
-  validates :flow, inclusion: { in: [nil, 'IN', 'OUT'] }
 
   scope :selectable, -> { where("name != ?", INITIALIZE) }
 

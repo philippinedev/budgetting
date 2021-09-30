@@ -15,7 +15,7 @@
   <ul>
     <% @entity.entities.each do |ent| %>
       <li>
-        <%= link_to(ent.name, entity_path(ent)) %>
+        <%= link_to(ent.name_more, entity_path(ent)) %>
       </li>
     <% end %>
   </ul>

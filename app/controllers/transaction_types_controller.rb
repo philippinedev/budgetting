@@ -11,6 +11,7 @@ class TransactionTypesController < ApplicationController
 
   def create
     @type = TransactionType.new(type_params)
+
     if @type.save
       redirect_to transaction_types_path, notice: "Successfully created"
     else
@@ -28,7 +29,9 @@ class TransactionTypesController < ApplicationController
   private
 
   def type_params
-    params.require(:transaction_type).permit(:name, :description, :flow)
+    params
+      .require(:transaction_type)
+      .permit(:name, :description, :source_category_id, :target_category_id)
   end
 
   def set_type

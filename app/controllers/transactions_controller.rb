@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   def index
     @transactions = Transaction.order(created_at: :desc)
-    @last_tran = Summary.last.tran
+    @last_tran = Summary.last&.tran
   end
 
   def show

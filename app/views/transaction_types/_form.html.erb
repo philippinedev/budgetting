@@ -1,0 +1,28 @@
+<%= form_for @type do |form| %>
+  <%= render 'shared/form_errors', object: @type %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :source_category_id %>
+    <%= form.select :source_category_id, Entity.categories.active.map { |t| [t.name, t.id] }, prompt: "Choose Source category" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :target_category_id %>
+    <%= form.select :target_category_id, Entity.categories.active.map { |t| [ t.name, t.id ] }, prompt: "Choose Target category" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="actions">
+    <%= link_to "Cancel", :back %>
+    <%= form.submit %>
+  </div>
+<% end %>

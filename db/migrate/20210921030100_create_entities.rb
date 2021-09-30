@@ -6,7 +6,7 @@ class CreateEntities < ActiveRecord::Migration[6.1]
       t.string :code, null: false, unique: true
       t.string :name, null: false
       t.string :description
-      t.datetime :deactivate_at
+      t.datetime :deactivated_at
 
       t.timestamps
     end
