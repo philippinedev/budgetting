@@ -1,4 +1,8 @@
-<h1>New child entity for "<%= @parent.name %>"</h1>
+<% if @parent.present? %>
+  <h1>New child entity for "<%= @parent.name %>"</h1>
+<% else %>
+  <h1>New root child</h1>
+<% end %>
 
 <%= render 'form' %>
 
