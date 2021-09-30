@@ -2,8 +2,9 @@ class Transaction < ApplicationRecord
   monetize :amount_cents
 
   belongs_to :transaction_type
-  belongs_to :source_account, class_name: "Account", optional: true
-  belongs_to :target_account, class_name: "Account"
+
+  belongs_to :source_account, class_name: "Entity", foreign_key: :source_account_id
+  belongs_to :target_account, class_name: "Entity", foreign_key: :target_account_id
 
   validates :amount_cents, presence: true
   validate :invalid_when_same_account
@@ -13,17 +14,6 @@ class Transaction < ApplicationRecord
   after_save :update_summary, if: :actualized_at?
 
   scope :tran, -> { where.not(transaction_type_id: 1) }
-
-  class << self
-    def initialize_account!(account)
-      tran = new
-      tran.transaction_type = TransactionType.account_initializer
-      tran.target_account = account
-      tran.amount_cents = 0
-      tran.actualized_at = DateTime.current
-      tran.save!
-    end
-  end
 
   def actualized?
     actualized_at.present?

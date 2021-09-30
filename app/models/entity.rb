@@ -1,4 +1,7 @@
 class Entity < ApplicationRecord
+  CASH = 19
+  BANK = 18
+
   has_many :entities, class_name: 'Entity', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Entity', foreign_key: :parent_id, optional: true
 
@@ -9,6 +12,14 @@ class Entity < ApplicationRecord
   scope :categories, -> { where(is_parent: true) }
   scope :accounts, -> { where(is_parent: false) }
   scope :active, -> { where(deactivated_at: nil) }
+
+  class << self
+    def hashed_value
+      a1 = active.select(:id, :code, :name)
+                 .map { |x| [ x.code, { id: x.id, name: x.name } ] }
+      Hash[*a1.flatten(1)]
+    end
+  end
 
   def name_more
     (account? ? "(ACCT) " : "(CAT) ") + name
@@ -24,6 +35,26 @@ class Entity < ApplicationRecord
 
   def deactivated?
     deactivated_at.present?
+  end
+
+  def initialized?
+    return false if Summary.count == 0
+
+    Summary.last_data.has_key? code
+  end
+
+  def init!
+    transaction_type = TransactionType.account_initializer
+
+    source_account = Entity.find(self.id == CASH ? BANK : CASH)
+
+    tran = Transaction.new
+    tran.transaction_type = transaction_type
+    tran.source_account = source_account
+    tran.target_account = self
+    tran.amount_cents = 0
+    tran.actualized_at = DateTime.current
+    tran.save!
   end
 
   private

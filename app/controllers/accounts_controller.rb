@@ -47,6 +47,12 @@ class AccountsController < ApplicationController
     end
   end
 
+  def init
+    @account = Entity.find(params[:id])
+    @account.init!
+    redirect_to accounts_path, notice: "Account successfully initialized"
+  end
+
   def deactivate
     @account = Account.find(params[:id])
     @account.deactivate!
@@ -69,13 +75,14 @@ class AccountsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_account
-      @account = Account.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def account_params
-      params.require(:account).permit(:account_type_id, :code, :name, :deactivated_at)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_account
+    @account = Account.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def account_params
+    params.require(:account).permit(:account_type_id, :code, :name, :deactivated_at)
+  end
 end

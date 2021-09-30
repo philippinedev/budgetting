@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :salary_expenses
   resources :accounts do
     member do
+      patch 'init'
       patch 'deactivate'
       patch 'activate'
     end
