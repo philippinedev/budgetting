@@ -1,0 +1,27 @@
+<h1><%= @entity.name %></h1>
+
+<div>
+  <% if @entity.parent.present? %>
+    Parent: <%= link_to(@entity.parent.name, entity_path(@entity.parent))  %>
+  <% else %>
+    This is a root entity.
+  <% end %>
+</div>
+
+<hr />
+<h6>Children</h6>
+
+<% if @entity.entities.any? %>
+  <ul>
+    <% @entity.entities.each do |ent| %>
+      <li>
+        <%= link_to(ent.name, entity_path(ent)) %>
+      </li>
+    <% end %>
+  </ul>
+
+<% else %>
+  No children.
+<% end %>
+
+<%= link_to "Add Child", new_entity_path(parent_id: @entity.id) %>

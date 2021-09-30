@@ -1,5 +1,5 @@
 class Entity < ApplicationRecord
-  has_many :entities, class_name: 'Entity', foreign_key: :parent_id
+  has_many :entities, class_name: 'Entity', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Entity', foreign_key: :parent_id, optional: true
 
   before_save :set_code

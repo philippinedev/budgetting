@@ -1,0 +1,20 @@
+<%= form_for @entity do |form| %>
+  <%= render 'shared/form_errors', object: @entity %>
+
+  <%= form.hidden_field :parent_id %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="actions">
+    <%= link_to "Cancel", :back %>
+    <%= form.submit %>
+  </div>
+<% end %>
