@@ -13,6 +13,8 @@ class Entity < ApplicationRecord
   scope :accounts, -> { where(is_parent: false) }
   scope :active, -> { where(deactivated_at: nil) }
 
+  validates :name, presence: true
+
   class << self
     def hashed_value
       a1 = active.select(:id, :code, :name)
