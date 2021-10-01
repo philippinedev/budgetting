@@ -1,4 +1,9 @@
 class Transaction < ApplicationRecord
+  TRANSFER = [
+    "Salary Payment",
+    "Rent Payment"
+  ]
+
   monetize :amount_cents
 
   belongs_to :transaction_type
@@ -43,13 +48,14 @@ class Transaction < ApplicationRecord
   end
 
   def update_summary
-    if transaction_type.name == TransactionType::INITIALIZE
+    case transaction_type.name
+    when TransactionType::INITIALIZE
       Summary.add_key(self)
 
-    elsif transaction_type.name == "Income from Programming Collection"
+    when "Income from Programming Collection"
       Summary.increment_both(self)
 
-    elsif transaction_type.name == "Salary Payment"
+    when *TRANSFER
       Summary.transfer(self)
 
     else
