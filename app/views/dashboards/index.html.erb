@@ -2,8 +2,12 @@
 
 <table>
   <% @summary.each do |code, vhash| %>
-    <tr class="<%= vhash[:updated] ? 'hilite' : '' %>">
-      <th><%= @accounts[code][:name] %></th>
+    <tr class="<%= row_class(vhash) %>">
+      <% if vhash[:updated] %>
+        <th><%= @accounts[code][:name] %></th>
+      <% else %>
+        <td><%= @accounts[code][:name] %></td>
+      <% end %>
       <td class="money"><%= from_cents(vhash[:current]) %></td>
     </tr>
   <% end %>

@@ -71,11 +71,15 @@ class Summary < ApplicationRecord
       output  = {}
 
       current.each do |key, value|
+        increased_by = value - prev[key].to_f
+
         output[key] = {
           value: value,
           previous: prev[key],
           current: value,
-          updated: prev[key] != value
+          updated: (increased_by != 0),
+          increased_by: increased_by,
+          is_account: Entity.find_by(code: key).account?
         }
       end
 

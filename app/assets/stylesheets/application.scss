@@ -49,15 +49,31 @@ span.sep {
   margin: 0 10px 0 15px;
 }
 
-.hilite {
-  background-color: lightgreen;
-  border: 1px solid green;
-  border-radius: 10px;
-
-  > td {
+.hilite, .hilite-danger .hilite-primary, .hilite-danger-primary {
+  > td, th {
     padding-top: 7px;
     padding-bottom: 7px;
   }
+}
+
+.hilite-primary {
+  background-color: lightgreen;
+  border: 1px solid green;
+}
+
+.hilite {
+  background-color: #f1ffe8;
+  border: 1px solid #a4c291;
+}
+
+.hilite-danger-primary {
+  background-color: #ffcccc;
+  border: 1px solid #ffaaaa;
+}
+
+.hilite-danger {
+  background-color: #ffeeee;
+  border: 1px solid #ffcccc;
 }
 
 .warn {
