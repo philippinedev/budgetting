@@ -7,6 +7,7 @@ class Entity < ApplicationRecord
 
   before_save :set_code
   after_save :set_parent_as_parent
+  after_create :auto_initialize
   after_destroy :update_parent_as_parent
 
   scope :categories, -> { where(is_parent: true) }
@@ -51,20 +52,6 @@ class Entity < ApplicationRecord
     Summary.last_data.has_key? code
   end
 
-  def init!
-    transaction_type = TransactionType.account_initializer
-
-    source_account = Entity.find(self.id == CASH ? BANK : CASH)
-
-    tran = Transaction.new
-    tran.transaction_type = transaction_type
-    tran.source_account = source_account
-    tran.target_account = self
-    tran.amount_cents = 0
-    tran.actualized_at = DateTime.current
-    tran.save!
-  end
-
   private
 
   def set_code
@@ -85,6 +72,10 @@ class Entity < ApplicationRecord
 
       break unless self.class.find_by(code: code)
     end
+  end
+
+  def auto_initialize
+    Transaction.init!(self)
   end
 
   def set_parent_as_parent

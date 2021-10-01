@@ -34,26 +34,28 @@ class EntitiesController < ApplicationController
   private
 
   def set_parent_and_entity(create: false)
-    if params[:parent_id].present?
-      @parent = Entity.find(params[:parent_id])
-    elsif params[:entity] && params[:entity][:parent_id].present?
-      @parent = Entity.find(params[:entity][:parent_id])
-    else
-      @parent = nil
-    end
+    set_parent
+    set_entity(create)
+  end
 
-    if create
-      if @parent.present?
-        @entity = @parent.entities.new(entity_params)
-      else
-        @entity = Entity.new(entity_params)
-      end
+  def set_parent
+    @parent = if params[:parent_id].present?
+      Entity.find(params[:parent_id])
+
+    elsif params[:entity] && params[:entity][:parent_id].present?
+      Entity.find(params[:entity][:parent_id])
+
     else
-      if @parent.present?
-        @entity = @parent.entities.new
-      else
-        @entity = Entity.new
-      end
+      nil
+    end
+  end
+
+  def set_entity(create)
+    @entity = if create
+      (@parent&.entities || Entity).new(entity_params)
+
+    else
+      (@parent&.entities || Entity).new
     end
   end
 

@@ -3,7 +3,7 @@ class Transaction < ApplicationRecord
 
   belongs_to :transaction_type
 
-  belongs_to :source_account, class_name: "Entity", foreign_key: :source_account_id
+  belongs_to :source_account, class_name: "Entity", foreign_key: :source_account_id, optional: true
   belongs_to :target_account, class_name: "Entity", foreign_key: :target_account_id
 
   validates :amount_cents, presence: true
@@ -15,22 +15,37 @@ class Transaction < ApplicationRecord
 
   scope :tran, -> { where.not(transaction_type_id: 1) }
 
+  class << self
+    def init!(entity)
+      source_id = entity.id == Entity::CASH ? Entity::BANK : Entity::CASH
+
+      init_params = {
+        transaction_type_id: TransactionType.account_initializer.id,
+        target_account_id: entity.id,
+        amount_cents: 0,
+        actualized_at: DateTime.current
+      }
+
+      create(init_params)
+    end
+  end
+
   def actualized?
     actualized_at.present?
   end
 
   private
 
-  def source_account_validation
+  def amount_validation
+    return unless TransactionType.any?
     return if transaction_type_id == TransactionType.account_initializer.id
-
-    errors.add(:source_account_id, "cannot be blank") if source_account_id.blank?
+    errors.add(:amount, "cannot be blank") if amount_cents.zero?
   end
 
-  def amount_validation
+  def source_account_validation
+    return unless TransactionType.any?
     return if transaction_type_id == TransactionType.account_initializer.id
-
-    errors.add(:amount, "cannot be blank") if amount.blank? || amount.to_f.zero?
+    errors.add(:source_account_id, "cannot be blank") if source_account_id.blank?
   end
 
   def invalid_when_same_account

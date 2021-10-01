@@ -20,20 +20,16 @@
         <td><%= account.deactivated_at %></td>
         <td><%= link_to 'Show', account %></td>
         <td>
-          <% if account.initialized? %>
-            <%= link_to 'Activate',
-              activate_account_path(account),
-              method: :patch,
-              data: { confirm: "Are you sure?" } if account.deactivated?
-            %>
-            <%= link_to 'Deactivate',
-              deactivate_account_path(account),
-              method: :patch,
-              data: { confirm: "Are you sure?" } unless account.deactivated?
-            %>
-          <% else %>
-            <%= link_to 'Initialize', init_account_path(account), method: :patch %>
-          <% end %>
+          <%= link_to 'Activate',
+            activate_account_path(account),
+            method: :patch,
+            data: { confirm: "Are you sure?" } if account.deactivated?
+          %>
+          <%= link_to 'Deactivate',
+            deactivate_account_path(account),
+            method: :patch,
+            data: { confirm: "Are you sure?" } unless account.deactivated?
+          %>
         </td>
       </tr>
     <% end %>

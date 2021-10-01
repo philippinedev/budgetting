@@ -1,6 +1,6 @@
 class DashboardsController < ApplicationController
   def index
     @summary = Summary.last_data_with_updated
-    @accounts = Entity.accounts.hashed_value
+    @accounts = Entity.hashed_value
   end
 end

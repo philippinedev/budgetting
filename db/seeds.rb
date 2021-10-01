@@ -41,6 +41,7 @@ class Seeder
   def call
     ActiveRecord::Base.transaction do
       clear!
+      create_initializer_type
       create_entities
       create_transaction_types
     end
@@ -55,6 +56,10 @@ class Seeder
     Transaction.destroy_all
     TransactionType.destroy_all
     Entity.destroy_all
+  end
+
+  def create_initializer_type
+    TransactionType.create(name: "Initialize", mode: TransactionType.modes[:init])
   end
 
   def create_entities
@@ -110,7 +115,6 @@ class Seeder
     # create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
     # create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
 
-    tt_initialize
     tt_rent_payment
     tt_internet_payment
     tt_salary_payment
@@ -141,15 +145,6 @@ class Seeder
   end
 
   private
-
-  def tt_initialize
-    TransactionType.create(
-      name: "Initialize",
-      source_category_id: @cashable.id,
-      target_category_id: @account_creation.id,
-      mode: TransactionType.modes[:init]
-    )
-  end
 
   def tt_rent_payment
     TransactionType.create(

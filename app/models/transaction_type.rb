@@ -25,8 +25,8 @@ class TransactionType < ApplicationRecord
 
   enum mode: [:init, :increase_both, :transfer]
 
-  belongs_to :source_category, class_name: "Entity", foreign_key: :source_category_id
-  belongs_to :target_category, class_name: "Entity", foreign_key: :target_category_id
+  belongs_to :source_category, class_name: "Entity", foreign_key: :source_category_id, optional: true
+  belongs_to :target_category, class_name: "Entity", foreign_key: :target_category_id, optional: true
 
   validates :name, presence: true, uniqueness: true
 

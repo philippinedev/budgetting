@@ -33,9 +33,6 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "entities", force: :cascade do |t|
     t.bigint "parent_id"
     t.boolean "is_parent", default: false
@@ -59,7 +56,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
 
   create_table "transaction_types", force: :cascade do |t|
     t.bigint "source_category_id"
-    t.bigint "target_category_id", null: false
+    t.bigint "target_category_id"
     t.string "name", null: false
     t.string "description"
     t.integer "mode", null: false

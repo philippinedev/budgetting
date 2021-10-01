@@ -47,12 +47,6 @@ class AccountsController < ApplicationController
     end
   end
 
-  def init
-    @account = Entity.find(params[:id])
-    @account.init!
-    redirect_to accounts_path, notice: "Account successfully initialized"
-  end
-
   def deactivate
     @account = Account.find(params[:id])
     @account.deactivate!
