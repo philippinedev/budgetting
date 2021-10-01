@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   resources :dashboards
   resources :transactions
-  resources :incomes
-  resources :salary_expenses
   resources :accounts do
     member do
       patch 'init'
@@ -16,7 +14,6 @@ Rails.application.routes.draw do
     end
   end
   resources :transaction_types
-  resources :account_types
   resources :summaries, only: [:index, :show]
   resources :entities
 end
