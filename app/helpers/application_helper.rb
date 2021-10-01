@@ -9,6 +9,6 @@ module ApplicationHelper
   end
 
   def titleized_enum(types)
-    types.map { |x| [x[0].gsub(/_/, ' ').titleize, x[1]] }
+    types.map { |x| [x[0].gsub(/_/, ' ').titleize, x[0]] }
   end
 end
