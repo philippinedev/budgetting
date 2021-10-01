@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.index ["account_type_id"], name: "index_accounts_on_account_type_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "entities", force: :cascade do |t|
     t.bigint "parent_id"
     t.boolean "is_parent", default: false
@@ -84,6 +87,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "admin", default: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
