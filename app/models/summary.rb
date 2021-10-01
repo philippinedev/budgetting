@@ -17,22 +17,8 @@ class Summary < ApplicationRecord
       hash = last_data
       hash[tran.source_account.code] += tran.amount_cents
       hash[tran.target_account.code] += tran.amount_cents
-
-      code = tran.source_account.code
-      while true
-        parent = Entity.find_by(code: code).parent
-        break if parent.nil?
-        hash[parent.code] += tran.amount_cents
-        code = parent.code
-      end
-
-      code = tran.target_account.code
-      while true
-        parent = Entity.find_by(code: code).parent
-        break if parent.nil?
-        hash[parent.code] += tran.amount_cents
-        code = parent.code
-      end
+      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :+)
+      hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
 
       create(transaction_id: tran.id, data: hash.to_json)
     end
@@ -41,22 +27,8 @@ class Summary < ApplicationRecord
       hash = last_data
       hash[tran.source_account.code] -= tran.amount_cents
       hash[tran.target_account.code] += tran.amount_cents
-
-      code = tran.source_account.code
-      while true
-        parent = Entity.find_by(code: code).parent
-        break if parent.nil?
-        hash[parent.code] -= tran.amount_cents
-        code = parent.code
-      end
-
-      code = tran.target_account.code
-      while true
-        parent = Entity.find_by(code: code).parent
-        break if parent.nil?
-        hash[parent.code] += tran.amount_cents
-        code = parent.code
-      end
+      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :-)
+      hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
 
       create(transaction_id: tran.id, data: hash.to_json)
     end
@@ -84,6 +56,19 @@ class Summary < ApplicationRecord
       end
 
       output
+    end
+
+    private
+
+    def update_parent(hash, code, amount_cents, operation)
+      parent = Entity.find_by(code: code).parent
+
+      while parent.present?
+        hash[parent.code] = hash[parent.code].send(operation, amount_cents)
+        parent = Entity.find_by(code: parent.code).parent
+      end
+
+      hash
     end
   end
 
