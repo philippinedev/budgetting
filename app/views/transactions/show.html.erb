@@ -1,16 +1,16 @@
 <p>
   <strong>Transaction type:</strong>
-  <%= @transaction.transaction_type_id %>
+  <%= @transaction.transaction_type.name %>
 </p>
 
 <p>
   <strong>Account Source:</strong>
-  <%= @transaction.source_account_id %>
+  <%= @transaction.source_account&.name %>
 </p>
 
 <p>
   <strong>Account Target:</strong>
-  <%= @transaction.target_account_id %>
+  <%= @transaction.target_account.name%>
 </p>
 
 <p>
