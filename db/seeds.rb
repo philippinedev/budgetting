@@ -1,3 +1,30 @@
+# def create_accounts
+#   # Cash
+#   create(name: 'Cash on bank (BDO)', account_type_id: @bank_type.id)
+#   create(name: 'Cash on hand', account_type_id: @cash_type.id)
+
+#   # Credit Cards
+#   create(name: 'CC BDO PRI', account_type_id: @cc_type.id)
+#   create(name: 'CC BDO LOAN', account_type_id: @cc_type.id)
+#   create(name: 'CC RCBC PRI', account_type_id: @cc_type.id)
+#   create(name: 'CC RCBC FLEX', account_type_id: @cc_type.id)
+#   create(name: 'CC RCBC JCB', account_type_id: @cc_type.id)
+#   create(name: 'CC RCBC LOAN', account_type_id: @cc_type.id)
+#   create(name: 'CC METROBANK', account_type_id: @cc_type.id)
+
+#   # Employees
+#   create(name: 'Ever Jedi Usbal', account_type_id: @employee_type.id)
+#   create(name: 'Don Forrest Usbal', account_type_id: @employee_type.id)
+#   create(name: 'Abe Cambarihan', account_type_id: @employee_type.id)
+#   create(name: 'Lester Quiñones', account_type_id: @employee_type.id)
+#   create(name: 'Paulo Benemerito', account_type_id: @employee_type.id)
+#   create(name: 'Abbie Mercado', account_type_id: @employee_type.id)
+
+#   # Clients
+#   create(name: 'Erich (Germany)', account_type_id: @employer_type.id)
+#   create(name: 'Morphosis (Thailand)', account_type_id: @employer_type.id)
+# end
+
 class Seeder
   class << self
     def call
@@ -16,21 +43,18 @@ class Seeder
       clear!
       create_entities
       create_transaction_types
-      # create_account_types
-      # create_accounts
-      display_results
     end
+
+    display_results
   end
 
   private
 
   def clear!
-    Entity.destroy_all
-    # Summary.destroy_all
-    # Transaction.destroy_all
-    # Account.destroy_all
+    Summary.destroy_all
+    Transaction.destroy_all
     TransactionType.destroy_all
-    # AccountType.destroy_all
+    Entity.destroy_all
   end
 
   def create_entities
@@ -58,66 +82,37 @@ class Seeder
     @cashable = Entity.create(name: "Cashable")
     Entity.create(name: "Bank Account (BDO)", parent_id: @cashable.id)
     Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
+
+    @income = Entity.create(name: "Income")
+    @income_programming = Entity.create(name: "Income from programming", parent_id: @income.id)
+    Entity.create(name: "Erich (Germany)", parent_id: @income_programming.id)
+    Entity.create(name: "Morphosis (Thailand)", parent_id: @income_programming.id)
   end
 
-  # def create_account_types
-  #   @bank_type     = AccountType.create(name: AccountType::BANK_ACCOUNT)
-  #   @cc_type       = AccountType.create(name: AccountType::CREDIT_CARD)
-  #   @cash_type     = AccountType.create(name: AccountType::CASH)
-  #   @employee_type = AccountType.create(name: AccountType::EMPLOYEE)
-  #   @employer_type = AccountType.create(name: AccountType::EMPLOYER)
-  # end
-
-  # def create_accounts
-  #   # Cash
-  #   Account.create(name: 'Cash on bank (BDO)', account_type_id: @bank_type.id)
-  #   Account.create(name: 'Cash on hand', account_type_id: @cash_type.id)
-
-  #   # Credit Cards
-  #   Account.create(name: 'CC BDO PRI', account_type_id: @cc_type.id)
-  #   Account.create(name: 'CC BDO LOAN', account_type_id: @cc_type.id)
-  #   Account.create(name: 'CC RCBC PRI', account_type_id: @cc_type.id)
-  #   Account.create(name: 'CC RCBC FLEX', account_type_id: @cc_type.id)
-  #   Account.create(name: 'CC RCBC JCB', account_type_id: @cc_type.id)
-  #   Account.create(name: 'CC RCBC LOAN', account_type_id: @cc_type.id)
-  #   Account.create(name: 'CC METROBANK', account_type_id: @cc_type.id)
-
-  #   # Employees
-  #   Account.create(name: 'Ever Jedi Usbal', account_type_id: @employee_type.id)
-  #   Account.create(name: 'Don Forrest Usbal', account_type_id: @employee_type.id)
-  #   Account.create(name: 'Abe Cambarihan', account_type_id: @employee_type.id)
-  #   Account.create(name: 'Lester Quiñones', account_type_id: @employee_type.id)
-  #   Account.create(name: 'Paulo Benemerito', account_type_id: @employee_type.id)
-  #   Account.create(name: 'Abbie Mercado', account_type_id: @employee_type.id)
-
-  #   # Clients
-  #   Account.create(name: 'Erich (Germany)', account_type_id: @employer_type.id)
-  #   Account.create(name: 'Morphosis (Thailand)', account_type_id: @employer_type.id)
-  # end
-
   def create_transaction_types
+    # create(name: TransactionType::INITIALIZE, flow: "IN")
+
+    # create(name: TransactionType::INCOME_PROGRAMMING, flow: "IN")
+
+    # create(name: TransactionType::ATM_WITHDRAWAL)
+    # create(name: TransactionType::UNACCOUNTED_INCOME,  flow: "IN")
+    # create(name: TransactionType::UNACCOUNTED_EXPENSE, flow: "OUT")
+
+    # create(name: TransactionType::SALARY_EXPENSE,         flow: "OUT")
+    # create(name: TransactionType::FOOD_EXPENSE,           flow: "OUT")
+    # create(name: TransactionType::ELECTRICITY_EXPENSE,    flow: "OUT")
+    # create(name: TransactionType::WATER_EXPENSE,          flow: "OUT")
+    # create(name: TransactionType::INTERNET_EXPENSE,       flow: "OUT")
+    # create(name: TransactionType::RENT_EXPENSE,           flow: "OUT")
+    # create(name: TransactionType::TRANSPORTATION_EXPENSE, flow: "OUT")
+    # create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
+    # create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
+
     TransactionType.create(name: "Initialize", source_category_id: @cashable.id, target_category_id: @account_creation.id)
     TransactionType.create(name: "Rent Payment", source_category_id: @cashable.id, target_category_id: @rent_expense.id)
     TransactionType.create(name: "Internet Payment", source_category_id: @cashable.id, target_category_id: @internet_expense.id)
     TransactionType.create(name: "Salary Payment", source_category_id: @cashable.id, target_category_id: @salary_expense.id)
-
-  #   TransactionType.create(name: TransactionType::INITIALIZE, flow: "IN")
-
-  #   TransactionType.create(name: TransactionType::INCOME_PROGRAMMING, flow: "IN")
-
-  #   TransactionType.create(name: TransactionType::ATM_WITHDRAWAL)
-  #   TransactionType.create(name: TransactionType::UNACCOUNTED_INCOME,  flow: "IN")
-  #   TransactionType.create(name: TransactionType::UNACCOUNTED_EXPENSE, flow: "OUT")
-
-  #   TransactionType.create(name: TransactionType::SALARY_EXPENSE,         flow: "OUT")
-  #   TransactionType.create(name: TransactionType::FOOD_EXPENSE,           flow: "OUT")
-  #   TransactionType.create(name: TransactionType::ELECTRICITY_EXPENSE,    flow: "OUT")
-  #   TransactionType.create(name: TransactionType::WATER_EXPENSE,          flow: "OUT")
-  #   TransactionType.create(name: TransactionType::INTERNET_EXPENSE,       flow: "OUT")
-  #   TransactionType.create(name: TransactionType::RENT_EXPENSE,           flow: "OUT")
-  #   TransactionType.create(name: TransactionType::TRANSPORTATION_EXPENSE, flow: "OUT")
-  #   TransactionType.create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
-  #   TransactionType.create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
+    TransactionType.create(name: "Income from Programming Collection", source_category_id: @income_programming.id, target_category_id: @cashable.id)
   end
 
   def display_results

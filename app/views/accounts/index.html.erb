@@ -13,7 +13,7 @@
 
   <tbody>
     <% @accounts.order(parent_id: :asc).each do |account| %>
-      <tr>
+      <tr class="<%= account.initialized? ? "" : "warn" %>">
         <td><%= account.parent&.name %></td>
         <td><%= account.code %></td>
         <td><%= account.name %></td>
