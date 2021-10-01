@@ -31,7 +31,7 @@ class TransactionTypesController < ApplicationController
   def type_params
     params
       .require(:transaction_type)
-      .permit(:name, :description, :source_category_id, :target_category_id)
+      .permit(:name, :description, :source_category_id, :target_category_id, :mode)
   end
 
   def set_type
