@@ -39,10 +39,11 @@ const onLoad = () => {
      }
   }
 
-  const addOption = (sel, data) => {
+  const addOption = (sel, data, selected = false) => {
     const opt = document.createElement('option')
     opt.value = data['id']
     opt.innerHTML = data['name']
+    opt.selected = selected
     sel.appendChild(opt)
   }
 
@@ -51,10 +52,10 @@ const onLoad = () => {
     const targets = gon.tran_types[id]?.targets || []
 
     removeOptions(sourceSel)
-    sources.map(source => addOption(sourceSel, source))
+    sources.map(source => addOption(sourceSel, source, source['id'] === gon.transaction.source_account_id))
 
     removeOptions(targetSel)
-    targets.map(source => addOption(targetSel, source))
+    targets.map(target => addOption(targetSel, target, target['id'] === gon.transaction.target_account_id))
   }
 
   const initTransactionTypeSelector = () => {
@@ -76,6 +77,11 @@ const onLoad = () => {
   )
 
   if (isTransactionForm) {
+    if (gon.tran_types === undefined) {
+      console.error("Error: gon.tran_types is undefined.")
+      return
+    }
+
     initTransactionTypeSelector()
     onTransactionTypeChange(typeSel.value)
   }

@@ -80,8 +80,10 @@ class Seeder
     Entity.create(name: "Converge Calderon", parent_id: @internet_expense.id)
 
     @cashable = Entity.create(name: "Cashable")
-    Entity.create(name: "Bank Account (BDO)", parent_id: @cashable.id)
     Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
+    @bank_account = Entity.create(name: "Bank Account", parent_id: @cashable.id)
+
+    @bdo_account_1 = Entity.create(name: "BDO Acct: 005010246385", parent_id: @bank_account.id)
 
     @income = Entity.create(name: "Income")
     @income_programming = Entity.create(name: "Income from programming", parent_id: @income.id)
@@ -108,11 +110,11 @@ class Seeder
     # create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
     # create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
 
-    TransactionType.create(name: "Initialize", source_category_id: @cashable.id, target_category_id: @account_creation.id)
-    TransactionType.create(name: "Rent Payment", source_category_id: @cashable.id, target_category_id: @rent_expense.id)
-    TransactionType.create(name: "Internet Payment", source_category_id: @cashable.id, target_category_id: @internet_expense.id)
-    TransactionType.create(name: "Salary Payment", source_category_id: @cashable.id, target_category_id: @salary_expense.id)
-    TransactionType.create(name: "Income from Programming Collection", source_category_id: @income_programming.id, target_category_id: @cashable.id)
+    tt_initialize
+    tt_rent_payment
+    tt_internet_payment
+    tt_salary_payment
+    tt_income_from_programming_collection
   end
 
   def display_results
@@ -136,6 +138,53 @@ class Seeder
         # puts error.to_s
       end
     end
+  end
+
+  private
+
+  def tt_initialize
+    TransactionType.create(
+      name: "Initialize",
+      source_category_id: @cashable.id,
+      target_category_id: @account_creation.id,
+      mode: TransactionType.modes[:init]
+    )
+  end
+
+  def tt_rent_payment
+    TransactionType.create(
+      name: "Rent Payment",
+      source_category_id: @cashable.id,
+      target_category_id: @rent_expense.id,
+      mode: TransactionType.modes[:transfer]
+    )
+  end
+
+  def tt_internet_payment
+    TransactionType.create(
+      name: "Internet Payment",
+      source_category_id: @cashable.id,
+      target_category_id: @internet_expense.id,
+      mode: TransactionType.modes[:transfer]
+    )
+  end
+
+  def tt_salary_payment
+    TransactionType.create(
+      name: "Salary Payment",
+      source_category_id: @cashable.id,
+      target_category_id: @salary_expense.id,
+      mode: TransactionType.modes[:transfer]
+    )
+  end
+
+  def tt_income_from_programming_collection
+    TransactionType.create(
+      name: "Income from Programming Collection",
+      source_category_id: @income_programming.id,
+      target_category_id: @bank_account.id,
+      mode: TransactionType.modes[:increase_both]
+    )
   end
 end
 

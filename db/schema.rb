@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.bigint "target_category_id", null: false
     t.string "name", null: false
     t.string "description"
+    t.integer "mode", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_transaction_types_on_name", unique: true

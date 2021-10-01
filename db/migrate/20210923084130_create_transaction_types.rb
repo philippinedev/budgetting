@@ -5,6 +5,7 @@ class CreateTransactionTypes < ActiveRecord::Migration[6.1]
       t.references :target_category, null: false, index: true, foreign_key: { to_table: :entities }
       t.string :name, null: false, index: { unique: true }
       t.string :description
+      t.integer :mode, null: false
 
       t.timestamps
     end
