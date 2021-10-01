@@ -46,10 +46,10 @@ class Transaction < ApplicationRecord
     if transaction_type.name == TransactionType::INITIALIZE
       Summary.add_key(self)
 
-    elsif transaction_type.name == TransactionType::INCOME_PROGRAMMING
+    elsif transaction_type.name == "Income from Programming Collection"
       Summary.increment_both(self)
 
-    elsif transaction_type.name == TransactionType::SALARY_EXPENSE
+    elsif transaction_type.name == "Salary Payment"
       Summary.transfer(self)
 
     else

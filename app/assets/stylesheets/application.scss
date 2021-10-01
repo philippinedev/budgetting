@@ -55,3 +55,14 @@ span.sep {
     padding-bottom: 7px;
   }
 }
+
+.warn {
+  background-color: #e3c100;
+  border: 1px solid yellow;
+  border-radius: 10px;
+
+  > td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+}

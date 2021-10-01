@@ -8,19 +8,11 @@ class TransactionsController < ApplicationController
 
   def new
     @tran = Transaction.new
-    
-    tran_types = {}
-
-    TransactionType.all.each do |tt|
-      sources = tt.source_category.entities.map { |x| { id: x.id, name: x.name } }
-      targets = tt.target_category.entities.map { |x| { id: x.id, name: x.name } }
-      tran_types[tt.id] = { sources: sources, targets: targets }
-    end
-
-    gon.tran_types = tran_types
+    set_tran_types_for_frontend
   end
 
   def edit
+    set_tran_types_for_frontend
   end
 
   def create
@@ -30,6 +22,7 @@ class TransactionsController < ApplicationController
       notice = "#{@tran.actualized? ? "" : "Draft"} Transaction was successfully created."
       redirect_to root_path, notice: notice
     else
+      set_tran_types_for_frontend
       render :edit, status: :unprocessable_entity
     end
   end
@@ -81,5 +74,17 @@ class TransactionsController < ApplicationController
 
   def set_transaction
     @transaction = Transaction.find(params[:id])
+  end
+
+  def set_tran_types_for_frontend
+    tran_types = {}
+
+    TransactionType.all.each do |tt|
+      sources = tt.source_category.entities.map { |x| { id: x.id, name: x.name } }
+      targets = tt.target_category.entities.map { |x| { id: x.id, name: x.name } }
+      tran_types[tt.id] = { sources: sources, targets: targets }
+    end
+
+    gon.tran_types = tran_types
   end
 end
