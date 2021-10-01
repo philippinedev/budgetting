@@ -1,3 +1,8 @@
+<nav class="user-menu">
+  <%= current_user.name %>
+  <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "log-out" %>
+  <hr />
+</nav>
 <nav class="main-menu">
   <%= link_to 'Dashboard', root_path %><span class="sep">|</span>
   <%= link_to "Accounts", accounts_path %><span class="sep">|</span>
