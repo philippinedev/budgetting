@@ -1,9 +1,4 @@
 class Transaction < ApplicationRecord
-  TRANSFER = [
-    "Salary Payment",
-    "Rent Payment"
-  ]
-
   monetize :amount_cents
 
   belongs_to :transaction_type
@@ -27,13 +22,13 @@ class Transaction < ApplicationRecord
   private
 
   def source_account_validation
-    return if transaction_type_id == TransactionType.initialize.id
+    return if transaction_type_id == TransactionType.account_initializer.id
 
     errors.add(:source_account_id, "cannot be blank") if source_account_id.blank?
   end
 
   def amount_validation
-    return if transaction_type_id == TransactionType.initialize.id
+    return if transaction_type_id == TransactionType.account_initializer.id
 
     errors.add(:amount, "cannot be blank") if amount.blank? || amount.to_f.zero?
   end
@@ -48,14 +43,13 @@ class Transaction < ApplicationRecord
   end
 
   def update_summary
-    case transaction_type.name
-    when TransactionType::INITIALIZE
+    if transaction_type.init?
       Summary.add_key(self)
 
-    when "Income from Programming Collection"
+    elsif transaction_type.increase_both?
       Summary.increment_both(self)
 
-    when *TRANSFER
+    elsif transaction_type.transfer?
       Summary.transfer(self)
 
     else

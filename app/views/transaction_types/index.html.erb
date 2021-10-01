@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Mode</th>
       <th>Description</th>
       <th>Source Category</th>
       <th>Target Category</th>
@@ -14,6 +15,7 @@
     <% @types.each do |type| %>
       <tr>
         <td><%= type.name %></td>
+        <td><%= type.mode %></td>
         <td><%= type.description %></td>
         <td><%= type.source_category.name %></td>
         <td><%= type.target_category.name %></td>

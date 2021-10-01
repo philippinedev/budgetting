@@ -8,12 +8,17 @@
 
   <div class="field">
     <%= form.label :source_category_id %>
-    <%= form.select :source_category_id, Entity.categories.active.map { |t| [t.name, t.id] }, prompt: "Choose Source category" %>
+    <%= form.select :source_category_id, Entity.categories.active.map { |t| [t.name, t.id] }, prompt: "Choose source category" %>
   </div>
 
   <div class="field">
     <%= form.label :target_category_id %>
-    <%= form.select :target_category_id, Entity.categories.active.map { |t| [ t.name, t.id ] }, prompt: "Choose Target category" %>
+    <%= form.select :target_category_id, Entity.categories.active.map { |t| [ t.name, t.id ] }, prompt: "Choose target category" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mode %>
+    <%= form.select :mode, titleized_enum(TransactionType.modes), prompt: "Choose mode" %>
   </div>
 
   <div class="field">

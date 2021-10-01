@@ -7,19 +7,20 @@ class TransactionsController < ApplicationController
   end
 
   def new
-    @tran = Transaction.new
+    @transaction = Transaction.new
     set_tran_types_for_frontend
   end
 
   def edit
+    set_transaction
     set_tran_types_for_frontend
   end
 
   def create
-    @tran = Transaction.new(transaction_params)
+    @transaction = Transaction.new(transaction_params)
 
-    if @tran.save
-      notice = "#{@tran.actualized? ? "" : "Draft"} Transaction was successfully created."
+    if @transaction.save
+      notice = "#{@transaction.actualized? ? "" : "Draft"} Transaction was successfully created."
       redirect_to root_path, notice: notice
     else
       set_tran_types_for_frontend
@@ -80,11 +81,12 @@ class TransactionsController < ApplicationController
     tran_types = {}
 
     TransactionType.all.each do |tt|
-      sources = tt.source_category.entities.map { |x| { id: x.id, name: x.name } }
-      targets = tt.target_category.entities.map { |x| { id: x.id, name: x.name } }
+      sources = tt.source_category.accounts.map { |x| { id: x.id, name: x.name } }
+      targets = tt.target_category.accounts.map { |x| { id: x.id, name: x.name } }
       tran_types[tt.id] = { sources: sources, targets: targets }
     end
 
     gon.tran_types = tran_types
+    gon.transaction = @transaction
   end
 end

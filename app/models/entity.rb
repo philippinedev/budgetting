@@ -21,6 +21,12 @@ class Entity < ApplicationRecord
     end
   end
 
+  def accounts
+    return [self] if account?
+
+    entities.map { |entity| entity.accounts }.flatten
+  end
+
   def name_more
     (account? ? "(ACCT) " : "(CAT) ") + name
   end
