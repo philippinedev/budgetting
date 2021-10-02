@@ -19,6 +19,11 @@ class TransactionsController < ApplicationController
   def create
     @transaction = Transaction.new(transaction_params)
 
+    if @transaction.transaction_type&.expense_category_id?
+      @transaction.expense_account = @transaction.transaction_type.expense_category
+      @transaction.expense_amount  = @transaction.transaction_type.expense_category.amount
+    end
+
     if @transaction.save
       notice = "#{@transaction.actualized? ? "" : "Draft"} Transaction was successfully created."
       redirect_to root_path, notice: notice

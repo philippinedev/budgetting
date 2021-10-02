@@ -1,6 +1,7 @@
 class Entity < ApplicationRecord
   CASH = 19
   BANK = 18
+  TRANSACTION_CHARGES_ID = 100
 
   has_many :entities, class_name: 'Entity', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Entity', foreign_key: :parent_id, optional: true
@@ -14,6 +15,7 @@ class Entity < ApplicationRecord
   scope :accounts, -> { where(is_parent: false) }
   scope :active, -> { where(deactivated_at: nil) }
   scope :roots, -> { where(parent_id: nil) }
+  scope :transaction_charges, -> { where(parent_id: TRANSACTION_CHARGES_ID) }
 
   validates :name, presence: true
 
@@ -23,6 +25,10 @@ class Entity < ApplicationRecord
                  .map { |x| [ x.code, { id: x.id, name: x.name } ] }
       Hash[*a1.flatten(1)]
     end
+  end
+
+  def amount_cents
+    amount * 100
   end
 
   def accounts

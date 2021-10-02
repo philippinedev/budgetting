@@ -17,6 +17,11 @@
   </div>
 
   <div class="field">
+    <%= form.label "Transaction charge" %>
+    <%= form.select :expense_category_id, Entity.transaction_charges.active.map { |t| [ t.name, t.id ] }, prompt: "N/A" %>
+  </div>
+
+  <div class="field">
     <%= form.label :mode %>
     <%= form.select :mode, titleized_enum(TransactionType.modes), prompt: "Choose mode" %>
   </div>
