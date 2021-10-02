@@ -63,8 +63,6 @@ class Seeder
   end
 
   def create_entities
-    @account_creation  = Entity.create(name: "Account Creation")
-
     expense  = Entity.create(name: "Expense")
 
     @salary_expense    = Entity.create(name: "Salary Expense", parent_id: expense.id)
@@ -85,7 +83,7 @@ class Seeder
     Entity.create(name: "Converge Calderon", parent_id: @internet_expense.id)
 
     @cashable = Entity.create(name: "Cashable")
-    Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
+    @cash_on_hand = Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
     @bank_account = Entity.create(name: "Bank Account", parent_id: @cashable.id)
 
     @bdo_account_1 = Entity.create(name: "BDO Acct: 005010246385", parent_id: @bank_account.id)
@@ -97,28 +95,11 @@ class Seeder
   end
 
   def create_transaction_types
-    # create(name: TransactionType::INITIALIZE, flow: "IN")
-
-    # create(name: TransactionType::INCOME_PROGRAMMING, flow: "IN")
-
-    # create(name: TransactionType::ATM_WITHDRAWAL)
-    # create(name: TransactionType::UNACCOUNTED_INCOME,  flow: "IN")
-    # create(name: TransactionType::UNACCOUNTED_EXPENSE, flow: "OUT")
-
-    # create(name: TransactionType::SALARY_EXPENSE,         flow: "OUT")
-    # create(name: TransactionType::FOOD_EXPENSE,           flow: "OUT")
-    # create(name: TransactionType::ELECTRICITY_EXPENSE,    flow: "OUT")
-    # create(name: TransactionType::WATER_EXPENSE,          flow: "OUT")
-    # create(name: TransactionType::INTERNET_EXPENSE,       flow: "OUT")
-    # create(name: TransactionType::RENT_EXPENSE,           flow: "OUT")
-    # create(name: TransactionType::TRANSPORTATION_EXPENSE, flow: "OUT")
-    # create(name: TransactionType::ENTERTAINMENT_EXPENSE,  flow: "OUT")
-    # create(name: TransactionType::MISCELANEOUS_EXPENSE,   flow: "OUT")
-
     tt_rent_payment
     tt_internet_payment
     tt_salary_payment
     tt_income_from_programming_collection
+    tt_atm_withdrawal
   end
 
   def display_results
@@ -179,6 +160,15 @@ class Seeder
       source_category_id: @income_programming.id,
       target_category_id: @bank_account.id,
       mode: TransactionType.modes[:increase_both]
+    )
+  end
+
+  def tt_atm_withdrawal
+    TransactionType.create(
+      name: "ATM Withdrawal",
+      source_category_id: @bank_account.id,
+      target_category_id: @cash_on_hand.id,
+      mode: TransactionType.modes[:transfer]
     )
   end
 end
