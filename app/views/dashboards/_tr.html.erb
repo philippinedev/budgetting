@@ -1,4 +1,4 @@
-<tr class="tr-pl-<%= level * 20 %> <%= hilite(@summary[acct.code]) %> tr-<%= acct.type %> tr-<%= @summary[acct.code][:current].zero? ? 'zero' : '' %>">
+<tr class="tr-pl-<%= level * 20 %> <%= hilite(@summary[acct.code]) %> tr-<%= acct.type %> <%= @summary[acct.code][:current].zero? ? 'tr-zero' : '' %>">
   <% if acct.root? %>
     <th><div><%= acct.name %></div></th>
     <td></td>

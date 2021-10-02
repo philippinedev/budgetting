@@ -50,10 +50,14 @@ span.sep {
 }
 
 .hilite, .hilite-danger .hilite-primary, .hilite-danger-primary {
-  > td, th {
+  > td, > th {
     padding-top: 7px;
     padding-bottom: 7px;
   }
+}
+
+.hilite-bold {
+  font-weight: bold;
 }
 
 .hilite-primary {
