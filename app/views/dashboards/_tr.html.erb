@@ -1,17 +1,28 @@
-<tr class="tr-pl-<%= level * 20 %> <%= row_class(@summary[acct.code]) %>">
-  <th><div><%= acct.name %></div></th>
-
+<tr class="tr-pl-<%= level * 20 %> <%= hilite(@summary[acct.code]) %> tr-<%= acct.type %> tr-<%= @summary[acct.code][:current].zero? ? 'zero' : '' %>">
   <% if acct.root? %>
+    <th><div><%= acct.name %></div></th>
     <td></td>
+    <td colspan="2"></td>
     <th class="money">
       <div><%= from_cents(@summary[acct.code][:current]) %></div>
     </th>
 
-  <% else %>
+  <% elsif acct.parent? || acct.parent.root? %>
+    <td><div><%= acct.name %></div></td>
+    <td></td>
+    <td></td>
     <td class="money">
       <div><%= from_cents(@summary[acct.code][:current]) %></div>
     </td>
     <td></td>
+
+  <% else %>
+    <td><div><%= acct.name %></div></td>
+    <td></td>
+    <td class="money">
+      <div><%= from_cents(@summary[acct.code][:current]) %></div>
+    </td>
+    <td colspan="2"></td>
   <% end %>
 </tr>
 
@@ -20,5 +31,5 @@
 <% end %>
 
 <% if acct.parent? %>
-  <tr><td class="td-divider"></td></tr>
+  <tr><td colspan="5" class="td-divider"></td></tr>
 <% end %>

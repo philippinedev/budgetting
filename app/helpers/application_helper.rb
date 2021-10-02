@@ -1,5 +1,6 @@
 module ApplicationHelper
-  def from_cents(amount_cents, currency: 'PHP')
+  def from_cents(amount_cents, currency: 'PHP', zero_as: '-')
+    return zero_as if amount_cents.zero?
     I18n.locale = :en
     Money.from_cents(amount_cents, currency)
   end

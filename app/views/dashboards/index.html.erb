@@ -1,6 +1,13 @@
 <h1>Dashboard</h1>
 
 <table>
+  <colgroup>
+    <col>
+    <col width="15%">
+    <col width="15%">
+    <col width="15%">
+    <col width="15%">
+  </colgroup>
   <% @root_accounts.each do |acct| %>
     <%= render 'tr', acct: acct, level: 0 %>
   <% end %>

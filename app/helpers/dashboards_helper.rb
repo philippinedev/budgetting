@@ -1,5 +1,5 @@
 module DashboardsHelper
-  def row_class(value_hash)
+  def hilite(value_hash)
     return '' unless value_hash[:updated]
 
     if value_hash[:is_account]

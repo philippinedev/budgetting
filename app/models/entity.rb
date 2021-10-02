@@ -27,6 +27,12 @@ class Entity < ApplicationRecord
     end
   end
 
+  def type
+    return 'root'    if root?
+    return 'parent'  if parent? || parent.root?
+    'account'
+  end
+
   def amount_cents
     amount * 100
   end
