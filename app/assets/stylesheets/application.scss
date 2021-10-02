@@ -86,3 +86,63 @@ span.sep {
     padding-bottom: 7px;
   }
 }
+
+.tr-pl-0 {
+  th, td {
+    > * {
+      padding-left: 0px;
+    }
+  }
+}
+.tr-pl-20 {
+  th, td {
+    > * {
+      padding-left: 20px;
+    }
+  }
+}
+.tr-pl-40 {
+  th, td {
+    > * {
+      padding-left: 40px;
+    }
+  }
+}
+.tr-pl-60 {
+  th, td {
+    > * {
+      padding-left: 60px;
+    }
+  }
+}
+.tr-pl-80 {
+  th, td {
+    > * {
+      padding-left: 80px;
+    }
+  }
+}
+.tr-pl-100 {
+  th, td {
+    > * {
+      padding-left: 100px;
+    }
+  }
+}
+.tr-pl-120 {
+  th, td {
+    > * {
+      padding-left: 120px;
+    }
+  }
+}
+.tr-pl-140 {
+  th, td {
+    > * {
+      padding-left: 140px;
+    }
+  }
+}
+.td-divider {
+  height: 10px;
+}

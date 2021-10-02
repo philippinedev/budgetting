@@ -13,6 +13,7 @@ class Entity < ApplicationRecord
   scope :categories, -> { where(is_parent: true) }
   scope :accounts, -> { where(is_parent: false) }
   scope :active, -> { where(deactivated_at: nil) }
+  scope :roots, -> { where(parent_id: nil) }
 
   validates :name, presence: true
 
@@ -38,8 +39,16 @@ class Entity < ApplicationRecord
     (account? ? "(ACCT) " : "") + name
   end
 
+  def root?
+    parent_id.nil?
+  end
+
   def account?
     is_parent.blank?
+  end
+
+  def parent?
+    is_parent.present?
   end
 
   def deactivated?
