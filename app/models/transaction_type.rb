@@ -27,6 +27,7 @@ class TransactionType < ApplicationRecord
 
   belongs_to :source_category, class_name: "Entity", foreign_key: :source_category_id, optional: true
   belongs_to :target_category, class_name: "Entity", foreign_key: :target_category_id, optional: true
+  belongs_to :expense_category, class_name: "Entity", foreign_key: :expense_category_id, optional: true
 
   validates :name, presence: true, uniqueness: true
 

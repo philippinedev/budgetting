@@ -8,26 +8,15 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import TransactionForm from './transactions/form'
+import { moneyFormat } from './shared/format'
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-const pageLoad = () => {
-  const moneyFormat = () => {
-    document.querySelectorAll('.money').forEach(item => {
-      item.innerText = parseFloat(item.innerText)
-        .toLocaleString('en-PH', {
-          style: 'currency',
-          currency: 'PHP'
-        })
-    })
-  }
-
-  moneyFormat()
-}
-
 const onLoad = () => {
+  moneyFormat()
+
   const isTransactionForm = () => {
     return !!document.querySelector('body.transactions-new')
       || !!document.querySelector('body.transactions-edit')
@@ -45,8 +34,5 @@ const onLoad = () => {
   }
 }
 
-window.addEventListener('turbolinks:load', () => {
-  onLoad()
-  pageLoad()
-})
+window.addEventListener('turbolinks:load', () => onLoad())
 

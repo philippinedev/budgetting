@@ -65,6 +65,9 @@ class Seeder
   def create_entities
     expense  = Entity.create(name: "Expense")
 
+    @tran_expense  = Entity.create(id: Entity::TRANSACTION_CHARGES_ID, name: "Transaction Expense")
+    @atm_withdraway_charge = Entity.create(name: "ATM Withdrawal Charge", parent_id: @tran_expense.id, amount: 18.0)
+
     @salary_expense    = Entity.create(name: "Salary Expense", parent_id: expense.id)
     Entity.create(name: 'Ever Jedi Usbal', parent_id: @salary_expense.id)
     Entity.create(name: 'Don Forrest Usbal', parent_id: @salary_expense.id)
@@ -99,7 +102,8 @@ class Seeder
     tt_internet_payment
     tt_salary_payment
     tt_income_from_programming_collection
-    tt_atm_withdrawal
+    tt_atm_withdrawal_without_fee
+    tt_atm_withdrawal_with_fee
   end
 
   def display_results
@@ -163,11 +167,21 @@ class Seeder
     )
   end
 
-  def tt_atm_withdrawal
+  def tt_atm_withdrawal_without_fee
     TransactionType.create(
-      name: "ATM Withdrawal",
+      name: "ATM Withdrawal (Own Bank)",
       source_category_id: @bank_account.id,
       target_category_id: @cash_on_hand.id,
+      mode: TransactionType.modes[:transfer]
+    )
+  end
+
+  def tt_atm_withdrawal_with_fee
+    TransactionType.create(
+      name: "ATM Withdrawal (Another Bank)",
+      source_category_id: @bank_account.id,
+      target_category_id: @cash_on_hand.id,
+      expense_category_id: @atm_withdraway_charge.id,
       mode: TransactionType.modes[:transfer]
     )
   end

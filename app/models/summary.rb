@@ -25,21 +25,31 @@ class Summary < ApplicationRecord
 
     def transfer(tran)
       hash = last_data
+
       hash[tran.source_account.code] -= tran.amount_cents
       hash[tran.target_account.code] += tran.amount_cents
+
       hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :-)
       hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
+
+      if tran.transaction_type.expense_category_id?
+        hash[tran.source_account.code] -= tran.transaction_type.expense_category.amount_cents
+        hash = update_parent(hash, tran.source_account.code, tran.transaction_type.expense_category.amount_cents, :-)
+
+        hash[tran.expense_account.code] += tran.transaction_type.expense_category.amount_cents
+        hash = update_parent(hash, tran.expense_account.code, tran.transaction_type.expense_category.amount_cents, :+)
+      end
 
       create(transaction_id: tran.id, data: hash.to_json)
     end
 
     def last_data
-      JSON.parse(Summary.last&.data || "{}")
+      JSON.parse(Summary.last&.data || "{}").transform_values(&:to_d)
     end
 
     def last_data_with_updated
-      prev    = JSON.parse(Summary.second_to_last&.data || "{}")
-      current = JSON.parse(Summary.last&.data || "{}")
+      prev    = JSON.parse(Summary.second_to_last&.data || "{}").transform_values(&:to_d)
+      current = JSON.parse(Summary.last&.data || "{}").transform_values(&:to_d)
       output  = {}
 
       current.each do |key, value|

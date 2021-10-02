@@ -1,10 +1,12 @@
 class Transaction < ApplicationRecord
   monetize :amount_cents
+  monetize :expense_amount_cents
 
   belongs_to :transaction_type
 
   belongs_to :source_account, class_name: "Entity", foreign_key: :source_account_id, optional: true
   belongs_to :target_account, class_name: "Entity", foreign_key: :target_account_id
+  belongs_to :expense_account, class_name: "Entity", foreign_key: :expense_account_id, optional: true
 
   validates :amount_cents, presence: true
   validate :invalid_when_same_account
