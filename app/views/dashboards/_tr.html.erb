@@ -1,0 +1,24 @@
+<tr class="tr-pl-<%= level * 20 %> <%= row_class(@summary[acct.code]) %>">
+  <th><div><%= acct.name %></div></th>
+
+  <% if acct.root? %>
+    <td></td>
+    <th class="money">
+      <div><%= from_cents(@summary[acct.code][:current]) %></div>
+    </th>
+
+  <% else %>
+    <td class="money">
+      <div><%= from_cents(@summary[acct.code][:current]) %></div>
+    </td>
+    <td></td>
+  <% end %>
+</tr>
+
+<% acct.entities.each do |entity| %>
+  <%= render 'tr', acct: entity, level: level + 1 %>
+<% end %>
+
+<% if acct.parent? %>
+  <tr><td class="td-divider"></td></tr>
+<% end %>
