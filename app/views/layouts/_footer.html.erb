@@ -1,4 +1,11 @@
 <nav class="footer-menu">
-  <%= link_to 'Add Entity', new_entity_path %><span class="sep">|</span>
-  <%= link_to 'Add Transaction', new_transaction_path, data: { turbolinks: false } %>
+  <% if controller_name == "entities" %>
+    <%= link_to 'New Root Entity', new_entity_path %><span class="sep">|</span>
+  <% end %>
+
+  <% if controller_name == "transaction_types" %>
+    <%= link_to 'New Transaction Type', new_transaction_type_path %><span class="sep">|</span>
+  <% end %>
+
+  <%= link_to 'New Transaction', new_transaction_path, data: { turbolinks: false } %>
 </nav>
