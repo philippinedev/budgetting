@@ -6,6 +6,7 @@
       <th>Account type</th>
       <th>Code</th>
       <th>Name</th>
+      <th>Value</th>
       <th>Deactivated at</th>
       <th>Action</th>
     </tr>
@@ -17,6 +18,7 @@
         <td><%= account.parent&.name %></td>
         <td><%= account.code %></td>
         <td><%= account.name %></td>
+        <td><div class="money"><%= from_cents(account.value) %></div></td>
         <td><%= account.deactivated_at %></td>
         <td><%= link_to 'Show', account %></td>
         <td>

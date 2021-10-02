@@ -1,23 +1,23 @@
-<p>
+<div>
   <strong>Account type:</strong>
   <%= @account.account_type&.name %>
-</p>
+</div>
 
-<p>
+<div>
   <strong>Code:</strong>
   <%= @account.code %>
-</p>
+</div>
 
-<p>
+<div>
   <strong>Description:</strong>
   <%= @account.name %>
-</p>
+</div>
 
 <% if @account.deactivated? %>
-  <p>
+  <div>
     <strong>Deactivated at:</strong>
     <%= @account.deactivated_at %>
-  </p>
+  </div>
 <% end %>
 
 <%= link_to 'Edit', edit_account_path(@account) %> |

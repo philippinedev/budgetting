@@ -3,6 +3,8 @@ class Entity < ApplicationRecord
   BANK = 18
   TRANSACTION_CHARGES_ID = 100
 
+  attr_reader :value
+
   has_many :entities, class_name: 'Entity', foreign_key: :parent_id, dependent: :destroy
   belongs_to :parent, class_name: 'Entity', foreign_key: :parent_id, optional: true
 
@@ -26,6 +28,10 @@ class Entity < ApplicationRecord
                  .map { |x| [ x.code, { id: x.id, name: x.name } ] }
       Hash[*a1.flatten(1)]
     end
+  end
+
+  def value
+    @value ||= Summary.last_data[code]
   end
 
   def type

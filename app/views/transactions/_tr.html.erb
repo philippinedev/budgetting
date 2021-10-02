@@ -2,7 +2,7 @@
   <td><%= tran.transaction_type.name %></td>
   <td><%= tran.source_account&.name %></td>
   <td><%= tran.target_account.name %></td>
-  <td class="money"><%= tran.amount %></td>
+  <td class="money"><%= from_cents(tran.amount) %></td>
   <td><%= tran.cutoff_date %></td>
   <td><%= tran.due_date %></td>
   <td><%= tran.actualized? ? tran.actualized_at : "Draft" %></td>
