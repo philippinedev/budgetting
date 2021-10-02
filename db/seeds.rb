@@ -65,7 +65,7 @@ class Seeder
   def create_entities
     expense  = Entity.create(name: "Expense")
 
-    @tran_expense  = Entity.create(id: Entity::TRANSACTION_CHARGES_ID, name: "Transaction Expense")
+    @tran_expense  = Entity.create(id: Entity::TRANSACTION_CHARGES_ID, name: "Transaction Expense", parent_id: expense.id)
     @atm_withdraway_charge = Entity.create(name: "ATM Withdrawal Charge", parent_id: @tran_expense.id, amount: 18.0)
 
     @salary_expense    = Entity.create(name: "Salary Expense", parent_id: expense.id)
