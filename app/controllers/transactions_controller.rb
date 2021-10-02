@@ -88,8 +88,8 @@ class TransactionsController < ApplicationController
     TransactionType.all.each do |tt|
       next if tt.id == TransactionType::INITIALIZE_ID
 
-      sources = tt.source_category.accounts.map { |x| { id: x.id, name: x.name } }
-      targets = tt.target_category.accounts.map { |x| { id: x.id, name: x.name } }
+      sources = tt.source_category.active_accounts.map { |x| { id: x.id, name: x.name } }
+      targets = tt.target_category.active_accounts.map { |x| { id: x.id, name: x.name } }
       tran_types[tt.id] = { sources: sources, targets: targets }
     end
 

@@ -11,10 +11,11 @@ class Entity < ApplicationRecord
   after_create :auto_initialize
   after_destroy :update_parent_as_parent
 
-  scope :categories, -> { where(is_parent: true) }
-  scope :accounts, -> { where(is_parent: false) }
-  scope :active, -> { where(deactivated_at: nil) }
-  scope :roots, -> { where(parent_id: nil) }
+  scope :categories,  -> { where(is_parent: true) }
+  scope :accounts,    -> { where(is_parent: false) }
+  scope :active,      -> { where(deactivated_at: nil) }
+  scope :deactivated, -> { where.not(deactivated_at: nil) }
+  scope :roots,       -> { where(parent_id: nil) }
   scope :transaction_charges, -> { where(parent_id: TRANSACTION_CHARGES_ID) }
 
   validates :name, presence: true
@@ -41,6 +42,12 @@ class Entity < ApplicationRecord
     return [self] if account?
 
     entities.map { |entity| entity.accounts }.flatten
+  end
+
+  def active_accounts
+    return [self] if account?
+
+    entities.active.map { |entity| entity.accounts }.flatten
   end
 
   def name_more
@@ -71,6 +78,14 @@ class Entity < ApplicationRecord
     return false if Summary.count == 0
 
     Summary.last_data.has_key? code
+  end
+
+  def deactivate!
+    touch(:deactivated_at)
+  end
+
+  def activate!
+    update(deactivated_at: nil)
   end
 
   private

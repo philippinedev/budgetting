@@ -1,27 +1,22 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: %i[ show edit update destroy ]
 
-  # GET /accounts or /accounts.json
   def index
     @accounts = Entity.accounts
   end
 
-  # GET /accounts/1 or /accounts/1.json
   def show
   end
 
-  # GET /accounts/new
   def new
-    @account = Account.new
+    @account = Entity.new
   end
 
-  # GET /accounts/1/edit
   def edit
   end
 
-  # POST /accounts or /accounts.json
   def create
-    @account = Account.new(account_params)
+    @account = Entity.new(account_params)
 
     respond_to do |format|
       if @account.save
@@ -34,7 +29,6 @@ class AccountsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /accounts/1 or /accounts/1.json
   def update
     respond_to do |format|
       if @account.update(account_params)
@@ -48,13 +42,13 @@ class AccountsController < ApplicationController
   end
 
   def deactivate
-    @account = Account.find(params[:id])
+    @account = Entity.find(params[:id])
     @account.deactivate!
     redirect_to accounts_path, notice: "Account successfully deactivated"
   end
 
   def activate
-    @account = Account.find(params[:id])
+    @account = Entity.find(params[:id])
     @account.activate!
     redirect_to accounts_path, notice: "Account successfully reactivated"
   end
@@ -72,7 +66,7 @@ class AccountsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_account
-    @account = Account.find(params[:id])
+    @account = Entity.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
