@@ -151,12 +151,17 @@ span.sep {
   height: 10px;
 }
 
-.tr-root {
+.tr-root, .tr-parent {
   color: black;
-  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    text-shadow: 0px 0px 3px #999;
+    transition: all 0.1s ease-in;
+  }
 }
-.tr-parent {
-  color: black;
+.tr-root {
+  font-weight: bold;
 }
 .tr-account {
   color: #1e631a;

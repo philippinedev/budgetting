@@ -9,6 +9,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import TransactionForm from './transactions/form'
 import { moneyFormat } from './shared/format'
+import collapse        from './shared/collapse'
 
 Rails.start()
 Turbolinks.start()
@@ -32,6 +33,8 @@ const onLoad = () => {
 
     new TransactionForm()
   }
+
+  for (let el of document.querySelectorAll('.tr-root, .tr-parent')) collapse(el)
 }
 
 window.addEventListener('turbolinks:load', () => onLoad())
