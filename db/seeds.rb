@@ -106,6 +106,8 @@ class Seeder
     tt_atm_withdrawal_with_fee
     tt_credit_card_unidentified_expense
     tt_credit_card_payment
+    tt_groceries_mall
+    tt_groceries_other
   end
 
   def create_transactions
@@ -259,8 +261,8 @@ class Seeder
     )
   end
 
-  def tt_credit_card_groceries_mall
-    @tt_credit_card_groceries_mall ||= TransactionType.create(
+  def tt_groceries_mall
+    @tt_groceries_mall ||= TransactionType.create(
       name: "Credit Card (Groceries at Mall)",
       source_category_id: @credit_cards.id,
       target_category_id: @groceries_mall.id,
@@ -268,8 +270,17 @@ class Seeder
     )
   end
 
+  def tt_groceries_other
+    @tt_groceries_other ||= TransactionType.create(
+      name: "Groceries Other",
+      source_category_id: @cash_on_hand.id,
+      target_category_id: @groceries_other.id,
+      mode: TransactionType.modes[:increase_both]
+    )
+  end
+
   def tt_credit_card_payment
-    @tt_credit_card_groceries_mall ||= TransactionType.create(
+    @tt_credit_card_payment ||= TransactionType.create(
       name: "Credit Card Payment",
       source_category_id: @cashables.id,
       target_category_id: @credit_cards.id,
