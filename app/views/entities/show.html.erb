@@ -13,7 +13,7 @@
   Transaction Charge: <span class="money"><%= @entity.amount %></span>
 </div>
 <div>
-  Value: <span class="money"><%= @entity.value %></span>
+  Value: <span class="money"><%= from_cents(@entity.value) %></span>
 </div>
 
 <hr />
