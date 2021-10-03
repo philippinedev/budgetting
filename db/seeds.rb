@@ -53,6 +53,10 @@ class Seeder
     @unidentified_expense    = Entity.create(name: "Unidentified Expenses", parent_id: expense.id)
     @unidentified_cc_expense = Entity.create(name: "Unidentified Credit Card Expenses", parent_id: @unidentified_expense.id)
 
+    @groceries       = Entity.create(name: "Groceries", parent_id: expense.id)
+    @groceries_mall  = Entity.create(name: "Groceries at Mall", parent_id: @groceries.id)
+    @groceries_other = Entity.create(name: "Groceries (other)", parent_id: @groceries.id)
+
     @salary_expense    = Entity.create(name: "Salary Expenses", parent_id: expense.id)
     Entity.create(name: 'Ever Jedi Usbal', parent_id: @salary_expense.id)
     Entity.create(name: 'Don Forrest Usbal', parent_id: @salary_expense.id)
@@ -71,20 +75,20 @@ class Seeder
     Entity.create(name: "Converge Issa", parent_id: @internet_expense.id)
     Entity.create(name: "Converge Calderon", parent_id: @internet_expense.id)
 
-    @cashable = Entity.create(name: "Cashables")
-    @cash_on_hand = Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
-    @bank_account = Entity.create(name: "Bank Account", parent_id: @cashable.id)
+    @cashables = Entity.create(name: "Cashables")
+    @cash_on_hand = Entity.create(name: "Cash on Hand", parent_id: @cashables.id)
+    @bank_account = Entity.create(name: "Bank Account", parent_id: @cashables.id)
 
     @bdo_account_1 = Entity.create(name: "BDO Acct: 005010246385", parent_id: @bank_account.id)
 
-    @credit_cards = Entity.create(name: "Credit Cards")
-    Entity.create(name: 'CC BDO PRI', parent_id: @credit_cards.id)
-    Entity.create(name: 'CC BDO LOAN', parent_id: @credit_cards.id)
-    Entity.create(name: 'CC RCBC PRI', parent_id: @credit_cards.id)
-    Entity.create(name: 'CC RCBC FLEX', parent_id: @credit_cards.id)
-    Entity.create(name: 'CC RCBC JCB', parent_id: @credit_cards.id)
-    Entity.create(name: 'CC RCBC LOAN', parent_id: @credit_cards.id)
-    Entity.create(name: 'CC METROBANK', parent_id: @credit_cards.id)
+    @credit_cards = Entity.create(name: "Credit Card Payables")
+    @cc_bdo_pri   = Entity.create(name: 'CC BDO PRI Payable', parent_id: @credit_cards.id)
+    @cc_bdo_ins   = Entity.create(name: 'CC BDO INS Payable', parent_id: @credit_cards.id)
+    @cc_rcbc_pri  = Entity.create(name: 'CC RCBC PRI Payable', parent_id: @credit_cards.id)
+    @cc_rcbc_flex = Entity.create(name: 'CC RCBC FLEX Payable', parent_id: @credit_cards.id)
+    @cc_rcbc_jcb  = Entity.create(name: 'CC RCBC JCB Payable', parent_id: @credit_cards.id)
+    @cc_rcbc_ins  = Entity.create(name: 'CC RCBC INS Payable', parent_id: @credit_cards.id)
+    @cc_metrobank = Entity.create(name: 'CC METROBANK', parent_id: @credit_cards.id)
 
     @income = Entity.create(name: "Incomes")
     @unidentified_income = Entity.create(name: "Unidentified Incomes", parent_id: @income.id)
@@ -100,6 +104,8 @@ class Seeder
     tt_income_from_programming_collection
     tt_atm_withdrawal_without_fee
     tt_atm_withdrawal_with_fee
+    tt_credit_card_unidentified_expense
+    tt_credit_card_payment
   end
 
   def create_transactions
@@ -131,6 +137,49 @@ class Seeder
       amount: 50_000,
       actualized_at: DateTime.current
     )
+
+    Transaction.create(
+      transaction_type_id: tt_credit_card_unidentified_expense.id,
+      source_account_id: @cc_bdo_pri.id,
+      target_account_id: @unidentified_cc_expense.id,
+      amount: 100_000,
+      actualized_at: 1.month.ago
+    )
+    Transaction.create(
+      transaction_type_id: tt_credit_card_unidentified_expense.id,
+      source_account_id: @cc_bdo_ins.id,
+      target_account_id: @unidentified_cc_expense.id,
+      amount: 100_000,
+      actualized_at: 1.month.ago
+    )
+    Transaction.create(
+      transaction_type_id: tt_credit_card_unidentified_expense.id,
+      source_account_id: @cc_rcbc_pri.id,
+      target_account_id: @unidentified_cc_expense.id,
+      amount: 100_000,
+      actualized_at: 1.month.ago
+    )
+    Transaction.create(
+      transaction_type_id: tt_credit_card_unidentified_expense.id,
+      source_account_id: @cc_rcbc_flex.id,
+      target_account_id: @unidentified_cc_expense.id,
+      amount: 100_000,
+      actualized_at: 1.month.ago
+    )
+    Transaction.create(
+      transaction_type_id: tt_credit_card_unidentified_expense.id,
+      source_account_id: @cc_rcbc_ins.id,
+      target_account_id: @unidentified_cc_expense.id,
+      amount: 100_000,
+      actualized_at: 1.month.ago
+    )
+    Transaction.create(
+      transaction_type_id: tt_credit_card_unidentified_expense.id,
+      source_account_id: @cc_metrobank.id,
+      target_account_id: @unidentified_cc_expense.id,
+      amount: 100_000,
+      actualized_at: 1.month.ago
+    )
   end
 
   def display_results
@@ -149,7 +198,7 @@ class Seeder
   def tt_rent_payment
     @tt_rent_payment ||= TransactionType.create(
       name: "Rent Payment",
-      source_category_id: @cashable.id,
+      source_category_id: @cashables.id,
       target_category_id: @rent_expense.id,
       mode: TransactionType.modes[:transfer]
     )
@@ -158,7 +207,7 @@ class Seeder
   def tt_internet_payment
     @tt_internet_payment ||= TransactionType.create(
       name: "Internet Payment",
-      source_category_id: @cashable.id,
+      source_category_id: @cashables.id,
       target_category_id: @internet_expense.id,
       mode: TransactionType.modes[:transfer]
     )
@@ -167,7 +216,7 @@ class Seeder
   def tt_salary_payment
     @tt_salary_payment ||= TransactionType.create(
       name: "Salary Payment",
-      source_category_id: @cashable.id,
+      source_category_id: @cashables.id,
       target_category_id: @salary_expense.id,
       mode: TransactionType.modes[:transfer]
     )
@@ -198,6 +247,33 @@ class Seeder
       target_category_id: @cash_on_hand.id,
       expense_category_id: @atm_withdraway_charge.id,
       mode: TransactionType.modes[:transfer]
+    )
+  end
+
+  def tt_credit_card_unidentified_expense
+    @tt_credit_card_unidentified_expense ||= TransactionType.create(
+      name: "Credit Card (Unidentified Expense)",
+      source_category_id: @credit_cards.id,
+      target_category_id: @unidentified_cc_expense.id,
+      mode: TransactionType.modes[:increase_both]
+    )
+  end
+
+  def tt_credit_card_groceries_mall
+    @tt_credit_card_groceries_mall ||= TransactionType.create(
+      name: "Credit Card (Groceries at Mall)",
+      source_category_id: @credit_cards.id,
+      target_category_id: @groceries_mall.id,
+      mode: TransactionType.modes[:increase_both]
+    )
+  end
+
+  def tt_credit_card_payment
+    @tt_credit_card_groceries_mall ||= TransactionType.create(
+      name: "Credit Card Payment",
+      source_category_id: @cashables.id,
+      target_category_id: @credit_cards.id,
+      mode: TransactionType.modes[:decrease_both]
     )
   end
 end

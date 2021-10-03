@@ -64,10 +64,13 @@ class Transaction < ApplicationRecord
       Summary.add_key(self)
 
     elsif transaction_type.increase_both?
-      Summary.increment_both(self)
+      Summary.increase_both(self)
 
     elsif transaction_type.transfer?
       Summary.transfer(self)
+
+    elsif transaction_type.decrease_both?
+      Summary.decrease_both(self)
 
     else
       raise "Unhandled transaction type: #{transaction_type.name}"

@@ -23,7 +23,7 @@ class TransactionType < ApplicationRecord
 
   INITIALIZE_ID = 1
 
-  enum mode: [:init, :increase_both, :transfer]
+  enum mode: [:init, :increase_both, :transfer, :decrease_both]
 
   belongs_to :source_category, class_name: "Entity", foreign_key: :source_category_id, optional: true
   belongs_to :target_category, class_name: "Entity", foreign_key: :target_category_id, optional: true

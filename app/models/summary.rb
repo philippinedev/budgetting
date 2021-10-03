@@ -13,12 +13,22 @@ class Summary < ApplicationRecord
       create(transaction_id: tran.id, data: hash.to_json)
     end
 
-    def increment_both(tran)
+    def increase_both(tran)
       hash = last_data
       hash[tran.source_account.code] += tran.amount_cents
       hash[tran.target_account.code] += tran.amount_cents
       hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :+)
       hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
+
+      create(transaction_id: tran.id, data: hash.to_json)
+    end
+
+    def decrease_both(tran)
+      hash = last_data
+      hash[tran.source_account.code] -= tran.amount_cents
+      hash[tran.target_account.code] -= tran.amount_cents
+      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :-)
+      hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :-)
 
       create(transaction_id: tran.id, data: hash.to_json)
     end
