@@ -263,7 +263,7 @@ class Seeder
 
   def tt_groceries_mall
     @tt_groceries_mall ||= TransactionType.create(
-      name: "Credit Card (Groceries at Mall)",
+      name: "Groceries at Mall (cc)",
       source_category_id: @credit_cards.id,
       target_category_id: @groceries_mall.id,
       mode: TransactionType.modes[:increase_both]
@@ -272,7 +272,7 @@ class Seeder
 
   def tt_groceries_other
     @tt_groceries_other ||= TransactionType.create(
-      name: "Groceries Other",
+      name: "Groceries Other (cash)",
       source_category_id: @cash_on_hand.id,
       target_category_id: @groceries_other.id,
       mode: TransactionType.modes[:transfer]
