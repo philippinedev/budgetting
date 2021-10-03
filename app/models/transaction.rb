@@ -1,6 +1,6 @@
 class Transaction < ApplicationRecord
   monetize :amount_cents
-  monetize :expense_amount_cents
+  monetize :fee_cents
 
   belongs_to :transaction_type
 

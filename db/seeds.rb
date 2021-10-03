@@ -65,8 +65,16 @@ class Seeder
   def create_entities
     expense  = Entity.create(name: "Expense")
 
-    @tran_expense  = Entity.create(id: Entity::TRANSACTION_CHARGES_ID, name: "Transaction Expense", parent_id: expense.id)
-    @atm_withdraway_charge = Entity.create(name: "ATM Withdrawal Charge", parent_id: @tran_expense.id, amount: 18.0)
+    @tran_expense  = Entity.create(
+      id: Entity::TRANSACTION_CHARGES_ID,
+      name: "Transaction Expense",
+      parent_id: expense.id
+    )
+    @atm_withdraway_charge = Entity.create(
+      name: "ATM Withdrawal Charge",
+      parent_id: @tran_expense.id,
+      transaction_fee: 18.0
+    )
 
     @salary_expense    = Entity.create(name: "Salary Expense", parent_id: expense.id)
     Entity.create(name: 'Ever Jedi Usbal', parent_id: @salary_expense.id)
@@ -77,7 +85,8 @@ class Seeder
     Entity.create(name: 'Abbie Mercado', parent_id: @salary_expense.id)
 
     @rent_expense      = Entity.create(name: "Rent Expense", parent_id: expense.id)
-    Entity.create(name: "Issa House", parent_id: @rent_expense.id)
+    Entity.create(name: "Issa House Mid", parent_id: @rent_expense.id)
+    Entity.create(name: "Issa House Back", parent_id: @rent_expense.id)
     Entity.create(name: "Calderon House", parent_id: @rent_expense.id)
 
     @internet_expense  = Entity.create(name: "Internet Expense", parent_id: expense.id)

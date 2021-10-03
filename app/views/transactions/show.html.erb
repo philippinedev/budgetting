@@ -15,7 +15,12 @@
 
 <p>
   <strong>Amount:</strong>
-  <%= @transaction.amount %>
+  <span class="money"><%= @transaction.amount %></span>
+</p>
+
+<p>
+  <strong>Fee:</strong>
+  <span class="money"><%= @transaction.fee %></span>
 </p>
 
 <p>

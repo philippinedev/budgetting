@@ -7,7 +7,7 @@ class CreateEntities < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.string :description
       t.datetime :deactivated_at
-      t.decimal :amount, precision: 10, scale: 2
+      t.decimal :transaction_fee, precision: 10, scale: 2
 
       t.timestamps
     end

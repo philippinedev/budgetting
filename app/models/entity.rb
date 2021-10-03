@@ -40,8 +40,8 @@ class Entity < ApplicationRecord
     'account'
   end
 
-  def amount_cents
-    amount * 100
+  def transaction_fee_cents
+    transaction_fee * 100
   end
 
   def accounts
