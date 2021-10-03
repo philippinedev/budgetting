@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative './entities_seeder'
+require_relative './transactions_seeder'
+
 # rubocop:disable Metrics/ClassLength
 
 # Seeder
@@ -42,7 +45,33 @@ class Seeder
   end
 
   def create_entities
-    EntitiesCreator.call
+    @expense, \
+      @tran_expense, \
+      @atm_withdraway_charge, \
+      @groceries, \
+      @groceries_mall, \
+      @groceries_other, \
+      @salary_expense, \
+      @rent_expense, \
+      @internet_expense, \
+      @cashables, \
+      @cash_on_hand, \
+      @bdo_account1, \
+      @credit_cards, \
+      @cc_bdo_pri, \
+      @cc_bdo_ins, \
+      @cc_rcbc_pri, \
+      @cc_rcbc_flex, \
+      @cc_rcbc_jcb, \
+      @cc_rcbc_ins, \
+      @cc_metrobank, \
+      @income, \
+      @unidentified_income, \
+      @income_programming, \
+      @erich, \
+      @morphosis, \
+      @unidentified_expense, \
+      @unidentified_cc_expense = EntitiesSeeder.call
   end
 
   def create_transaction_types
@@ -59,7 +88,23 @@ class Seeder
   end
 
   def create_transactions
-    TransactionsSeeder.call
+    TransactionsSeeder.call([
+      @bdo_account1,
+      @cash_on_hand,
+      @cc_bdo_ins,
+      @cc_bdo_pri,
+      @cc_metrobank,
+      @cc_rcbc_flex,
+      @cc_rcbc_ins,
+      @cc_rcbc_pri,
+      @erich,
+      @morphosis,
+      @tt_atm_withdrawal_with_fee,
+      @tt_atm_withdrawal_without_fee,
+      @tt_credit_card_unidentified_expense,
+      @tt_income_from_programming_collection,
+      @unidentified_cc_expense
+    ])
   end
 
   def display_results
@@ -104,7 +149,7 @@ class Seeder
     @tt_income_from_programming_collection ||= TransactionType.create(
       name: 'Income from Programming Collection',
       source_category_id: @income_programming.id,
-      target_category_id: @bank_account.id,
+      target_category_id: @bdo_account1.id,
       mode: TransactionType.modes[:increase_both]
     )
   end
@@ -112,7 +157,7 @@ class Seeder
   def tt_atm_withdrawal_without_fee
     @tt_atm_withdrawal_without_fee ||= TransactionType.create(
       name: 'ATM Withdrawal (Own Bank)',
-      source_category_id: @bank_account.id,
+      source_category_id: @bdo_account1.id,
       target_category_id: @cash_on_hand.id,
       mode: TransactionType.modes[:transfer]
     )
@@ -121,7 +166,7 @@ class Seeder
   def tt_atm_withdrawal_with_fee
     @tt_atm_withdrawal_with_fee ||= TransactionType.create(
       name: 'ATM Withdrawal (Another Bank)',
-      source_category_id: @bank_account.id,
+      source_category_id: @bdo_account1.id,
       target_category_id: @cash_on_hand.id,
       expense_category_id: @atm_withdraway_charge.id,
       mode: TransactionType.modes[:transfer]

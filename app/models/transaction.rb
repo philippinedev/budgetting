@@ -21,8 +21,6 @@ class Transaction < ApplicationRecord
 
   class << self
     def init!(entity)
-      source_id = entity.id == Entity::CASH ? Entity::BANK : Entity::CASH
-
       init_params = {
         transaction_type_id: TransactionType.account_initializer.id,
         target_account_id: entity.id,
@@ -64,20 +62,8 @@ class Transaction < ApplicationRecord
   end
 
   def update_summary
-    if transaction_type.init?
-      Summary.add_key(self)
-
-    elsif transaction_type.increase_both?
-      Summary.increase_both(self)
-
-    elsif transaction_type.transfer?
-      Summary.transfer(self)
-
-    elsif transaction_type.decrease_both?
-      Summary.decrease_both(self)
-
-    else
-      raise "Unhandled transaction type: #{transaction_type.name}"
-    end
+    Summary.send(transaction_type.mode, self)
+  rescue NoMethodError
+    raise "Unhandled transaction type: #{transaction_type.name}"
   end
 end

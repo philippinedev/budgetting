@@ -6,9 +6,47 @@ class EntitiesSeeder
     def call
       debits
       credits
+      output
     end
 
     private
+
+    def output
+      [
+        @expense,
+        @tran_expense,
+        @atm_withdraway_charge,
+        @groceries,
+        @groceries_mall,
+        @groceries_other,
+        @salary_expense,
+        @rent_expense,
+        @internet_expense,
+        @cashables,
+        @cash_on_hand,
+        @bank_account,
+        @credit_cards,
+        @cc_bdo_pri,
+        @cc_bdo_ins,
+        @cc_rcbc_pri,
+        @cc_rcbc_flex,
+        @cc_rcbc_jcb,
+        @cc_rcbc_ins,
+        @cc_metrobank,
+        @income,
+        @unidentified_income,
+        @income_programming,
+        @erich,
+        @morphosis,
+        @unidentified_expense,
+        @unidentified_cc_expense,
+      ]
+    end
+
+    def bank_accounts
+      @bdo_account1 = Entity.create(name: 'BDO Acct: 005010246385', parent_id: @bank_account.id)
+    end
+
 
     def debits
       expense

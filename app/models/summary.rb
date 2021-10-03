@@ -8,7 +8,7 @@ class Summary < ApplicationRecord
   before_save :set_transaction_name
 
   class << self
-    def add_key(tran)
+    def init(tran)
       hash = last_data
       hash[tran.target_account.code] = 0
 
@@ -16,83 +16,86 @@ class Summary < ApplicationRecord
     end
 
     def increase_both(tran)
-      hash = last_data
-      hash[tran.source_account.code] += tran.amount_cents
-      hash[tran.target_account.code] += tran.amount_cents
-      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :+)
-      hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
-
-      create(transaction_id: tran.id, data: hash.to_json)
+      create(
+        transaction_id: tran.id,
+        data: update_both(tran, :+).to_json
+      )
     end
 
     def decrease_both(tran)
-      hash = last_data
-      hash[tran.source_account.code] -= tran.amount_cents
-      hash[tran.target_account.code] -= tran.amount_cents
-      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :-)
-      hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :-)
-
-      create(transaction_id: tran.id, data: hash.to_json)
+      create(
+        transaction_id: tran.id,
+        data: update_both(tran, :-).to_json
+      )
     end
 
     def transfer(tran)
-      hash = last_data
-
-      hash[tran.source_account.code] -= tran.amount_cents
-      hash[tran.target_account.code] += tran.amount_cents
-
-      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :-)
-      hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
-
-      transaction_fee_cents = tran.transaction_type.expense_category&.transaction_fee_cents
-
-      if transaction_fee_cents.present?
-        hash[tran.source_account.code] -= transaction_fee_cents
-        hash = update_parent(
-          hash,
-          tran.source_account.code,
-          transaction_fee_cents,
-          :-
-        )
-
-        hash[tran.transaction_type.expense_category.code] += transaction_fee_cents
-        hash = update_parent(
-          hash,
-          tran.transaction_type.expense_category.code,
-          transaction_fee_cents,
-          :+
-        )
-      end
-
-      create(transaction_id: tran.id, data: hash.to_json)
+      create(
+        transaction_id: tran.id,
+        data: transfer_update_by_transaction(tran).to_json
+      )
     end
 
     def last_data
       JSON.parse(Summary.last&.data || '{}').transform_values(&:to_d)
     end
 
+    def previous_data
+      JSON.parse(Summary.second_to_last&.data || '{}').transform_values(&:to_d)
+    end
+
     def last_data_with_updated
-      prev    = JSON.parse(Summary.second_to_last&.data || '{}').transform_values(&:to_d)
-      current = JSON.parse(Summary.last&.data || '{}').transform_values(&:to_d)
-      output  = {}
-
-      current.each do |key, value|
-        increased_by = value - prev[key].to_f
-
-        output[key] = {
-          value: value,
-          previous: prev[key],
-          current: value,
-          updated: (increased_by != 0),
-          increased_by: increased_by,
-          is_account: Entity.find_by(code: key).account?
-        }
+      prev = previous_data
+      output = {}
+      last_data.each do |key, value|
+        output[key] = last_data_row(key, value, prev)
       end
-
       output
     end
 
     private
+
+    def update_both(tran, operation)
+      hash = last_data
+      hash[tran.source_account.code] = hash[tran.source_account.code].send(operation, tran.amount_cents)
+      hash[tran.target_account.code] = hash[tran.target_account.code].send(operation, tran.amount_cents)
+      hash = update_parent(hash, tran.source_account.code, tran.amount_cents, operation)
+      update_parent(hash, tran.target_account.code, tran.amount_cents, operation)
+    end
+
+    def transfer_update_by_transaction(tran)
+      hash = last_data
+      hash = update_hash(hash, tran.source_account.code, tran.amount_cents, :-)
+      hash = update_hash(hash, tran.target_account.code, tran.amount_cents, :+)
+      transfer_update_fee(hash, tran)
+    end
+
+    def transfer_update_fee(hash, tran)
+      fee_cents = tran.transaction_type.expense_category&.transaction_fee_cents
+      if fee_cents.present?
+        hash = update_hash(hash, tran.source_account.code, fee_cents, :-)
+        hash = update_hash(hash, tran.transaction_type.expense_category.code, fee_cents, :+)
+      end
+      hash
+    end
+
+    def update_hash(hash, code, amount_cents, operation)
+      hash[code] = hash[code].send(operation, amount_cents)
+      update_parent(hash, code, amount_cents, operation)
+    end
+
+    def last_data_row(code, value, prev)
+      increased_by = value - prev[code].to_f
+
+      {
+        value: value,
+        previous: prev[code],
+        current: value,
+        updated: (increased_by != 0),
+        increased_by: increased_by,
+        is_account: Entity.find_by(code: code).account?
+      }
+    end
 
     def update_parent(hash, code, amount_cents, operation)
       parent = Entity.find_by(code: code).parent

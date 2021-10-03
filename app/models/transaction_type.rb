@@ -36,7 +36,7 @@ class TransactionType < ApplicationRecord
 
   class << self
     def account_initializer
-      @@account_initializer ||= first
+      find(INITIALIZE_ID)
     end
   end
 end
