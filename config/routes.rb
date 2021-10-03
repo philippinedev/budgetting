@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  get 'summaries/index'
   root to: 'dashboards#index'
 
   devise_for :users
 
   resources :dashboards
   resources :transactions
+  resources :transaction_types
+  resources :entities
   resources :accounts do
     member do
       patch 'init'
@@ -13,7 +14,8 @@ Rails.application.routes.draw do
       patch 'activate'
     end
   end
-  resources :transaction_types
-  resources :summaries, only: [:index, :show]
-  resources :entities
+
+  # resources :summaries, only: [:index, :show]
+  # get 'summaries/index'
+
 end

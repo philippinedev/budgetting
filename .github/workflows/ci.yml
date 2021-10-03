@@ -1,0 +1,41 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:11@sha256:85d79cba2d4942dad7c99f84ec389a5b9cc84fb07a3dcd3aff0fb06948cdc03b
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports: ['6379:6379']
+        options: --entrypoint redis-server
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7.x
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - name: Build and run tests
+        env:
+          POSTGRES_PASSWORD: postgres
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/budgetting_test
+          REDIS_URL: redis://localhost:6379/0
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: beb74536a8f832d49c1b89b231b4a9b5
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails db:setup
+          bundle exec rspec
