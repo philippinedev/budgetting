@@ -275,7 +275,7 @@ class Seeder
       name: "Groceries Other",
       source_category_id: @cash_on_hand.id,
       target_category_id: @groceries_other.id,
-      mode: TransactionType.modes[:increase_both]
+      mode: TransactionType.modes[:transfer]
     )
   end
 
