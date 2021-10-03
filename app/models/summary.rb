@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Summary < ApplicationRecord
-  belongs_to :tran, class_name: "Transaction", foreign_key: :transaction_id
+  belongs_to :tran, class_name: 'Transaction', foreign_key: :transaction_id
 
   validate :data_as_hash
 
@@ -66,12 +68,12 @@ class Summary < ApplicationRecord
     end
 
     def last_data
-      JSON.parse(Summary.last&.data || "{}").transform_values(&:to_d)
+      JSON.parse(Summary.last&.data || '{}').transform_values(&:to_d)
     end
 
     def last_data_with_updated
-      prev    = JSON.parse(Summary.second_to_last&.data || "{}").transform_values(&:to_d)
-      current = JSON.parse(Summary.last&.data || "{}").transform_values(&:to_d)
+      prev    = JSON.parse(Summary.second_to_last&.data || '{}').transform_values(&:to_d)
+      current = JSON.parse(Summary.last&.data || '{}').transform_values(&:to_d)
       output  = {}
 
       current.each do |key, value|
@@ -115,8 +117,8 @@ class Summary < ApplicationRecord
   end
 
   def data_as_hash
-    JSON.parse(self.data)
+    JSON.parse(data)
   rescue JSON::ParserError
-    errors.add(:data, "cannot accept invalid JSON string")
+    errors.add(:data, 'cannot accept invalid JSON string')
   end
 end

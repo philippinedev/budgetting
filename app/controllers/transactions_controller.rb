@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: %i[ show edit update destroy ]
+  before_action :set_transaction, only: %i[show edit update destroy]
 
   def index
     @transactions = Transaction.tran.order(created_at: :desc)
@@ -21,11 +23,11 @@ class TransactionsController < ApplicationController
 
     if @transaction.transaction_type&.expense_category_id?
       @transaction.expense_account = @transaction.transaction_type.expense_category
-      @transaction.fee  = @transaction.transaction_type.expense_category.transaction_fee
+      @transaction.fee = @transaction.transaction_type.expense_category.transaction_fee
     end
 
     if @transaction.save
-      notice = "#{@transaction.actualized? ? "" : "Draft"} Transaction was successfully created."
+      notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
       redirect_to root_path, notice: notice
     else
       set_tran_types_for_frontend
@@ -33,15 +35,14 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
   def update
-    raise "Cannot update an actualized transaction!" if already_actualized?
+    raise 'Cannot update an actualized transaction!' if already_actualized?
 
     respond_to do |format|
       if @transaction.update(transaction_params)
-        format.html { redirect_to root_path, notice: "Draft transaction was successfully updated." }
+        format.html { redirect_to root_path, notice: 'Draft transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,11 +52,11 @@ class TransactionsController < ApplicationController
   end
 
   def destroy
-    raise "Cannot delete an actualized transaction!" if already_actualized?
+    raise 'Cannot delete an actualized transaction!' if already_actualized?
 
     @transaction.delete
     respond_to do |format|
-      format.html { redirect_to transactions_url, notice: "Draft transaction was successfully deleted." }
+      format.html { redirect_to transactions_url, notice: 'Draft transaction was successfully deleted.' }
       format.json { head :no_content }
     end
   end

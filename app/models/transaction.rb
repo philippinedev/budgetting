@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class Transaction < ApplicationRecord
   monetize :amount_cents
   monetize :fee_cents
 
   belongs_to :transaction_type
 
-  belongs_to :source_account, class_name: "Entity", foreign_key: :source_account_id, optional: true
-  belongs_to :target_account, class_name: "Entity", foreign_key: :target_account_id
-  belongs_to :expense_account, class_name: "Entity", foreign_key: :expense_account_id, optional: true
+  belongs_to :source_account, class_name: 'Entity', foreign_key: :source_account_id, optional: true
+  belongs_to :target_account, class_name: 'Entity', foreign_key: :target_account_id
+  belongs_to :expense_account, class_name: 'Entity', foreign_key: :expense_account_id, optional: true
 
   validates :amount_cents, presence: true
   validate :invalid_when_same_account
@@ -41,22 +43,24 @@ class Transaction < ApplicationRecord
   def amount_validation
     return unless TransactionType.any?
     return if transaction_type_id == TransactionType.account_initializer.id
-    errors.add(:amount, "cannot be blank") if amount_cents.zero?
+
+    errors.add(:amount, 'cannot be blank') if amount_cents.zero?
   end
 
   def source_account_validation
     return unless TransactionType.any?
     return if transaction_type_id == TransactionType.account_initializer.id
-    errors.add(:source_account_id, "cannot be blank") if source_account_id.blank?
+
+    errors.add(:source_account_id, 'cannot be blank') if source_account_id.blank?
   end
 
   def invalid_when_same_account
-    return if self.source_account_id.nil?
-    return if self.target_account_id.nil?
-    return unless self.source_account_id == self.target_account_id
+    return if source_account_id.nil?
+    return if target_account_id.nil?
+    return unless source_account_id == target_account_id
 
-    errors.add(:source_account, "cannot target same transaction type")
-    errors.add(:target_account, "cannot source from the same transaction type")
+    errors.add(:source_account, 'cannot target same transaction type')
+    errors.add(:target_account, 'cannot source from the same transaction type')
   end
 
   def update_summary

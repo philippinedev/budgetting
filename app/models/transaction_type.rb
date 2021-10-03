@@ -1,5 +1,6 @@
-class TransactionType < ApplicationRecord
+# frozen_string_literal: true
 
+class TransactionType < ApplicationRecord
   # ---------------------------------------------------------------
   # This part is kept for reference only.  It will be deleted soon.
   # ---------------------------------------------------------------
@@ -23,15 +24,15 @@ class TransactionType < ApplicationRecord
 
   INITIALIZE_ID = 1
 
-  enum mode: [:init, :increase_both, :transfer, :decrease_both]
+  enum mode: %i[init increase_both transfer decrease_both]
 
-  belongs_to :source_category, class_name: "Entity", foreign_key: :source_category_id, optional: true
-  belongs_to :target_category, class_name: "Entity", foreign_key: :target_category_id, optional: true
-  belongs_to :expense_category, class_name: "Entity", foreign_key: :expense_category_id, optional: true
+  belongs_to :source_category, class_name: 'Entity', foreign_key: :source_category_id, optional: true
+  belongs_to :target_category, class_name: 'Entity', foreign_key: :target_category_id, optional: true
+  belongs_to :expense_category, class_name: 'Entity', foreign_key: :expense_category_id, optional: true
 
   validates :name, presence: true, uniqueness: true
 
-  scope :selectable, -> { where("id > ?", INITIALIZE_ID) }
+  scope :selectable, -> { where('id > ?', INITIALIZE_ID) }
 
   class << self
     def account_initializer

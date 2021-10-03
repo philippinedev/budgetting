@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :transaction do
     amount { rand(10..1000) * 100 }
     cutoff_date { nil }
     due_date { nil }
-    actualized_at { [nil, nil, Date.current, Date.yesterday ].sample }
+    actualized_at { [nil, nil, Date.current, Date.yesterday].sample }
 
     transaction_type
 
@@ -11,4 +13,3 @@ FactoryBot.define do
     association :target_account, factory: :account
   end
 end
-

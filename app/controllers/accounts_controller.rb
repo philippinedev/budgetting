@@ -1,26 +1,26 @@
+# frozen_string_literal: true
+
 class AccountsController < ApplicationController
-  before_action :set_account, only: %i[ show edit update destroy ]
+  before_action :set_account, only: %i[show edit update destroy]
 
   def index
     @accounts = Entity.accounts
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @account = Entity.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @account = Entity.new(account_params)
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, notice: "Account was successfully created." }
+        format.html { redirect_to @account, notice: 'Account was successfully created.' }
         format.json { render :show, status: :created, location: @account }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -32,7 +32,7 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(account_params)
-        format.html { redirect_to @account, notice: "Account was successfully updated." }
+        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
         format.json { render :show, status: :ok, location: @account }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -44,20 +44,20 @@ class AccountsController < ApplicationController
   def deactivate
     @account = Entity.find(params[:id])
     @account.deactivate!
-    redirect_to accounts_path, notice: "Account successfully deactivated"
+    redirect_to accounts_path, notice: 'Account successfully deactivated'
   end
 
   def activate
     @account = Entity.find(params[:id])
     @account.activate!
-    redirect_to accounts_path, notice: "Account successfully reactivated"
+    redirect_to accounts_path, notice: 'Account successfully reactivated'
   end
 
   # DELETE /accounts/1 or /accounts/1.json
   def destroy
     @account.destroy
     respond_to do |format|
-      format.html { redirect_to accounts_url, notice: "Account was successfully destroyed." }
+      format.html { redirect_to accounts_url, notice: 'Account was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

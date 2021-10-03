@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Entity < ApplicationRecord
   CASH = 19
   BANK = 18
@@ -25,7 +27,7 @@ class Entity < ApplicationRecord
   class << self
     def hashed_value
       a1 = active.select(:id, :code, :name)
-                 .map { |x| [ x.code, { id: x.id, name: x.name } ] }
+                 .map { |x| [x.code, { id: x.id, name: x.name }] }
       Hash[*a1.flatten(1)]
     end
   end
@@ -37,6 +39,7 @@ class Entity < ApplicationRecord
   def type
     return 'root'    if root?
     return 'parent'  if parent? || parent.root?
+
     'account'
   end
 
@@ -47,21 +50,21 @@ class Entity < ApplicationRecord
   def accounts
     return [self] if account?
 
-    entities.map { |entity| entity.accounts }.flatten
+    entities.map(&:accounts).flatten
   end
 
   def active_accounts
     return [self] if account?
 
-    entities.active.map { |entity| entity.accounts }.flatten
+    entities.active.map(&:accounts).flatten
   end
 
   def name_more
-    (account? ? "(ACCT) " : "(CAT) ") + name
+    (account? ? '(ACCT) ' : '(CAT) ') + name
   end
 
   def name_acct
-    (account? ? "(ACCT) " : "") + name
+    (account? ? '(ACCT) ' : '') + name
   end
 
   def root?
@@ -81,9 +84,9 @@ class Entity < ApplicationRecord
   end
 
   def initialized?
-    return false if Summary.count == 0
+    return false if Summary.count.zero?
 
-    Summary.last_data.has_key? code
+    Summary.last_data.key? code
   end
 
   def deactivate!
@@ -100,13 +103,14 @@ class Entity < ApplicationRecord
     return if persisted?
 
     (1..100).to_a.each do |num|
-      name_parts = name.upcase.gsub(/[\(\)]/, "").split
+      name_parts = name.upcase.gsub(/[()]/, '').split
 
       self.code = name_parts.map(&:first).join
 
-      if code.length == 1
+      case code.length
+      when 1
         self.code += name_parts.last[1..2]
-      elsif code.length == 2
+      when 2
         self.code += name_parts.last[1]
       end
 

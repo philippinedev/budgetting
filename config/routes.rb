@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root to: 'dashboards#index'
 
@@ -17,5 +19,4 @@ Rails.application.routes.draw do
 
   # resources :summaries, only: [:index, :show]
   # get 'summaries/index'
-
 end

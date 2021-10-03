@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransactionTypesController < ApplicationController
   before_action :set_type, only: [:destroy]
 
@@ -13,7 +15,7 @@ class TransactionTypesController < ApplicationController
     @type = TransactionType.new(type_params)
 
     if @type.save
-      redirect_to transaction_types_path, notice: "Successfully created"
+      redirect_to transaction_types_path, notice: 'Successfully created'
     else
       render :new
     end
@@ -21,9 +23,9 @@ class TransactionTypesController < ApplicationController
 
   def destroy
     @type.delete
-    redirect_to transaction_types_path, notice: "Successfully deleted"
+    redirect_to transaction_types_path, notice: 'Successfully deleted'
   rescue ActiveRecord::InvalidForeignKey
-    redirect_to transaction_types_path, alert: "Failed to delete"
+    redirect_to transaction_types_path, alert: 'Failed to delete'
   end
 
   private
@@ -37,5 +39,4 @@ class TransactionTypesController < ApplicationController
   def set_type
     @type = TransactionType.find(params[:id])
   end
-
 end
