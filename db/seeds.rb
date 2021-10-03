@@ -1,30 +1,3 @@
-# def create_accounts
-#   # Cash
-#   create(name: 'Cash on bank (BDO)', account_type_id: @bank_type.id)
-#   create(name: 'Cash on hand', account_type_id: @cash_type.id)
-
-#   # Credit Cards
-#   create(name: 'CC BDO PRI', account_type_id: @cc_type.id)
-#   create(name: 'CC BDO LOAN', account_type_id: @cc_type.id)
-#   create(name: 'CC RCBC PRI', account_type_id: @cc_type.id)
-#   create(name: 'CC RCBC FLEX', account_type_id: @cc_type.id)
-#   create(name: 'CC RCBC JCB', account_type_id: @cc_type.id)
-#   create(name: 'CC RCBC LOAN', account_type_id: @cc_type.id)
-#   create(name: 'CC METROBANK', account_type_id: @cc_type.id)
-
-#   # Employees
-#   create(name: 'Ever Jedi Usbal', account_type_id: @employee_type.id)
-#   create(name: 'Don Forrest Usbal', account_type_id: @employee_type.id)
-#   create(name: 'Abe Cambarihan', account_type_id: @employee_type.id)
-#   create(name: 'Lester Quiñones', account_type_id: @employee_type.id)
-#   create(name: 'Paulo Benemerito', account_type_id: @employee_type.id)
-#   create(name: 'Abbie Mercado', account_type_id: @employee_type.id)
-
-#   # Clients
-#   create(name: 'Erich (Germany)', account_type_id: @employer_type.id)
-#   create(name: 'Morphosis (Thailand)', account_type_id: @employer_type.id)
-# end
-
 class Seeder
   class << self
     def call
@@ -44,6 +17,7 @@ class Seeder
       create_initializer_type
       create_entities
       create_transaction_types
+      create_transactions
     end
 
     display_results
@@ -63,11 +37,11 @@ class Seeder
   end
 
   def create_entities
-    expense  = Entity.create(name: "Expense")
+    expense  = Entity.create(name: "Expenses")
 
     @tran_expense  = Entity.create(
       id: Entity::TRANSACTION_CHARGES_ID,
-      name: "Transaction Expense",
+      name: "Transaction Expenses",
       parent_id: expense.id
     )
     @atm_withdraway_charge = Entity.create(
@@ -76,7 +50,10 @@ class Seeder
       transaction_fee: 18.0
     )
 
-    @salary_expense    = Entity.create(name: "Salary Expense", parent_id: expense.id)
+    @unidentified_expense    = Entity.create(name: "Unidentified Expenses", parent_id: expense.id)
+    @unidentified_cc_expense = Entity.create(name: "Unidentified Credit Card Expenses", parent_id: @unidentified_expense.id)
+
+    @salary_expense    = Entity.create(name: "Salary Expenses", parent_id: expense.id)
     Entity.create(name: 'Ever Jedi Usbal', parent_id: @salary_expense.id)
     Entity.create(name: 'Don Forrest Usbal', parent_id: @salary_expense.id)
     Entity.create(name: 'Abe Cambarihan', parent_id: @salary_expense.id)
@@ -84,26 +61,36 @@ class Seeder
     Entity.create(name: 'Paulo Benemerito', parent_id: @salary_expense.id)
     Entity.create(name: 'Abbie Mercado', parent_id: @salary_expense.id)
 
-    @rent_expense      = Entity.create(name: "Rent Expense", parent_id: expense.id)
+    @rent_expense      = Entity.create(name: "Rent Expenses", parent_id: expense.id)
     Entity.create(name: "Issa House Mid", parent_id: @rent_expense.id)
     Entity.create(name: "Issa House Back", parent_id: @rent_expense.id)
     Entity.create(name: "Calderon House", parent_id: @rent_expense.id)
 
-    @internet_expense  = Entity.create(name: "Internet Expense", parent_id: expense.id)
+    @internet_expense  = Entity.create(name: "Internet Expenses", parent_id: expense.id)
     Entity.create(name: "PLDT Landline", parent_id: @internet_expense.id)
     Entity.create(name: "Converge Issa", parent_id: @internet_expense.id)
     Entity.create(name: "Converge Calderon", parent_id: @internet_expense.id)
 
-    @cashable = Entity.create(name: "Cashable")
+    @cashable = Entity.create(name: "Cashables")
     @cash_on_hand = Entity.create(name: "Cash on Hand", parent_id: @cashable.id)
     @bank_account = Entity.create(name: "Bank Account", parent_id: @cashable.id)
 
     @bdo_account_1 = Entity.create(name: "BDO Acct: 005010246385", parent_id: @bank_account.id)
 
-    @income = Entity.create(name: "Income")
-    @income_programming = Entity.create(name: "Income from programming", parent_id: @income.id)
-    Entity.create(name: "Erich (Germany)", parent_id: @income_programming.id)
-    Entity.create(name: "Morphosis (Thailand)", parent_id: @income_programming.id)
+    @credit_cards = Entity.create(name: "Credit Cards")
+    Entity.create(name: 'CC BDO PRI', parent_id: @credit_cards.id)
+    Entity.create(name: 'CC BDO LOAN', parent_id: @credit_cards.id)
+    Entity.create(name: 'CC RCBC PRI', parent_id: @credit_cards.id)
+    Entity.create(name: 'CC RCBC FLEX', parent_id: @credit_cards.id)
+    Entity.create(name: 'CC RCBC JCB', parent_id: @credit_cards.id)
+    Entity.create(name: 'CC RCBC LOAN', parent_id: @credit_cards.id)
+    Entity.create(name: 'CC METROBANK', parent_id: @credit_cards.id)
+
+    @income = Entity.create(name: "Incomes")
+    @unidentified_income = Entity.create(name: "Unidentified Incomes", parent_id: @income.id)
+    @income_programming  = Entity.create(name: "Income from programming", parent_id: @income.id)
+    @erich     = Entity.create(name: "Erich (Germany)", parent_id: @income_programming.id)
+    @morphosis = Entity.create(name: "Morphosis (Thailand)", parent_id: @income_programming.id)
   end
 
   def create_transaction_types
@@ -113,6 +100,37 @@ class Seeder
     tt_income_from_programming_collection
     tt_atm_withdrawal_without_fee
     tt_atm_withdrawal_with_fee
+  end
+
+  def create_transactions
+    Transaction.create(
+      transaction_type_id: tt_income_from_programming_collection.id,
+      source_account_id: @erich.id,
+      target_account_id: @bdo_account_1.id,
+      amount: 150_000,
+      actualized_at: DateTime.current
+    )
+    Transaction.create(
+      transaction_type_id: tt_income_from_programming_collection.id,
+      source_account_id: @morphosis.id,
+      target_account_id: @bdo_account_1.id,
+      amount: 150_000,
+      actualized_at: DateTime.current
+    )
+    Transaction.create(
+      transaction_type_id: tt_atm_withdrawal_with_fee.id,
+      source_account_id: @bdo_account_1.id,
+      target_account_id: @cash_on_hand.id,
+      amount: 50_000,
+      actualized_at: DateTime.current
+    )
+    Transaction.create(
+      transaction_type_id: tt_atm_withdrawal_without_fee.id,
+      source_account_id: @bdo_account_1.id,
+      target_account_id: @cash_on_hand.id,
+      amount: 50_000,
+      actualized_at: DateTime.current
+    )
   end
 
   def display_results
@@ -126,22 +144,10 @@ class Seeder
     puts "Summary          : #{Summary.count}"
   end
 
-  def create(limit, &block)
-    n = 0
-    while n < limit
-      begin
-        block.call
-        n += 1
-      rescue ActiveRecord::RecordInvalid => error
-        # puts error.to_s
-      end
-    end
-  end
-
   private
 
   def tt_rent_payment
-    TransactionType.create(
+    @tt_rent_payment ||= TransactionType.create(
       name: "Rent Payment",
       source_category_id: @cashable.id,
       target_category_id: @rent_expense.id,
@@ -150,7 +156,7 @@ class Seeder
   end
 
   def tt_internet_payment
-    TransactionType.create(
+    @tt_internet_payment ||= TransactionType.create(
       name: "Internet Payment",
       source_category_id: @cashable.id,
       target_category_id: @internet_expense.id,
@@ -159,7 +165,7 @@ class Seeder
   end
 
   def tt_salary_payment
-    TransactionType.create(
+    @tt_salary_payment ||= TransactionType.create(
       name: "Salary Payment",
       source_category_id: @cashable.id,
       target_category_id: @salary_expense.id,
@@ -168,7 +174,7 @@ class Seeder
   end
 
   def tt_income_from_programming_collection
-    TransactionType.create(
+    @tt_income_from_programming_collection ||= TransactionType.create(
       name: "Income from Programming Collection",
       source_category_id: @income_programming.id,
       target_category_id: @bank_account.id,
@@ -177,7 +183,7 @@ class Seeder
   end
 
   def tt_atm_withdrawal_without_fee
-    TransactionType.create(
+    @tt_atm_withdrawal_without_fee ||= TransactionType.create(
       name: "ATM Withdrawal (Own Bank)",
       source_category_id: @bank_account.id,
       target_category_id: @cash_on_hand.id,
@@ -186,7 +192,7 @@ class Seeder
   end
 
   def tt_atm_withdrawal_with_fee
-    TransactionType.create(
+    @tt_atm_withdrawal_with_fee ||= TransactionType.create(
       name: "ATM Withdrawal (Another Bank)",
       source_category_id: @bank_account.id,
       target_category_id: @cash_on_hand.id,

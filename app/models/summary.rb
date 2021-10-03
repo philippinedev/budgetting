@@ -32,20 +32,22 @@ class Summary < ApplicationRecord
       hash = update_parent(hash, tran.source_account.code, tran.amount_cents, :-)
       hash = update_parent(hash, tran.target_account.code, tran.amount_cents, :+)
 
-      if tran.transaction_type.expense_category_id?
-        hash[tran.source_account.code] -= tran.transaction_type.expense_category.transaction_fee_cents
+      transaction_fee_cents = tran.transaction_type.expense_category&.transaction_fee_cents
+
+      if transaction_fee_cents.present?
+        hash[tran.source_account.code] -= transaction_fee_cents
         hash = update_parent(
           hash,
           tran.source_account.code,
-          tran.transaction_type.expense_category.transaction_fee_cents,
+          transaction_fee_cents,
           :-
         )
 
-        hash[tran.expense_account.code] += tran.transaction_type.expense_category.transaction_fee_cents
+        hash[tran.transaction_type.expense_category.code] += transaction_fee_cents
         hash = update_parent(
           hash,
-          tran.expense_account.code,
-          tran.transaction_type.expense_category.transaction_fee_cents,
+          tran.transaction_type.expense_category.code,
+          transaction_fee_cents,
           :+
         )
       end
