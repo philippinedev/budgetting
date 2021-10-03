@@ -21,6 +21,20 @@ jobs:
       matrix:
         ruby-version: ['2.7.4']
 
+    services:
+      db:
+        image: postgres:11@sha256:85d79cba2d4942dad7c99f84ec389a5b9cc84fb07a3dcd3aff0fb06948cdc03b
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports: ['6379:6379']
+        options: --entrypoint redis-server
+
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
@@ -32,4 +46,9 @@ jobs:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Run tests
+        env:
+          POSTGRES_PASSWORD: postgres
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/budgetting_test
+          REDIS_URL: redis://localhost:6379/0
+          RAILS_ENV: test
         run: bundle exec rake
