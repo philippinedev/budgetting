@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.string "name", null: false
     t.string "description"
     t.datetime "deactivated_at"
-    t.decimal "amount", precision: 10, scale: 2
+    t.decimal "transaction_fee", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["parent_id"], name: "index_entities_on_parent_id"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.bigint "expense_account_id"
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "PHP", null: false
-    t.integer "expense_amount_cents", default: 0, null: false
-    t.string "expense_amount_currency", default: "PHP", null: false
+    t.integer "fee_cents", default: 0, null: false
+    t.string "fee_currency", default: "PHP", null: false
     t.date "cutoff_date"
     t.date "due_date"
     t.datetime "actualized_at"

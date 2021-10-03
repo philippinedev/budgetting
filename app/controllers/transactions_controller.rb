@@ -21,7 +21,7 @@ class TransactionsController < ApplicationController
 
     if @transaction.transaction_type&.expense_category_id?
       @transaction.expense_account = @transaction.transaction_type.expense_category
-      @transaction.expense_amount  = @transaction.transaction_type.expense_category.amount
+      @transaction.fee  = @transaction.transaction_type.expense_category.transaction_fee
     end
 
     if @transaction.save

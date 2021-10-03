@@ -20,7 +20,7 @@
         <td><%= type.description %></td>
         <td><%= type.source_category&.name %></td>
         <td><%= type.target_category&.name %></td>
-        <td><div class="money"><%= type.expense_category&.amount %></div></td>
+        <td><div class="money"><%= type.expense_category&.transaction_fee %></div></td>
         <td><%= link_to "Delete",
           transaction_type_path(type),
           method: :delete,
