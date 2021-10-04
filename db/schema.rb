@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.decimal "transaction_fee", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_entities_on_code", unique: true
+    t.index ["name"], name: "index_entities_on_name", unique: true
     t.index ["parent_id"], name: "index_entities_on_parent_id"
   end
 
