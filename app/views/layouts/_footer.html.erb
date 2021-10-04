@@ -9,6 +9,11 @@
     <%= link_to 'New Transaction Type', new_transaction_type_path %><span class="sep">|</span>
   <% end %>
 
-  <%= link_to 'New Transaction', new_transaction_path, data: { turbolinks: false } %><span class="sep">|</span>
-  <%= link_to 'New Draft Transaction', new_transaction_path(draft: true), data: { turbolinks: false } %>
+  <% if allowed_to?(:create?, :transaction) %>
+    <%= link_to 'New Transaction', new_transaction_path, data: { turbolinks: false } %><span class="sep">|</span>
+    <%= link_to 'New Draft Transaction', new_transaction_path(draft: true), data: { turbolinks: false } %>
+
+  <% else %>
+    <%= link_to 'New Draft Transaction', new_transaction_path(draft: true), data: { turbolinks: false } %>
+  <% end %>
 </nav>
