@@ -30,7 +30,10 @@ class TransactionType < ApplicationRecord
   belongs_to :target_category, class_name: 'Entity', foreign_key: :target_category_id, optional: true
   belongs_to :expense_category, class_name: 'Entity', foreign_key: :expense_category_id, optional: true
 
+  validates :mode, presence: true
   validates :name, presence: true, uniqueness: true
+  validates :target_category_id, presence: true, unless: :initializing?
+  validates :source_category_id, presence: true, unless: :initializing?
 
   scope :selectable, -> { where('id > ?', INITIALIZE_ID) }
 
@@ -41,4 +44,11 @@ class TransactionType < ApplicationRecord
       first
     end
   end
+
+  private
+
+  def initializing?
+    mode == "init"
+  end
+
 end
