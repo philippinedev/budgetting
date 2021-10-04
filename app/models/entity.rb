@@ -33,7 +33,7 @@ class Entity < ApplicationRecord
   end
 
   def value
-    @value ||= Summary.last_data[code]
+    @value ||= Summary.last_data[code.downcase]
   end
 
   def type
@@ -86,7 +86,7 @@ class Entity < ApplicationRecord
   def initialized?
     return false if Summary.count.zero?
 
-    Summary.last_data.key? code
+    Summary.last_data.key? code.downcase
   end
 
   def deactivate!
