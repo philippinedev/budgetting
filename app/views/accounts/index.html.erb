@@ -8,7 +8,13 @@
       <th>Name</th>
       <th>Value</th>
       <th>Deactivated at</th>
-      <th>Action</th>
+
+      <% if allowed_to?(:see?, :entity) %>
+        <th>Actions</th>
+
+      <% else %>
+        <th>Action</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -21,18 +27,20 @@
         <td><div class="money"><%= from_cents(account.value) %></div></td>
         <td><%= account.deactivated_at %></td>
         <td><%= link_to 'Show', account %></td>
-        <td>
-          <%= link_to 'Activate',
-            activate_account_path(account),
-            method: :patch,
-            data: { confirm: "Are you sure?" } if account.deactivated?
-          %>
-          <%= link_to 'Deactivate',
-            deactivate_account_path(account),
-            method: :patch,
-            data: { confirm: "Are you sure?" } unless account.deactivated?
-          %>
-        </td>
+        <% if allowed_to?(:update?, :entity) %>
+          <td>
+            <%= link_to 'Activate',
+              activate_account_path(account),
+              method: :patch,
+              data: { confirm: "Are you sure?" } if account.deactivated?
+            %>
+            <%= link_to 'Deactivate',
+              deactivate_account_path(account),
+              method: :patch,
+              data: { confirm: "Are you sure?" } unless account.deactivated?
+            %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
