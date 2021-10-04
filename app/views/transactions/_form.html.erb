@@ -3,7 +3,7 @@
 
   <div class="field">
     <%= form.label :transaction_type_id %>
-    <%= form.select :transaction_type_id, TransactionType.selectable.map { |t| [t.name, t.id] }, prompt: "Choose type" %>
+    <%= form.select :transaction_type_id, TransactionType.selectable.map { |t| [t.name, t.id] }, { prompt: "Choose type" }, { autofocus: true } %>
   </div>
 
   <div class="field">
@@ -33,7 +33,7 @@
 
   <div class="field">
     <%= form.label :actualized_at %>
-    <%= form.date_field :actualized_at, min: 1.month.ago, max: DateTime.now %>
+    <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current %>
   </div>
 
   <div class="actions">
