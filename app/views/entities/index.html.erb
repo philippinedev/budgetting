@@ -8,7 +8,10 @@
       <th>Name</th>
       <th>Amount</th>
       <th>Description</th>
-      <th>Actions</th>
+
+      <% if allowed_to?(:see?, :entity) %>
+        <th>Actions</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -19,8 +22,14 @@
         <td><%= link_to(ent.name_acct, entity_path(ent)) %></td>
         <td><div class="money"><%= ent.transaction_fee %></div></td>
         <td><%= ent.description %></td>
-        <td><%= link_to "Add Child", new_entity_path(parent_id: ent.id) %></td>
-        <td><%= link_to "Delete", entity_path(ent), data: { confirm: "Are you sure?" }, method: :delete %></td>
+
+        <% if allowed_to?(:create?, :entity) %>
+          <td><%= link_to "Add Child", new_entity_path(parent_id: ent.id) %></td>
+        <% end %>
+
+        <% if allowed_to?(:destroy?, :entity) %>
+          <td><%= link_to "Delete", entity_path(ent), data: { confirm: "Are you sure?" }, method: :delete %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

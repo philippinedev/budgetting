@@ -32,4 +32,6 @@
   No children.
 <% end %>
 
-<%= link_to "Add Child", new_entity_path(parent_id: @entity.id) %>
+<% if allowed_to?(:create?, :entity) %>
+  <%= link_to "Add Child", new_entity_path(parent_id: @entity.id) %>
+<% end %>
