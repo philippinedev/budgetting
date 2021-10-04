@@ -5,8 +5,10 @@
     <% end %>
   <% end %>
 
-  <% if controller_name == "transaction_types" %>
-    <%= link_to 'New Transaction Type', new_transaction_type_path %><span class="sep">|</span>
+  <% if allowed_to?(:create?, :transaction_type) %>
+    <% if controller_name == "transaction_types" %>
+      <%= link_to 'New Transaction Type', new_transaction_type_path %><span class="sep">|</span>
+    <% end %>
   <% end %>
 
   <%= link_to 'New Transaction', new_transaction_path, data: { turbolinks: false } %><span class="sep">|</span>

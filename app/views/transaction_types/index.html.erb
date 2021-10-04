@@ -9,7 +9,10 @@
       <th>Source Category</th>
       <th>Target Category</th>
       <th>Tran Charge</th>
-      <th>Action</th>
+
+      <% if allowed_to?(:see?, :transaction_types) %>
+        <th>Action</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -21,11 +24,14 @@
         <td><%= type.source_category&.name %></td>
         <td><%= type.target_category&.name %></td>
         <td><div class="money"><%= type.expense_category&.transaction_fee %></div></td>
-        <td><%= link_to "Delete",
-          transaction_type_path(type),
-          method: :delete,
-          data: { confirm: "Are you sure?" }
-        %></td>
+        <% if allowed_to?(:destroy?, :transaction_types) %>
+          <td><%= link_to "Delete",
+            transaction_type_path(type),
+            method: :delete,
+            data: { confirm: "Are you sure?" }
+            %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
