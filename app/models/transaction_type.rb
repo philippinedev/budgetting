@@ -33,10 +33,13 @@ class TransactionType < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   scope :selectable, -> { where('id > ?', INITIALIZE_ID) }
+  scope :selectable_modes, -> { (modes.to_a[1..-1]) }
 
   class << self
     def account_initializer
       find(INITIALIZE_ID)
+    rescue ActiveRecord::RecordNotFound
+      first
     end
   end
 end
