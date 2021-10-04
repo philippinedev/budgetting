@@ -31,10 +31,12 @@
     <%= form.date_field :due_date %>
   </div>
 
-  <div class="field">
-    <%= form.label :actualized_at %>
-    <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current, required: true %>
-  </div>
+  <% unless params[:draft] %>
+    <div class="field">
+      <%= form.label :actualized_at %>
+      <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current %>
+    </div>
+  <% end%>
 
   <div class="actions">
     <%= link_to "Cancel", :back %>

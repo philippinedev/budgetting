@@ -3,7 +3,7 @@
 
   <div class="field">
     <%= form.label :mode %>
-    <%= form.select :mode, titleized_enum(TransactionType.modes), { prompt: "Choose mode" }, { autofocus: true } %>
+    <%= form.select :mode, titleized_enum(TransactionType.selectable_modes), { prompt: "Choose mode" }, { autofocus: true } %>
   </div>
 
   <div class="field">
