@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :mode %>
-    <%= form.select :mode, titleized_enum(TransactionType.avail_modes), prompt: "Choose mode" %>
+    <%= form.select :mode, titleized_enum(TransactionType.selectable_modes), prompt: "Choose mode" %>
   </div>
 
   <div class="field">
