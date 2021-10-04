@@ -1,5 +1,5 @@
 <nav class="footer-menu">
-  <% if allowed_to?(:create?, Entity) %>
+  <% if allowed_to?(:create?, :entity) %>
     <% if controller_name == "entities" %>
       <%= link_to 'New Root Entity', new_entity_path %><span class="sep">|</span>
     <% end %>
