@@ -24,7 +24,7 @@ class EntitiesSeeder
         @internet_expense,
         @cashables,
         @cash_on_hand,
-        @bank_account,
+        @bdo_account1,
         @credit_cards,
         @cc_bdo_pri,
         @cc_bdo_ins,
