@@ -22,7 +22,7 @@ class Entity < ApplicationRecord
   scope :roots,       -> { where(parent_id: nil) }
   scope :transaction_charges, -> { where(parent_id: TRANSACTION_CHARGES_ID) }
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   class << self
     def hashed_value
