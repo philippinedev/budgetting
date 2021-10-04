@@ -1,6 +1,8 @@
 <nav class="footer-menu">
-  <% if controller_name == "entities" %>
-    <%= link_to 'New Root Entity', new_entity_path %><span class="sep">|</span>
+  <% if allowed_to?(:create?, Entity) %>
+    <% if controller_name == "entities" %>
+      <%= link_to 'New Root Entity', new_entity_path %><span class="sep">|</span>
+    <% end %>
   <% end %>
 
   <% if controller_name == "transaction_types" %>
