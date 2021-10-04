@@ -37,6 +37,8 @@ class TransactionType < ApplicationRecord
   class << self
     def account_initializer
       find(INITIALIZE_ID)
+    rescue ActiveRecord::RecordNotFound
+      first
     end
   end
 end

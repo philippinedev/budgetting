@@ -62,8 +62,9 @@ class Transaction < ApplicationRecord
   end
 
   def update_summary
-    Summary.send(transaction_type.mode, self)
-  rescue NoMethodError
+    SummaryCreator.call(self)
+  rescue NoMethodError => error
+    raise if error.missing_name.nil?
     raise "Unhandled transaction type: #{transaction_type.name}"
   end
 end
