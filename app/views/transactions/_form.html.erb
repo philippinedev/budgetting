@@ -31,7 +31,7 @@
     <%= form.date_field :due_date %>
   </div>
 
-  <% if current_user.admin && params[:draft] %>
+  <% if current_user.admin && params[:draft].nil? %>
     <div class="field">
       <%= form.label :actualized_at %>
       <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current %>
