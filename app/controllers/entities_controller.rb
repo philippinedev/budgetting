@@ -8,6 +8,7 @@ class EntitiesController < ApplicationController
   end
 
   def new
+    authorize! :entity, to: :create?
     set_parent_and_entity
   end
 
@@ -18,6 +19,7 @@ class EntitiesController < ApplicationController
   end
 
   def create
+    authorize! :entity, to: :create?
     set_parent_and_entity(create: true)
 
     if @entity.save
@@ -25,6 +27,8 @@ class EntitiesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  rescue ActionPolicy::Unauthorized
+    redirect_to entities_path, alert: "You are not authorized to perform this action"
   end
 
   def update
