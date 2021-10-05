@@ -85,8 +85,7 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
 
   rescue ActiveRecord::RecordNotFound
-    redirect_to transactions_path,
-      alert: "Transaction #{transaction_url.split("/").last} was deleted or didn't exist"
+    routing_error
   end
 
   def set_tran_types_for_frontend
