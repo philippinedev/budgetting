@@ -7,7 +7,7 @@ class TransactionTypePolicy < ApplicationPolicy
     user.admin?
   end
 
-  def see?
+  def view?
     user.admin?
   end
   # See https://actionpolicy.evilmartians.io/#/writing_policies

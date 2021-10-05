@@ -5,15 +5,22 @@ class TransactionPolicy < ApplicationPolicy
     end
   end
 
-  def edit?
+  def update?
     if { draft: false }
       user.admin?
     end
   end
 
   def destroy?
-    true
+    if { draft: false }
+      user.admin?
+    end
   end
+
+  def view?
+    user.admin?
+  end
+
   # See https://actionpolicy.evilmartians.io/#/writing_policies
   #
   # def index?
