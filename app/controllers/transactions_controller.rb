@@ -9,14 +9,17 @@ class TransactionsController < ApplicationController
   end
 
   def new
+    authorize! :transaction, to: :create? unless { draft: false }
     @transaction = Transaction.new
     set_tran_types_for_frontend
   end
 
   def edit
-    authorize! :transaction, to: :edit? unless { draft: false }
+    authorize! :transaction, to: :update? if @transaction.actualized?
     set_transaction
     set_tran_types_for_frontend
+  rescue ActionPolicy::Unauthorized
+    redirect_to transactions_path, alert: policy_alert
   end
 
   def create
@@ -30,11 +33,20 @@ class TransactionsController < ApplicationController
 
     if @transaction.save
       notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
-      redirect_to root_path, notice: notice
+
+      if @transaction.actualized?
+        redirect_to root_path, notice: notice
+      else
+        redirect_to transactions_path, notice: notice
+      end
+
     else
       set_tran_types_for_frontend
       render :edit, status: :unprocessable_entity
     end
+
+  rescue ActionPolicy::Unauthorized
+    redirect_to transactions_path, alert: policy_alert
   end
 
   def show; end
@@ -44,8 +56,15 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.update(transaction_params)
-        format.html { redirect_to root_path, notice: 'Draft transaction was successfully updated.' }
+        notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully updated."
+
+        if @transaction.actualized?
+          format.html { redirect_to root_path, notice: notice }
+        else
+          format.html { redirect_to transactions_path, notice: notice }
+        end
         format.json { render :show, status: :ok, location: @transaction }
+
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
@@ -101,5 +120,9 @@ class TransactionsController < ApplicationController
 
     gon.tran_types = tran_types
     gon.transaction = @transaction
+  end
+
+  def policy_alert
+    "You are not authorized to perform this action"
   end
 end
