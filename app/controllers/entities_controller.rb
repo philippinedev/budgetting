@@ -6,6 +6,7 @@ class EntitiesController < ApplicationController
   end
 
   def new
+    authorize! :entity, to: :create?
     set_parent_and_entity
   end
 
