@@ -34,6 +34,7 @@ gem 'devise'
 gem 'gon'
 gem 'money-rails', '~> 1.12'
 gem 'rubocop', '~> 1.22', require: false
+gem 'action_policy'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

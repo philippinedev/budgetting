@@ -8,7 +8,10 @@
       <th>Name</th>
       <th>Transaction Fee</th>
       <th>Description</th>
-      <th>Actions</th>
+
+      <% if allowed_to?(:see?, :entity) %>
+        <th>Actions</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
