@@ -1,20 +1,19 @@
-class EntityPolicy < ApplicationPolicy
+class TransactionPolicy < ApplicationPolicy
   def create?
-    user.admin?
+    if { draft: false }
+      user.admin?
+    end
+  end
+
+  def edit?
+    if { draft: false }
+      user.admin?
+    end
   end
 
   def destroy?
-    user.admin?
+    true
   end
-
-  def update?
-    user.admin?
-  end
-
-  def see?
-    user.admin?
-  end
-  
   # See https://actionpolicy.evilmartians.io/#/writing_policies
   #
   # def index?
