@@ -24,29 +24,39 @@ class TransactionsController < ApplicationController
 
   def create
     authorize! :transaction, to: :create? unless { draft: false }
-    @transaction = Transaction.new(transaction_params)
+    ActiveRecord::Base.transaction do
+      @transaction = Transaction.new(transaction_params)
 
-    if @transaction.transaction_type&.expense_category_id?
-      @transaction.expense_account = @transaction.transaction_type.expense_category
-      @transaction.fee = @transaction.transaction_type.expense_category.transaction_fee
-    end
-
-    if @transaction.save
-      notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
-
-      if @transaction.actualized?
-        redirect_to root_path, notice: notice
-      else
-        redirect_to transactions_path, notice: notice
+      if @transaction.transaction_type&.expense_category_id?
+        @transaction.expense_account = @transaction.transaction_type.expense_category
+        @transaction.fee = @transaction.transaction_type.expense_category.transaction_fee
       end
+      
+      if @transaction.save
+        source_amount = @transaction.summary.values[@transaction.source_account.code.downcase].to_f
+        raise NotEnoughSource.new "Insufficient funds on source account" if source_amount.negative?
 
-    else
-      set_tran_types_for_frontend
-      render :edit, status: :unprocessable_entity
+        notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
+        if @transaction.actualized?
+          redirect_to root_path, notice: notice
+        else
+          redirect_to transactions_path, notice: notice
+        end
+        
+      else
+        set_tran_types_for_frontend
+        render :edit, status: :unprocessable_entity
+      end
     end
-
+    
   rescue ActionPolicy::Unauthorized
     redirect_to transactions_path, alert: policy_alert
+
+  rescue NotEnoughSource => error
+    set_tran_types_for_frontend
+    @transaction.errors.add(:source_account_id, "cannot cover target amount") 
+    render :edit, status: :unprocessable_entity
+
   end
 
   def show; end

@@ -1,0 +1,2 @@
+class NotEnoughSource < StandardError
+end
