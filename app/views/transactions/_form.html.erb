@@ -31,7 +31,7 @@
     <%= form.date_field :due_date %>
   </div>
 
-  <% if current_user&.admin %>
+  <% if current_user.admin %>
     <% unless params[:draft] %>
       <div class="field">
         <%= form.label :actualized_at %>

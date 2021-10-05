@@ -83,8 +83,10 @@ class TransactionsController < ApplicationController
 
   def set_transaction
     @transaction = Transaction.find(params[:id])
+
   rescue ActiveRecord::RecordNotFound
-    redirect_to transactions_path, notice: "Draft transaction was successfully deleted"
+    redirect_to transactions_path,
+      alert: "Transaction #{transaction_url.split("/").last} was deleted or didn't exist"
   end
 
   def set_tran_types_for_frontend

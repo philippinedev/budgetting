@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '*path', to: 'application#routing_error'
+
   root to: 'dashboards#index'
 
   devise_for :users
