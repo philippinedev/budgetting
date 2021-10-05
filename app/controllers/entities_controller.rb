@@ -1,19 +1,30 @@
 # frozen_string_literal: true
 
 class EntitiesController < ApplicationController
+  before_action :set_entity, only: %i[show edit update destroy]
+
   def index
     @entities = Entity.all
   end
 
   def new
+    authorize! :entity, to: :create?
     set_parent_and_entity
+  rescue ActionPolicy::Unauthorized
+    redirect_to entities_path, alert: policy_alert
   end
 
   def show
-    @entity = Entity.find(params[:id])
+  end
+
+  def edit
+    authorize! :entity, to: :update?
+  rescue ActionPolicy::Unauthorized
+    redirect_to entities_path, alert: policy_alert
   end
 
   def create
+    authorize! :entity, to: :create?
     set_parent_and_entity(create: true)
 
     if @entity.save
@@ -23,8 +34,19 @@ class EntitiesController < ApplicationController
     end
   end
 
+  def update
+    respond_to do |format|
+      if @entity.update(entity_params)
+        format.html { redirect_to entities_path, notice: 'Entity was successfully updated' }
+        format.json { render :show, status: :ok, location: @entity }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @entity.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
-    @entity = Entity.find(params[:id])
 
     if @entity.destroy
       redirect_to entities_path, notice: 'Entity was successfully deleted.'
@@ -35,9 +57,13 @@ class EntitiesController < ApplicationController
 
   private
 
+  def set_entity
+    @entity = Entity.find(params[:id])
+  end
+
   def set_parent_and_entity(create: false)
     set_parent
-    set_entity(create)
+    init_entity(create)
   end
 
   def set_parent
@@ -50,8 +76,8 @@ class EntitiesController < ApplicationController
               end
   end
 
-  def set_entity(create)
-    @entity = if create
+  def init_entity(create_mode)
+    @entity = if create_mode
                 (@parent&.entities || Entity).new(entity_params)
 
               else
@@ -61,6 +87,10 @@ class EntitiesController < ApplicationController
 
   def entity_params
     params.require(:entity)
-          .permit(:name, :description)
+          .permit(:name, :description, :transaction_fee)
+  end
+
+  def policy_alert
+    "You are not authorized to perform this action"
   end
 end

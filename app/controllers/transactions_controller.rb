@@ -14,11 +14,13 @@ class TransactionsController < ApplicationController
   end
 
   def edit
+    authorize! :transaction, to: :edit? unless { draft: false }
     set_transaction
     set_tran_types_for_frontend
   end
 
   def create
+    authorize! :transaction, to: :create? unless { draft: false }
     ActiveRecord::Base.transaction do
       @transaction = Transaction.new(transaction_params)
 
@@ -91,6 +93,10 @@ class TransactionsController < ApplicationController
 
   def set_transaction
     @transaction = Transaction.find(params[:id])
+
+  rescue ActiveRecord::RecordNotFound
+    redirect_to transactions_path,
+      alert: "Transaction #{transaction_url.split("/").last} was deleted or didn't exist"
   end
 
   def set_tran_types_for_frontend

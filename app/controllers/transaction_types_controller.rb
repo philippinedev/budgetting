@@ -8,10 +8,12 @@ class TransactionTypesController < ApplicationController
   end
 
   def new
+    authorize! :transaction_type, to: :create?
     @type = TransactionType.new
   end
 
   def create
+    authorize! :transaction_type, to: :create?
     @type = TransactionType.new(type_params)
 
     if @type.save
@@ -19,6 +21,8 @@ class TransactionTypesController < ApplicationController
     else
       render :new
     end
+  rescue ActionPolicy::Unauthorized
+    redirect_to transaction_types_path, alert: "You are not authorized to perform this action"
   end
 
   def destroy
