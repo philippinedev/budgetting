@@ -1,4 +1,4 @@
-class EntityPolicy < ApplicationPolicy
+class TransactionTypePolicy < ApplicationPolicy
   def create?
     user.admin?
   end
@@ -7,14 +7,9 @@ class EntityPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def update?
-    user.admin?
-  end
-
   def see?
     user.admin?
   end
-  
   # See https://actionpolicy.evilmartians.io/#/writing_policies
   #
   # def index?
