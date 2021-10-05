@@ -8,6 +8,7 @@ class TransactionTypesController < ApplicationController
   end
 
   def new
+    authorize! :transaction_type, to: :create?
     @type = TransactionType.new
   end
 
