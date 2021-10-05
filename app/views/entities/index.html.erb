@@ -22,9 +22,12 @@
         <td><%= link_to(entity.name_acct, entity_path(entity)) %></td>
         <td><div class="money"><%= entity.transaction_fee %></div></td>
         <td><%= entity.description %></td>
-        <td><%= link_to "Add Child", new_entity_path(parent_id: entity.id) %></td>
-        <td><%= link_to "Edit", edit_entity_path(entity.id) %></td>
-        <td><%= link_to "Delete", entity_path(entity), data: { confirm: "Are you sure?" }, method: :delete %></td>
+
+        <% if allowed_to?(:create?, :entity) %>
+          <td><%= link_to "Add Child", new_entity_path(parent_id: entity.id) %></td>
+          <td><%= link_to "Edit", edit_entity_path(entity.id) %></td>
+          <td><%= link_to "Delete", entity_path(entity), data: { confirm: "Are you sure?" }, method: :delete %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

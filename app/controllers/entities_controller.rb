@@ -10,12 +10,17 @@ class EntitiesController < ApplicationController
   def new
     authorize! :entity, to: :create?
     set_parent_and_entity
+  rescue ActionPolicy::Unauthorized
+    redirect_to entities_path, alert: policy_alert
   end
 
   def show
   end
 
   def edit
+    authorize! :entity, to: :update?
+  rescue ActionPolicy::Unauthorized
+    redirect_to entities_path, alert: policy_alert
   end
 
   def create
@@ -27,8 +32,6 @@ class EntitiesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  rescue ActionPolicy::Unauthorized
-    redirect_to entities_path, alert: "You are not authorized to perform this action"
   end
 
   def update
@@ -85,5 +88,9 @@ class EntitiesController < ApplicationController
   def entity_params
     params.require(:entity)
           .permit(:name, :description, :transaction_fee)
+  end
+
+  def policy_alert
+    "You are not authorized to perform this action"
   end
 end
