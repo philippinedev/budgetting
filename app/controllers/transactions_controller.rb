@@ -23,6 +23,8 @@ class TransactionsController < ApplicationController
     authorize! :transaction, to: :create? unless { draft: false }
     ActiveRecord::Base.transaction do
       @transaction = Transaction.new(transaction_params)
+      @transaction.created_by = current_user
+      @transaction.updated_by = current_user
 
       if @transaction.transaction_type&.expense_category_id?
         @transaction.expense_account = @transaction.transaction_type.expense_category
@@ -30,8 +32,10 @@ class TransactionsController < ApplicationController
       end
 
       if @transaction.save
-        source_amount = @transaction.summary.values[@transaction.source_account.code.downcase].to_f
-        raise NotEnoughSource.new "Insufficient funds on source account" if source_amount.negative?
+        if @transaction.actualized?
+          source_amount = @transaction.summary.values[@transaction.source_account.code.downcase]
+          raise NotEnoughSource.new "Insufficient funds on source account" if source_amount.negative?
+        end
 
         notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
         redirect_to root_path, notice: notice
@@ -53,6 +57,7 @@ class TransactionsController < ApplicationController
     raise 'Cannot update an actualized transaction!' if already_actualized?
 
     respond_to do |format|
+      @transaction.updated_by = current_user
       if @transaction.update(transaction_params)
         format.html { redirect_to root_path, notice: 'Draft transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
