@@ -11,7 +11,7 @@ class EntityPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def see?
+  def view?
     user.admin?
   end
   
