@@ -45,7 +45,7 @@ class TransactionsController < ApplicationController
         
       else
         set_tran_types_for_frontend
-        render :edit, status: :unprocessable_entity
+        render :new, status: :unprocessable_entity
       end
     end
     

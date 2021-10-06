@@ -1,5 +1,5 @@
-<%= form_with(model: tran) do |form| %>
-  <%= render 'shared/form_errors', object: tran %>
+<%= form_for @transaction do |form| %>
+  <%= render 'shared/form_errors', object: @transaction %>
 
   <div class="field">
     <%= form.label :transaction_type_id %>
