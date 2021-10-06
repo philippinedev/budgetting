@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Transaction < ApplicationRecord
+  attr_accessor :is_draft
+
   monetize :amount_cents
   monetize :fee_cents
 
@@ -16,6 +18,7 @@ class Transaction < ApplicationRecord
   validate :invalid_when_same_account
   validate :amount_validation
   validate :source_account_validation
+  validate :actualized_at_presence
 
   after_save :update_summary, if: :actualized_at?
 
@@ -39,6 +42,11 @@ class Transaction < ApplicationRecord
   end
 
   private
+
+  def actualized_at_presence
+    binding.pry
+    errors.add(:actualized_at, 'cannot be blank') unless is_draft
+  end
 
   def amount_validation
     return unless TransactionType.any?
