@@ -7,6 +7,8 @@
   <td><%= tran.cutoff_date %></td>
   <td><%= tran.due_date %></td>
   <td><%= tran.actualized? ? tran.actualized_at : "Draft" %></td>
+  <td><%= tran.created_by.name %></td>
+  <td><%= tran.updated_by.name %></td>
   <td>
     <%= link_to 'Show', tran %>
     <%= link_to 'Edit', edit_transaction_path(tran) unless tran.actualized? %>

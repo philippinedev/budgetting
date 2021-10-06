@@ -24,6 +24,7 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
     @tt_credit_card_unidentified_expense = param[12]
     @tt_income_from_programming_collection = param[13]
     @unidentified_cc_expense = param[14]
+    @user = param[15]
   end
 
   def call
@@ -45,7 +46,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @erich.id,
       target_account_id: @bdo_account1.id,
       amount: 150_000,
-      actualized_at: DateTime.current
+      actualized_at: DateTime.current,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -55,7 +58,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @morphosis.id,
       target_account_id: @bdo_account1.id,
       amount: 150_000,
-      actualized_at: DateTime.current
+      actualized_at: DateTime.current,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -65,7 +70,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @bdo_account1.id,
       target_account_id: @cash_on_hand.id,
       amount: 50_000,
-      actualized_at: DateTime.current
+      actualized_at: DateTime.current,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -75,7 +82,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @bdo_account1.id,
       target_account_id: @cash_on_hand.id,
       amount: 50_000,
-      actualized_at: DateTime.current
+      actualized_at: DateTime.current,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -85,7 +94,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @cc_bdo_pri.id,
       target_account_id: @unidentified_cc_expense.id,
       amount: 100_000,
-      actualized_at: 1.month.ago
+      actualized_at: 1.month.ago,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -95,7 +106,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @cc_bdo_ins.id,
       target_account_id: @unidentified_cc_expense.id,
       amount: 100_000,
-      actualized_at: 1.month.ago
+      actualized_at: 1.month.ago,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -105,7 +118,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @cc_rcbc_pri.id,
       target_account_id: @unidentified_cc_expense.id,
       amount: 100_000,
-      actualized_at: 1.month.ago
+      actualized_at: 1.month.ago,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -115,7 +130,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @cc_rcbc_flex.id,
       target_account_id: @unidentified_cc_expense.id,
       amount: 100_000,
-      actualized_at: 1.month.ago
+      actualized_at: 1.month.ago,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -125,7 +142,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @cc_rcbc_ins.id,
       target_account_id: @unidentified_cc_expense.id,
       amount: 100_000,
-      actualized_at: 1.month.ago
+      actualized_at: 1.month.ago,
+      created_by: @user,
+      updated_by: @user
     )
   end
 
@@ -135,7 +154,9 @@ class TransactionsSeeder # rubocop:disable Metrics/ClassLength
       source_account_id: @cc_metrobank.id,
       target_account_id: @unidentified_cc_expense.id,
       amount: 100_000,
-      actualized_at: 1.month.ago
+      actualized_at: 1.month.ago,
+      created_by: @user,
+      updated_by: @user
     )
   end
 end
