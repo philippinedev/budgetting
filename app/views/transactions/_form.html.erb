@@ -1,6 +1,8 @@
 <%= form_for @transaction do |form| %>
   <%= render 'shared/form_errors', object: @transaction %>
 
+  <%= form.hidden_field :draft, value: @draft %>
+
   <div class="field">
     <%= form.label :transaction_type_id %>
     <%= form.select :transaction_type_id, TransactionType.selectable.map { |t| [t.name, t.id] }, { prompt: "Choose type" }, { autofocus: true } %>
@@ -31,10 +33,10 @@
     <%= form.date_field :due_date, min: Date.current, max: 3.years.from_now.to_date %>
   </div>
 
-  <% if current_user.admin && params[:draft].nil? %>
+  <% if current_user.admin && @draft.blank? %>
     <div class="field">
       <%= form.label :actualized_at %>
-      <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current, required: true %>
+      <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current %>
     </div>
   <% end %>
 
