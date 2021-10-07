@@ -1,3 +1,3 @@
-<h1>New Transaction</h1>
+<h1><%= "New #{params[:draft] ? "Draft" : ""} Transaction" %></h1>
 
 <%= render 'form', tran: @transaction %>
