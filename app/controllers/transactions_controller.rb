@@ -13,11 +13,6 @@ class TransactionsController < ApplicationController
     set_tran_types_for_frontend
   end
 
-  def edit
-    set_transaction
-    set_tran_types_for_frontend
-  end
-
   def create
     @transaction = Transaction.new(transaction_params)
 
@@ -36,6 +31,11 @@ class TransactionsController < ApplicationController
   end
 
   def show; end
+
+  def edit
+    set_transaction
+    set_tran_types_for_frontend
+  end
 
   def update
     raise 'Cannot update an actualized transaction!' if already_actualized?
