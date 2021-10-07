@@ -38,6 +38,10 @@ class Transaction < ApplicationRecord
     actualized_at.present?
   end
 
+  def draft?
+    actualized_at.nil?
+  end
+
   private
 
   def amount_validation
