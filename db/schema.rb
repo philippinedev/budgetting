@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.decimal "transaction_fee", precision: 10, scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["code"], name: "index_entities_on_code", unique: true
+    t.index ["name"], name: "index_entities_on_name", unique: true
     t.index ["parent_id"], name: "index_entities_on_parent_id"
   end
 
@@ -75,6 +77,8 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.bigint "source_account_id"
     t.bigint "target_account_id", null: false
     t.bigint "expense_account_id"
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "PHP", null: false
     t.integer "fee_cents", default: 0, null: false
@@ -84,10 +88,12 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
     t.datetime "actualized_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_by_id"], name: "index_transactions_on_created_by_id"
     t.index ["expense_account_id"], name: "index_transactions_on_expense_account_id"
     t.index ["source_account_id"], name: "index_transactions_on_source_account_id"
     t.index ["target_account_id"], name: "index_transactions_on_target_account_id"
     t.index ["transaction_type_id"], name: "index_transactions_on_transaction_type_id"
+    t.index ["updated_by_id"], name: "index_transactions_on_updated_by_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -113,4 +119,6 @@ ActiveRecord::Schema.define(version: 2021_09_24_023626) do
   add_foreign_key "transactions", "entities", column: "source_account_id"
   add_foreign_key "transactions", "entities", column: "target_account_id"
   add_foreign_key "transactions", "transaction_types"
+  add_foreign_key "transactions", "users", column: "created_by_id"
+  add_foreign_key "transactions", "users", column: "updated_by_id"
 end

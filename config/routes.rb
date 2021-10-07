@@ -19,4 +19,5 @@ Rails.application.routes.draw do
 
   # resources :summaries, only: [:index, :show]
   # get 'summaries/index'
+  get '*path', to: 'application#routing_error'
 end

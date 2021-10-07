@@ -8,10 +8,15 @@ class TransactionTypesController < ApplicationController
   end
 
   def new
+    authorize! :transaction_type, to: :create?
     @type = TransactionType.new
+
+  rescue ActionPolicy::Unauthorized
+    redirect_to transaction_types_path, alert: "You are not authorized to perform this action"
   end
 
   def create
+    authorize! :transaction_type, to: :create?
     @type = TransactionType.new(type_params)
 
     if @type.save
@@ -24,8 +29,9 @@ class TransactionTypesController < ApplicationController
   def destroy
     @type.delete
     redirect_to transaction_types_path, notice: 'Successfully deleted'
+
   rescue ActiveRecord::InvalidForeignKey
-    redirect_to transaction_types_path, alert: 'Failed to delete'
+    redirect_to transaction_types_path, alert: "Failed to delete"
   end
 
   private

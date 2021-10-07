@@ -14,6 +14,7 @@ class Seeder
   end
 
   def initialize
+    @users             = []
     @transaction_types = []
     @accounts          = []
     @transactions      = []
@@ -22,6 +23,7 @@ class Seeder
   def call
     ActiveRecord::Base.transaction do
       clear!
+      create_users
       create_initializer_type
       create_entities
       create_transaction_types
@@ -38,6 +40,7 @@ class Seeder
     Transaction.destroy_all
     TransactionType.destroy_all
     Entity.destroy_all
+    User.destroy_all
   end
 
   def create_initializer_type
@@ -87,6 +90,15 @@ class Seeder
     tt_groceries_other
   end
 
+  def create_users
+    @user = User.new
+    @user.admin = true
+    @user.email = 'admin2@test.com'
+    @user.password = 'password'
+    @user.password_confirmation = 'password'
+    @user.save
+  end
+
   def create_transactions
     TransactionsSeeder.call([
       @bdo_account1,
@@ -103,7 +115,8 @@ class Seeder
       @tt_atm_withdrawal_without_fee,
       @tt_credit_card_unidentified_expense,
       @tt_income_from_programming_collection,
-      @unidentified_cc_expense
+      @unidentified_cc_expense,
+      @user
     ])
   end
 

@@ -1,5 +1,5 @@
-<%= form_with(model: tran) do |form| %>
-  <%= render 'shared/form_errors', object: tran %>
+<%= form_for @transaction do |form| %>
+  <%= render 'shared/form_errors', object: @transaction %>
 
   <div class="field">
     <%= form.label :transaction_type_id %>
@@ -23,21 +23,23 @@
 
   <div class="field">
     <%= form.label :cutoff_date %>
-    <%= form.date_field :cutoff_date %>
+    <%= form.date_field :cutoff_date, min: Date.tomorrow, max: 3.years.from_now.to_date %>
   </div>
 
   <div class="field">
     <%= form.label :due_date %>
-    <%= form.date_field :due_date %>
+    <%= form.date_field :due_date, min: Date.current, max: 3.years.from_now.to_date %>
   </div>
 
-  <div class="field">
-    <%= form.label :actualized_at %>
-    <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current %>
-  </div>
+  <% if current_user.admin && params[:draft].nil? %>
+    <div class="field">
+      <%= form.label :actualized_at %>
+      <%= form.date_field :actualized_at, value: Date.current, min: 1.month.ago, max: Date.current, required: true %>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= link_to "Cancel", :back %>
-    <%= form.submit %>
+    <%= form.submit "Create#{params[:draft] ? "Draft" : ""} Transaction" %>
   </div>
 <% end %>

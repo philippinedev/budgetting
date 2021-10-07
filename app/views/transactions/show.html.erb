@@ -39,4 +39,15 @@
 </p>
 
 <%= link_to 'Edit', edit_transaction_path(@transaction) if @transaction.draft? %>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @transaction.created_by.name %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @transaction.updated_by.name %>
+</p>
+
 <%= link_to 'Back', transactions_path %>
