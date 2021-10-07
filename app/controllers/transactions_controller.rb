@@ -9,6 +9,7 @@ class TransactionsController < ApplicationController
   end
 
   def new
+    set_draft
     authorize! :transaction, to: :create? unless { draft: false }
     @transaction = Transaction.new
     set_tran_types_for_frontend
@@ -23,7 +24,9 @@ class TransactionsController < ApplicationController
   end
 
   def create
+    set_draft
     authorize! :transaction, to: :create? unless { draft: false }
+
     ActiveRecord::Base.transaction do
       @transaction = Transaction.new(transaction_params)
       @transaction.created_by = current_user
@@ -99,6 +102,11 @@ class TransactionsController < ApplicationController
 
   private
 
+  def set_draft
+    @draft = params[:draft] \
+      || (params[:transaction] && params[:transaction][:draft])
+  end
+
   def already_actualized?
     @transaction.actualized_at_before_last_save.present?
   end
@@ -112,7 +120,11 @@ class TransactionsController < ApplicationController
       :cutoff_date,
       :due_date,
       :actualized_at
-    )
+    ).merge(is_draft: draft?)
+  end
+
+  def draft?
+    !!ActiveModel::Type::Boolean.new.cast(params[:transaction][:draft])
   end
 
   def set_transaction
