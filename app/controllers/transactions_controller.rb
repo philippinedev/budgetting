@@ -17,7 +17,6 @@ class TransactionsController < ApplicationController
 
   def edit
     authorize! :transaction, to: :update? if @transaction.actualized?
-    set_transaction
     set_tran_types_for_frontend
   rescue ActionPolicy::Unauthorized
     redirect_to transactions_path, alert: policy_alert
@@ -38,14 +37,13 @@ class TransactionsController < ApplicationController
       end
       
       if @transaction.save
+
         if @transaction.actualized?
+          notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
           source_amount = @transaction.summary.values[@transaction.source_account.code.downcase]
           raise NotEnoughSource.new "Insufficient funds on source account" if source_amount.negative?
-        end
-
-        notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
-        if @transaction.actualized?
           redirect_to root_path, notice: notice
+
         else
           redirect_to transactions_path, notice: notice
         end
@@ -69,6 +67,7 @@ class TransactionsController < ApplicationController
   def show; end
 
   def update
+    set_tran_types_for_frontend
     raise 'Cannot update an actualized transaction!' if already_actualized?
 
     respond_to do |format|

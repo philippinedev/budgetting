@@ -7,7 +7,9 @@ class TransactionPolicy < ApplicationPolicy
 
   def update?
     if { draft: false }
-      user.admin?
+      false
+    elsif { draft: true }
+      true
     end
   end
 

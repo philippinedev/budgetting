@@ -5,11 +5,11 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :dashboards
-  resources :transactions
-  resources :transaction_types
   resources :entities
-  resources :accounts do
+  resources :transactions
+  resources :transaction_types, except: [:show, :edit]
+  resources :dashboards, only: [:index]
+  resources :accounts, only: [:index] do
     member do
       patch 'init'
       patch 'deactivate'
