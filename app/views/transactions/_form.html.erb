@@ -40,6 +40,6 @@
 
   <div class="actions">
     <%= link_to "Cancel", :back %>
-    <%= form.submit %>
+    <%= form.submit "Create#{params[:draft] ? "Draft" : ""} Transaction" %>
   </div>
 <% end %>
