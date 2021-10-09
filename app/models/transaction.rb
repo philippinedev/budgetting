@@ -2,6 +2,7 @@
 
 class Transaction < ApplicationRecord
   attr_accessor :is_draft
+  attr_accessor :get_action
 
   monetize :amount_cents
   monetize :fee_cents
@@ -49,7 +50,11 @@ class Transaction < ApplicationRecord
 
   def actualized_at_presence
     return if actualized?
-    errors.add(:actualized_at, 'cannot be blank') unless is_draft
+    if get_action == "create"
+      errors.add(:actualized_at, 'cannot be blank') unless is_draft
+    else
+      return
+    end
   end
 
   def amount_validation

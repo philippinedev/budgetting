@@ -119,11 +119,15 @@ class TransactionsController < ApplicationController
       :cutoff_date,
       :due_date,
       :actualized_at
-    ).merge(is_draft: draft?)
+    ).merge(is_draft: draft?, get_action: get_action)
   end
 
   def draft?
     !!ActiveModel::Type::Boolean.new.cast(params[:transaction][:draft])
+  end
+
+  def get_action
+    request.path_parameters[:action]
   end
 
   def set_transaction
