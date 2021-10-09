@@ -4,6 +4,7 @@ class AddAdminUser < ActiveRecord::Migration[6.1]
   def up
     user = User.new
     user.admin = true
+    user.username = 'admin'
     user.email = 'admin@test.com'
     user.password = 'password'
     user.password_confirmation = 'password'

@@ -20,19 +20,19 @@
 
   .rails-default-error-page div.dialog > div {
     border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
+    border-bottom: #B00100 solid 2px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     background-color: white;
     padding: 7px 12% 0;
     box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
   }
 
   .rails-default-error-page h1 {
-    font-size: 100%;
+    font-size: 120%;
     color: #730E15;
     line-height: 1.5em;
   }
@@ -45,11 +45,15 @@
     border-right-color: #999;
     border-left-color: #999;
     border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     border-top-color: #DADADA;
     color: #666;
     box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
+  }
+
+  .dialog h1 {
+    color: #D22B2B;
   }
   </style>
 </head>
@@ -59,8 +63,9 @@
   <div class="dialog">
     <div>
       <h1>Ooops! You weren't supposed to see this</h1>
-      <p>It seems like we do not find what you searched.</p>
-      <p>The page you were looking for was moved, removed, renamed or might never existed.</p>
+      <p>It seems like we do not find what you searched. The page you were looking for was moved, removed, renamed or might never existed.</p>
+      <p>Check if you've typed the URL correctly, or follow one of the links above to navigate back to the site.</p>
+      <hr />
     </div>
   </div>
 </body>

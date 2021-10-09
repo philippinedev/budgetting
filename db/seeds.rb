@@ -93,6 +93,7 @@ class Seeder
   def create_users
     @user = User.new
     @user.admin = true
+    @user.username = 'admin'
     @user.email = 'admin2@test.com'
     @user.password = 'password'
     @user.password_confirmation = 'password'
