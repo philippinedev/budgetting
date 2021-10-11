@@ -97,6 +97,10 @@ class Entity < ApplicationRecord
     update(deactivated_at: nil)
   end
 
+  def active_or_has_transaction?
+    deactivated_at.nil? || value > 0 
+  end
+
   private
 
   def set_code
