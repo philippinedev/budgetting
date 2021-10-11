@@ -27,7 +27,9 @@
 </tr>
 
 <% acct.entities.each do |entity| %>
-  <%= render 'tr', acct: entity, level: level + 1 %>
+  <% if entity.active_or_has_transaction? %>
+    <%= render 'tr', acct: entity, level: level + 1 %>
+  <% end %>
 <% end %>
 
 <% if acct.parent? %>
