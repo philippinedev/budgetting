@@ -123,7 +123,11 @@ class TransactionsController < ApplicationController
   end
 
   def draft?
-    !!ActiveModel::Type::Boolean.new.cast(params[:transaction][:draft])
+    if @transaction&.persisted?
+      @transaction.draft?
+    else
+      !!ActiveModel::Type::Boolean.new.cast(params[:transaction][:draft])
+    end
   end
 
   def set_transaction
