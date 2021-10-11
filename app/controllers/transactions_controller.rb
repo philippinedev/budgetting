@@ -37,11 +37,11 @@ class TransactionsController < ApplicationController
       end
       
       if @transaction.save
+        notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
 
         if @transaction.actualized?
-          notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully created."
           source_amount = @transaction.summary.values[@transaction.source_account.code.downcase]
-          raise NotEnoughSource.new "Insufficient funds on source account" if source_amount.negative?
+          raise NotEnoughSource if source_amount.negative?
           redirect_to root_path, notice: notice
 
         else
@@ -57,11 +57,10 @@ class TransactionsController < ApplicationController
   rescue ActionPolicy::Unauthorized
     redirect_to transactions_path, alert: policy_alert
 
-  rescue NotEnoughSource => error
+  rescue NotEnoughSource
     set_tran_types_for_frontend
     @transaction.errors.add(:source_account_id, "cannot cover target amount") 
     render :edit, status: :unprocessable_entity
-
   end
 
   def show; end
@@ -70,23 +69,31 @@ class TransactionsController < ApplicationController
     set_tran_types_for_frontend
     raise 'Cannot update an actualized transaction!' if already_actualized?
 
-    respond_to do |format|
-      @transaction.updated_by = current_user
-      if @transaction.update(transaction_params)
-        notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully updated."
+    ActiveRecord::Base.transaction do
+      respond_to do |format|
+        @transaction.updated_by = current_user
 
-        if @transaction.actualized?
-          format.html { redirect_to root_path, notice: notice }
+        if @transaction.update(transaction_params)
+          notice = "#{@transaction.actualized? ? '' : 'Draft'} Transaction was successfully updated."
+
+          if @transaction.actualized?
+            source_amount = @transaction.summary.values[@transaction.source_account.code.downcase]
+            raise NotEnoughSource if source_amount.negative?
+            format.html { redirect_to root_path, notice: notice }
+          else
+            format.html { redirect_to transactions_path, notice: notice }
+          end
         else
-          format.html { redirect_to transactions_path, notice: notice }
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @transaction.errors, status: :unprocessable_entity }
         end
-        format.json { render :show, status: :ok, location: @transaction }
-
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
     end
+
+  rescue NotEnoughSource
+    set_tran_types_for_frontend
+    @transaction.errors.add(:source_account_id, "cannot cover target amount")
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy

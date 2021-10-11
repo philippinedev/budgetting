@@ -38,7 +38,6 @@ class EntitiesController < ApplicationController
     respond_to do |format|
       if @entity.update(entity_params)
         format.html { redirect_to entities_path, notice: 'Entity was successfully updated' }
-        format.json { render :show, status: :ok, location: @entity }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @entity.errors, status: :unprocessable_entity }

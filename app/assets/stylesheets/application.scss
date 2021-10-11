@@ -170,3 +170,8 @@ span.sep {
   opacity: 0.3;
 }
 
+tr.transaction-row {
+  > td {
+    white-space: nowrap;
+  }
+}
