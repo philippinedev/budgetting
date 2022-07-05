@@ -3,7 +3,8 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.4'
+#ruby '2.7.4'
+ruby '3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.1'
@@ -35,6 +36,10 @@ gem 'gon'
 gem 'money-rails', '~> 1.12'
 gem 'rubocop', '~> 1.22', require: false
 gem 'action_policy'
+
+gem 'net-smtp', require: false
+#gem 'net-imap', require: false
+#gem 'net-pop', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

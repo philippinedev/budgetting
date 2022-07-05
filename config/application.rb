@@ -36,5 +36,6 @@ module Budgetting
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.hosts << ENV["BUDGETTING_DOMAIN"]
   end
 end
